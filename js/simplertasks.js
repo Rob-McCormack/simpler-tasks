@@ -1,6 +1,14 @@
 let taskMap = new Map();
 let isFormatted = false;
 
+document.getElementById('copy-button').addEventListener('click', function() {
+    let textArea = document.getElementById('initial-list');
+    textArea.select();
+    document.execCommand('copy');
+    alert('Text copied to clipboard!'); // Optional: You can show a notification or tooltip instead of an alert
+});
+
+
 function emailList() {
     let textArea = document.getElementById('email-list');
     let lines = textArea.value.trim().split('\n').join('%0D%0A');
@@ -24,8 +32,11 @@ function sortAndGroup() {
     let buildGroup = (tasks, status) => {
         return tasks.map((task, index) => {
             let checkedAttribute = taskMap.get(task) ? 'checked' : '';
+            // let noteMatch = task.match(/\(([^)]+)\)/);
+            // let note = noteMatch ? `<div class="note">${noteMatch[1]}</div>` : '';
             let noteMatch = task.match(/\(([^)]+)\)/);
             let note = noteMatch ? `<div class="note">${noteMatch[1]}</div>` : '';
+
             let taskWithoutNote = noteMatch ? task.replace(noteMatch[0], '') : task;
 
             let urlMatch = taskWithoutNote.match(/https?:\/\/[^\s]+/);

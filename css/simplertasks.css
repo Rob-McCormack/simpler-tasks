@@ -30,6 +30,26 @@
     visibility: visible;
 }
 
+
+.note {
+    margin-left: 40px; /* Adjust as needed */
+    display: block;
+}
+
+
+/* Light theme styles */
+.bg-light .form-control {
+    background-color: #FFF; /* White background */
+    color: #333; /* Dark text */
+}
+
+/* Dark theme styles */
+.bg-dark .form-control {
+    background-color: #333; /* Dark background */
+    color: #FFF; /* White text */
+}
+
+
 [data-theme="light"] {
     background-color: #fff;
     color: #333;

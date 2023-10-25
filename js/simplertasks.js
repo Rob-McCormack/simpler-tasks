@@ -8,6 +8,36 @@ document.getElementById('copy-button').addEventListener('click', function() {
     alert('Text copied to clipboard!'); // Optional: You can show a notification or tooltip instead of an alert
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    const dateElem = document.getElementById('current-date');
+    const timeElem = document.getElementById('current-time');
+
+    const date = new Date();
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayName = days[date.getDay()];
+    
+    const month = date.toLocaleString('default', { month: 'long' });
+    const dayOfMonth = date.getDate();
+    
+    let suffix = 'th';
+    if (dayOfMonth === 1 || dayOfMonth === 21 || dayOfMonth === 31) {
+        suffix = 'st';
+    } else if (dayOfMonth === 2 || dayOfMonth === 22) {
+        suffix = 'nd';
+    } else if (dayOfMonth === 3 || dayOfMonth === 23) {
+        suffix = 'rd';
+    }
+
+    const formattedDate = `${dayName}, ${month} ${dayOfMonth}${suffix}, ${date.getFullYear()}`;
+    const formattedTime = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+
+    // Get the time zone abbreviation
+    const timeZone = new Intl.DateTimeFormat('en-US', {timeZoneName: 'short'}).format(date).split(' ').pop();
+
+    dateElem.textContent = formattedDate;
+    timeElem.textContent = `${formattedTime} ${timeZone}`;
+});
+
 
 function emailList() {
     let textArea = document.getElementById('email-list');

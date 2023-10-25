@@ -1,6 +1,4 @@
-/* html, body, .container, .navbar, .navbar-brand, h1, h2, h3, h4, h5, h6, p, a {
-    color: #333 !important; /* The !important flag ensures this style takes precedence */
-} */
+
 
 .today-tasks {
     color: red;
@@ -31,3 +29,16 @@
     transform: translateX(0);
     visibility: visible;
 }
+
+[data-theme="light"] {
+    background-color: #fff;
+    color: #333;
+    /* Add other light theme styles here */
+}
+
+[data-theme="dark"] {
+    background-color: #333;
+    color: #fff;
+    /* Add other dark theme styles here */
+}
+

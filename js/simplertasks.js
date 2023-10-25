@@ -98,12 +98,42 @@ Go to Walmart #home Today (jam, milk, return pants)
     textArea.value = sampleTasks.trim();
 });
 
-// Theme Switcher
-const themeSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
-themeSwitch.addEventListener('change', function(event) {
-    if (event.currentTarget.checked) {
-        document.documentElement.setAttribute('data-theme', 'light');
+function changeTheme(mode) {
+    const body = document.body;
+
+    if (mode === 'light') {
+        body.classList.remove('bg-dark', 'text-white');
+        body.classList.add('bg-light', 'text-dark');
+    } else if (mode === 'dark') {
+        body.classList.remove('bg-light', 'text-dark');
+        body.classList.add('bg-dark', 'text-white');
     } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
+        const hour = new Date().getHours();
+        if (hour < 6 || hour > 18) {
+            body.classList.remove('bg-light', 'text-dark');
+            body.classList.add('bg-dark', 'text-white');
+        } else {
+            body.classList.remove('bg-dark', 'text-white');
+            body.classList.add('bg-light', 'text-dark');
+        }
+    }
+}
+
+// // Theme Switcher
+// const themeSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+
+// themeSwitch.addEventListener('change', function(event) {
+//     if (event.currentTarget.checked) {
+//         document.documentElement.setAttribute('data-theme', 'dark');
+//     } else {
+//         document.documentElement.setAttribute('data-theme', 'light');
+//     }
+// });
+
+document.getElementById('themeToggle').addEventListener('change', function(event) {
+    if (event.currentTarget.checked) {
+        changeTheme('dark');
+    } else {
+        changeTheme('light');
     }
 });

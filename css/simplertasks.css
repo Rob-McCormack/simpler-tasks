@@ -10,27 +10,38 @@ body {
     }
 }
 
+textarea {
+    font-family: 'Roboto Mono', monospace;
+}
+
+
+
 .today-tasks {
     color: red;
 }
 
 
 .note {
-    margin-left: 20px; /* Adjust as needed */
+    margin-left: 20px;
+    /* Adjust as needed */
     display: block;
 }
 
 
 /* Light theme styles */
 .bg-light .form-control {
-    background-color: #FFF; /* White background */
-    color: #333; /* Dark text */
+    background-color: #FFF;
+    /* White background */
+    color: #333;
+    /* Dark text */
 }
 
 /* Dark theme styles */
 .bg-dark .form-control {
-    background-color: #333; /* Dark background */
-    color: #FFF; /* White text */
+    background-color: #333;
+    /* Dark background */
+    color: #FFF;
+    /* White text */
 }
 
 
@@ -45,4 +56,3 @@ body {
     color: #fff;
     /* Add other dark theme styles here */
 }
-

@@ -1,4 +1,14 @@
+/* Default font size for larger screens */
+body {
+    font-size: 16px;
+}
 
+/* Increase font size for screens smaller than 768px wide */
+@media (max-width: 767px) {
+    body {
+        font-size: 18px;
+    }
+}
 
 .today-tasks {
     color: red;

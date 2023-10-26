@@ -16,6 +16,7 @@ body {
 
 .footer {
     position: fixed;
+    top: 50;
     left: 0;
     bottom: 0;
     width: 100%;

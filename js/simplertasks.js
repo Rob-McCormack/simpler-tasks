@@ -16,6 +16,40 @@ document.addEventListener("DOMContentLoaded", function() {
     initializeSampleTasks();
 });
 
+document.getElementById('initial-list').addEventListener('input', function() {
+    // Get the content of the textarea
+    let content = this.value;
+
+    // Check if the first line starts with "TITLE:"
+    if (content.startsWith("TITLE:")) {
+        // Extract the title
+        let title = content.split('\n')[0].replace("TITLE:", "").trim();
+        
+        // Display it in the Fancy tab
+        let fancyTab = document.getElementById('fancy');
+        let titleElement = fancyTab.querySelector('h3.title'); // Try to select an existing title element
+
+        // If the title element doesn't exist, create it
+        if (!titleElement) {
+            titleElement = document.createElement('h3');
+            titleElement.classList.add('title'); // Add a class for potential styling
+            fancyTab.prepend(titleElement); // Add it to the start of the Fancy tab
+        }
+
+        // Update the content of the title element
+        titleElement.textContent = title;
+    } else {
+        // If the TITLE: pattern is not found, remove any existing title element
+        let fancyTab = document.getElementById('fancy');
+        let titleElement = fancyTab.querySelector('h3.title');
+        if (titleElement) {
+            titleElement.remove();
+        }
+    }
+});
+
+
+
 function copyTextToClipboard(elementId) {
     let textArea = document.getElementById(elementId);
     textArea.select();
@@ -64,7 +98,8 @@ function changeTheme(mode) {
 
 function initializeSampleTasks() {
     let sampleTasks = `
- Buy groceries for the week. http://cnn.com
+TITLE: The Big list for BOB    
+Buy groceries for the week. http://cnn.com
 Finish editing a short film. #home
 !Call mom for her birthday.
 Fix that annoying bug in the Python script.

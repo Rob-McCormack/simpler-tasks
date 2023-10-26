@@ -111,10 +111,33 @@
             const sentence = $(eleRef).html();
             const letters = sentence.split("");
             while (letters.length > 0) {
-                await waitForMs(100);
+                await waitForMs(10);
                 letters.pop();
                 $(eleRef).html(letters.join(""));
             }
+        }
+
+        async function carousel(carouselList, eleRef) {
+            for (let i = 0; i < carouselList.length; i++) {
+                updateFontColor(eleRef, carouselList[i].color);
+                await typeSentence(carouselList[i].text, eleRef);
+                if (i !== carouselList.length - 1) {
+                    toggleCursorVisibility(true); // Show the cursor before deleting
+                    await waitForMs(1500);
+                    await deleteSentence(eleRef);
+                    await waitForMs(500);
+                }
+            }
+            toggleCursorVisibility(false); // Hide the cursor after the last line is typed
+        }
+
+
+        function updateFontColor(eleRef, color) {
+            $(eleRef).css("color", color);
+        }
+
+        function waitForMs(ms) {
+            return new Promise((resolve) => setTimeout(resolve, ms));
         }
 
         async function carousel(carouselList, eleRef) {
@@ -127,15 +150,10 @@
                     await waitForMs(500);
                 }
             }
+            // Directly hide the cursor after the loop
+            $(".input-cursor").css("display", "none");
         }
 
-        function updateFontColor(eleRef, color) {
-            $(eleRef).css("color", color);
-        }
-
-        function waitForMs(ms) {
-            return new Promise((resolve) => setTimeout(resolve, ms));
-        }
     </script>
 </body>
 

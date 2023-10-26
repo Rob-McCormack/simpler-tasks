@@ -14,6 +14,21 @@ simplertasks.js
 simplertasks.css
 
 -----
+
+I want to remove the two buttons Help and Settings,
+and add a dropdown menu, right-justified the navbar
+
+
+
+
+
+
+
+
+
+
+
+
 I want to remove the Help tab, and place its contents in a bootstrap <div class="modal-dialog modal-lg">...</div>
 and add a button to activate
 

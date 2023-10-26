@@ -15,8 +15,38 @@ simplertasks.css
 
 -----
 
-I want to remove the two buttons Help and Settings,
-and add a dropdown menu, right-justified the navbar
+I want to use a nice bootstrap table for displaying help...
+Please change this:
+Here's a simple guide to use SimplerTasks:
+Use "!" at the beginning for high priority tasks.
+Use "-" at the beginning for low priority tasks.
+Use "x" at the beginning for completed tasks.
+Use "#context" to categorize tasks, like #home or #work.
+Use "@name" to assign tasks, like @Rob or @Alice.
+Tasks can also include links, which will be clickable in the fancy view.
+
+To a table, like
+
+Here's a simple guide to use SimplerTasks:
+
+---
+Special Starting character(s)
+!      high priority 
+-      low priority 
+       nothing is normal priority 
+x      completed tasks
+TODAY  is the one thing that you gotta do today
+
+---
+
+Special Characters anywhere in task item
+#       context for item, like #home, #work, etc.
+@        refers to a name of a person that might be assigned or related to task, like @Rob or @Alice
+http://  Tasks can also include links, which will be clickable in the Fancy view
+today    will make the task a Today task
+
+
+
 
 
 

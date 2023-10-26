@@ -5,68 +5,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bootstrap Colored Checkboxes</title>
-    <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Define CSS variables for Bootstrap colors */
-        :root {
-            --bs-primary: #007bff;
-            --bs-secondary: #6c757d;
-            --bs-success: #28a745;
-            --bs-danger: #dc3545;
-            --bs-warning: #ffc107;
-            --bs-info: #17a2b8;
-            --bs-light: #f8f9fa;
-            --bs-dark: #343a40;
+        /* Custom checkbox styles */
+        .custom-checkbox {
+            position: relative;
         }
 
-        /* Adjust color using accent-color */
-        .checkbox-primary input[type=checkbox] {
-            accent-color: var(--bs-primary);
-            width: 1.5rem;
-            height: 1.5rem;
+        .custom-checkbox input[type="checkbox"] {
+            display: none;
         }
 
-        .checkbox-secondary input[type=checkbox] {
-            accent-color: var(--bs-secondary);
-            width: 1.5rem;
-            height: 1.5rem;
+        .custom-checkbox label {
+            padding-left: 2rem;
+            position: relative;
+            cursor: pointer;
+            font-size: 1rem;
         }
 
-        .checkbox-success input[type=checkbox] {
-            accent-color: var(--bs-success);
+        .custom-checkbox label::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 1.5rem;
             height: 1.5rem;
+            border: 1px solid #adb5bd;
+            background: white;
         }
 
-        .checkbox-danger input[type=checkbox] {
-            accent-color: var(--bs-danger);
-            width: 1.5rem;
-            height: 1.5rem;
+        .custom-checkbox input[type="checkbox"]:checked+label::before {
+            border: none;
         }
 
-        .checkbox-warning input[type=checkbox] {
-            accent-color: var(--bs-warning);
-            width: 1.5rem;
-            height: 1.5rem;
+        .custom-checkbox input[type="checkbox"]:checked+label::after {
+            content: "✓";
+            position: absolute;
+            top: 0.15rem;
+            left: 0.5rem;
+            font-size: 1rem;
+            color: white;
         }
 
-        .checkbox-info input[type=checkbox] {
-            accent-color: var(--bs-info);
-            width: 1.5rem;
-            height: 1.5rem;
+        .checkbox-primary input[type="checkbox"]:checked+label::before {
+            background-color: var(--bs-primary);
         }
 
-        .checkbox-light input[type=checkbox] {
-            accent-color: var(--bs-light);
-            width: 1.5rem;
-            height: 1.5rem;
-        }
-
-        .checkbox-dark input[type=checkbox] {
-            accent-color: var(--bs-dark);
-            width: 1.5rem;
-            height: 1.5rem;
+        .checkbox-danger input[type="checkbox"]:checked+label::before {
+            background-color: var(--bs-danger);
         }
     </style>
 </head>
@@ -76,44 +62,14 @@
     <div class="container mt-5">
         <h2>Bootstrap Colored Checkboxes</h2>
 
-        <div class="form-check checkbox-primary">
-            <input type="checkbox" class="form-check-input" id="customCheckPrimary">
-            <label class="form-check-label" for="customCheckPrimary">Primary Checkbox</label>
+        <div class="custom-checkbox checkbox-primary">
+            <input type="checkbox" id="customCheckPrimary">
+            <label for="customCheckPrimary">Primary Checkbox</label>
         </div>
 
-        <div class="form-check checkbox-secondary">
-            <input type="checkbox" class="form-check-input" id="customCheckSecondary">
-            <label class="form-check-label" for="customCheckSecondary">Secondary Checkbox</label>
-        </div>
-
-        <div class="form-check checkbox-success">
-            <input type="checkbox" class="form-check-input" id="customCheckSuccess">
-            <label class="form-check-label" for="customCheckSuccess">Success Checkbox</label>
-        </div>
-
-        <div class="form-check checkbox-danger">
-            <input type="checkbox" class="form-check-input" id="customCheckDanger">
-            <label class="form-check-label" for="customCheckDanger">Danger Checkbox</label>
-        </div>
-
-        <div class="form-check checkbox-warning">
-            <input type="checkbox" class="form-check-input" id="customCheckWarning">
-            <label class="form-check-label" for="customCheckWarning">Warning Checkbox</label>
-        </div>
-
-        <div class="form-check checkbox-info">
-            <input type="checkbox" class="form-check-input" id="customCheckInfo">
-            <label class="form-check-label" for="customCheckInfo">Info Checkbox</label>
-        </div>
-
-        <div class="form-check checkbox-light">
-            <input type="checkbox" class="form-check-input" id="customCheckLight">
-            <label class="form-check-label" for="customCheckLight">Light Checkbox</label>
-        </div>
-
-        <div class="form-check checkbox-dark">
-            <input type="checkbox" class="form-check-input" id="customCheckDark">
-            <label class="form-check-label" for="customCheckDark">Dark Checkbox</label>
+        <div class="custom-checkbox checkbox-danger">
+            <input type="checkbox" id="customCheckDanger">
+            <label for="customCheckDanger">Danger Checkbox</label>
         </div>
 
     </div>

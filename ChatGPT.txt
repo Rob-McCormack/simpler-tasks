@@ -15,36 +15,20 @@ simplertasks.css
 
 -----
 
-I want to use a nice bootstrap table for displaying help...
-Please change this:
-Here's a simple guide to use SimplerTasks:
-Use "!" at the beginning for high priority tasks.
-Use "-" at the beginning for low priority tasks.
-Use "x" at the beginning for completed tasks.
-Use "#context" to categorize tasks, like #home or #work.
-Use "@name" to assign tasks, like @Rob or @Alice.
-Tasks can also include links, which will be clickable in the fancy view.
 
-To a table, like
+OK, I want to add a feature:
+If the task item starts with TODAY, all caps, it is very Special
 
-Here's a simple guide to use SimplerTasks:
+TODAY Pick up Lenny
 
----
-Special Starting character(s)
-!      high priority 
--      low priority 
-       nothing is normal priority 
-x      completed tasks
-TODAY  is the one thing that you gotta do today
+This will occur at the very top of the Fancy tab as a:
+`danger alert with an icon`
+It will have a check box beside it same as other items do in Fancy tab
 
----
+It will still be grouped under the Fancy tab as a Today.
 
-Special Characters anywhere in task item
-#       context for item, like #home, #work, etc.
-@        refers to a name of a person that might be assigned or related to task, like @Rob or @Alice
-http://  Tasks can also include links, which will be clickable in the Fancy view
-today    will make the task a Today task
-
+There can only be one special TODAY item, have the JS find the first occurance only,
+in case there are more.
 
 
 

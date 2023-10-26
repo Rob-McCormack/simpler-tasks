@@ -72,9 +72,19 @@
                 <textarea id="initial-list" class="form-control mt-3" rows="10"></textarea>
                 <button id="copy-button" class="btn btn-secondary mt-2">Copy</button>
             </div>
+
+
             <div class="tab-pane fade" id="fancy" role="tabpanel" aria-labelledby="fancy-tab">
-                <!-- Content for the Fancy tab will be populated by JavaScript -->
+                <div id="specialTodayTask" class="alert alert-danger" role="alert">
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                    <input type="checkbox" class="me-2">
+                    <span id="specialTodayText"></span>
+                </div>
+                <!-- Marker div for sorted tasks -->
+                <div id="sortedTasks"></div>
             </div>
+
+
             <div class="tab-pane fade" id="email" role="tabpanel" aria-labelledby="email-tab">
                 <textarea id="email-list" class="form-control my-3" rows="10"></textarea>
                 <button id="email-button" class="btn btn-info">Send Email</button>
@@ -163,6 +173,9 @@
                 </div>
                 <div class="modal-body">
                     <p>Here's a simple guide to use SimplerTasks:</p>
+                    <p>Note: <span style="color:red; font-size: 0.8em;">*</span> indicates it must be the first
+                        character in a task item</p>
+
                     <table class="table table-bordered table-striped">
                         <thead class="table-dark">
                             <tr>
@@ -171,24 +184,26 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- Rows with the red star -->
                             <tr>
-                                <td><strong>!</strong></td>
+                                <td><strong>!<span style="color:red; font-size: 0.8em;">*</span></strong></td>
                                 <td>High Priority</td>
                             </tr>
                             <tr>
-                                <td><strong>-</strong></td>
+                                <td><strong>-<span style="color:red; font-size: 0.8em;">*</span></strong></td>
                                 <td>Low Priority</td>
                             </tr>
                             <tr>
-                                <td>(no character)</td>
+                                <td>(no character)<span style="color:red; font-size: 0.8em;">*</span></td>
                                 <td>Normal Priority</td>
                             </tr>
                             <tr>
-                                <td><strong>x</strong></td>
+                                <td><strong>x<span style="color:red; font-size: 0.8em;">*</span></strong></td>
                                 <td>Completed Tasks</td>
                             </tr>
+                            <!-- Rest of the rows without the red star -->
                             <tr>
-                                <td><strong>TODAY</strong></td>
+                                <td><strong>TODAY<span style="color:red; font-size: 0.8em;">*</span></strong></td>
                                 <td>Must-Do Task for Today</td>
                             </tr>
                             <tr>
@@ -209,6 +224,7 @@
                             </tr>
                         </tbody>
                     </table>
+
 
                 </div>
             </div>

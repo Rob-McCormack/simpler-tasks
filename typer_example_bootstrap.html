@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>SmarterTasks Typing Carousel</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque&display=swap" rel="stylesheet" />
+
+    <style>
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            40% {
+                opacity: 1;
+            }
+
+            60% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* ... other styles ... */
+
+        .typing-container {
+            display: flex;
+            align-items: center;
+            font-family: "Darker Grotesque", sans-serif;
+            font-size: 24px;
+            /* Reduced font-size for navbar */
+            color: white;
+        }
+
+        .input-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 24px;
+            /* Adjusted height to match the reduced font-size */
+            background-color: white;
+            margin-left: 8px;
+        }
+
+
+        .input-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 42px;
+            background-color: white;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+
+<body style="background-color: #2b2b2b">
+    <!-- Add this Bootstrap Navbar at the top of your body tag -->
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">
+            <div class="typing-container">
+                <span id="sentence" class="sentence">SmarterTasks are&nbsp; </span>
+                <span id="feature-text"></span>
+                <span class="input-cursor"></span>
+            </div>
+        </a>
+    </nav>
+
+    <div class="container text-center">
+        <div class="typing-container">
+            <span id="sentence" class="sentence">SmarterTasks are&nbsp; </span>
+            <span id="feature-text">ad</span>
+            <span class="input-cursor">asdf</span>
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        const carouselText = [
+            { text: " simpler to use.", color: "yellow" },
+            { text: " easy to share.", color: "orange" },
+            { text: " Coded by AI", color: "red" },
+            { text: " Free", color: "red" },
+        ];
+
+        $(document).ready(async function () {
+            carousel(carouselText, "#feature-text");
+        });
+
+        async function typeSentence(sentence, eleRef, delay = 100) {
+            const letters = sentence.split("");
+            let i = 0;
+            while (i < letters.length) {
+                await waitForMs(delay);
+                $(eleRef).append(letters[i]);
+                i++;
+            }
+            return;
+        }
+
+        async function deleteSentence(eleRef) {
+            const sentence = $(eleRef).html();
+            const letters = sentence.split("");
+            while (letters.length > 0) {
+                await waitForMs(100);
+                letters.pop();
+                $(eleRef).html(letters.join(""));
+            }
+        }
+
+        async function carousel(carouselList, eleRef) {
+            for (let i = 0; i < carouselList.length; i++) {
+                updateFontColor(eleRef, carouselList[i].color);
+                await typeSentence(carouselList[i].text, eleRef);
+                await waitForMs(1500);
+                if (i !== carouselList.length - 1) {
+                    await deleteSentence(eleRef);
+                    await waitForMs(500);
+                }
+            }
+        }
+
+        function updateFontColor(eleRef, color) {
+            $(eleRef).css("color", color);
+        }
+
+        function waitForMs(ms) {
+            return new Promise((resolve) => setTimeout(resolve, ms));
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- https://codepen.io/josephwong2004/pen/ExgoKde?editors=1010 -->
+
+<head>
+    <meta charset="UTF-8" />
+
+    <link rel="apple-touch-icon" type="image/png"
+        href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+
+    <meta name="apple-mobile-web-app-title" content="CodePen" />
+
+    <link rel="shortcut icon" type="image/x-icon"
+        href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+    <link rel="mask-icon" type="image/x-icon"
+        href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg"
+        color="#111" />
+
+    <title>CodePen - Tutorial - Typing Carousel Effect</title>
+
+    <link rel="canonical" href="https://codepen.io/josephwong2004/pen/ExgoKde" />
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Darker+Grotesque&display=swap");
+
+        body {
+            background-color: #2b2b2b;
+            color: white;
+            font-size: 42px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: "Darker Grotesque", sans-serif;
+        }
+
+        body .typing-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body .typing-container #feature-text {
+            margin-left: 8px;
+        }
+
+        body .typing-container .input-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 42px;
+            background-color: white;
+            margin-left: 8px;
+            animation: blink 0.6s linear infinite alternate;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            40% {
+                opacity: 1;
+            }
+
+            60% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+
+    <script>
+        window.console = window.console || function (t) { };
+    </script>
+</head>
+
+<body translate="no">
+
+    <body>
+        <div class="typing-container">
+            <span id="sentence" class="sentence">SmarterTasks are </span>
+            <span id="feature-text"></span>
+            <span class="input-cursor"></span>
+        </div>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script id="rendered-js">
+        const carouselText = [
+            { text: "simpler to use", color: "red" },
+            { text: "easy to", color: "orange" },
+            { text: "Lemon", color: "yellow" },
+        ];
+
+        $(document).ready(async function () {
+            carousel(carouselText, "#feature-text");
+        });
+
+        async function typeSentence(sentence, eleRef, delay = 100) {
+            const letters = sentence.split("");
+            let i = 0;
+            while (i < letters.length) {
+                await waitForMs(delay);
+                $(eleRef).append(letters[i]);
+                i++;
+            }
+            return;
+        }
+
+        async function deleteSentence(eleRef) {
+            const sentence = $(eleRef).html();
+            const letters = sentence.split("");
+            while (letters.length > 0) {
+                await waitForMs(100);
+                letters.pop();
+                $(eleRef).html(letters.join(""));
+            }
+        }
+
+        async function carousel(carouselList, eleRef) {
+            for (let i = 0; i < carouselList.length; i++) {
+                updateFontColor(eleRef, carouselList[i].color);
+                await typeSentence(carouselList[i].text, eleRef);
+                await waitForMs(1500);
+                if (i !== carouselList.length - 1) {
+                    await deleteSentence(eleRef);
+                    await waitForMs(500);
+                }
+            }
+        }
+
+        function updateFontColor(eleRef, color) {
+            $(eleRef).css("color", color);
+        }
+
+        function waitForMs(ms) {
+            return new Promise((resolve) => setTimeout(resolve, ms));
+        }
+        //# sourceURL=pen.js
+    </script>
+</body>
+
+</html>

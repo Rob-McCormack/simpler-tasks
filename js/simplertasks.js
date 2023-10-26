@@ -16,8 +16,28 @@ function emailList() {
 }
 
 
+
+
+
 function sortAndGroup() {
-    // Populate taskMap first
+    // Find the special TODAY task
+    let specialTodayTask = [...taskMap.keys()].find(task => task.startsWith('TODAY'));
+    console.log("Detected TODAY task:", specialTodayTask);
+
+
+    // Reference to the special TODAY task elements
+    let todayElement = document.getElementById('specialTodayTask');
+    let todayTextElement = todayElement.querySelector('#specialTodayText');
+
+    // If we find a special TODAY task, let's display it
+    if (specialTodayTask) {
+        todayTextElement.textContent = specialTodayTask;
+        todayElement.style.display = 'block';
+    } else {
+        // Hide the special TODAY task if not found
+        todayElement.style.display = 'none';
+    }
+
     if (!isFormatted) {
         let textArea = document.getElementById('initial-list');
         let lines = textArea.value.trim().split('\n');
@@ -31,44 +51,12 @@ function sortAndGroup() {
 
     isFormatted = true;
 
-
-// Now, look for the special TODAY task
-let specialTodayTask = [...taskMap.keys()].find(task => task.startsWith('TODAY'));
-console.log("Detected TODAY task:", specialTodayTask);  // Debugging line
-
-// If we find one, let's display it
-if (specialTodayTask) {
-    let todayElement = document.getElementById('specialTodayTask');
-    console.log("Today Element:", todayElement);  // Debugging line
-    if (todayElement) {
-        todayElement.querySelector('#specialTodayText').textContent = specialTodayTask;
-        todayElement.classList.remove('d-none');
-        todayElement.style.display = 'block';  // Explicitly set the display property
-    } else {
-        console.error("Couldn't find the DOM element for the special TODAY task.");
-    }
-}
-
-
-    console.log("Detected TODAY task:", specialTodayTask);  // Debugging line
-
-    // If we find one, let's display it
-    if (specialTodayTask) {
-        let todayElement = document.getElementById('specialTodayTask');
-        if (todayElement) {
-            todayElement.querySelector('#specialTodayText').textContent = specialTodayTask;
-            todayElement.classList.remove('d-none');
-        } else {
-            console.error("Couldn't find the DOM element for the special TODAY task.");  // Debugging line
-        }
-    }
-
     let buildGroup = (tasks, status) => {
         return tasks.map((task, index) => {
             let checkedAttribute = taskMap.get(task) ? 'checked' : '';
+
             let noteMatch = task.match(/\(([^)]+)\)/);
             let note = noteMatch ? `<div class="note">${noteMatch[1]}</div>` : '';
-
             let taskWithoutNote = noteMatch ? task.replace(noteMatch[0], '') : task;
 
             let urlMatch = taskWithoutNote.match(/https?:\/\/[^\s]+/);
@@ -79,8 +67,8 @@ if (specialTodayTask) {
         }).join('');
     };
 
-    let sortedTasksDiv = document.getElementById('sortedTasks');
-    sortedTasksDiv.innerHTML = `
+    let sortedList = document.getElementById('sortedTasks');
+    sortedList.innerHTML = `
         <h2 class="mt-3">Today</h2>
         ${buildGroup([...taskMap.keys()].filter(task => task.toLowerCase().includes('today') && !task.startsWith('TODAY')), 'today')}
         <h2 class="mt-3">High Priority</h2>
@@ -92,11 +80,13 @@ if (specialTodayTask) {
         <h2 class="mt-3">Done</h2>
         ${buildGroup([...taskMap.keys()].filter(task => task.startsWith('x')), 'done')}
     `;
-    
 
-    // Debugging: Check if the filter is working correctly
-    console.log("Tasks under 'Today':", [...taskMap.keys()].filter(task => task.toLowerCase().includes('today') && task !== specialTodayTask));
+    // Event listener for the email button
+    document.getElementById('email-button').addEventListener('click', emailList);
 }
+
+
+
 
 
 

@@ -21,7 +21,11 @@ function emailList() {
 
 function sortAndGroup() {
     // Find the special TODAY task
-    let specialTodayTask = [...taskMap.keys()].find(task => task.startsWith('TODAY'));
+    // let specialTodayTask = [...taskMap.keys()].find(task => task.startsWith('TODAY'));
+    // let specialTodayTask = [...taskMap.keys()].find(task => task.trim().startsWith('TODAY'));
+    // let specialTodayTask = [...taskMap.keys()].find(task => task.trim().startsWith('TODAY') || task.trim().startsWith('TODAY:'));
+    let specialTodayTask = [...taskMap.keys()].find(task => /^TODAY\s*:?\s+/i.test(task));
+
     console.log("Detected TODAY task:", specialTodayTask);
 
 

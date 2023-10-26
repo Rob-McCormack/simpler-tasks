@@ -64,16 +64,16 @@ function changeTheme(mode) {
 
 function initializeSampleTasks() {
     let sampleTasks = `
-    !Buy groceries for the week. http://cnn.com
-    Finish editing a short film. #home
-    !Call mom for her birthday.
-    Fix that annoying bug in the Python script.
-    -Go for a 30-minute jog.
-    Water the plants.
-    -Prepare slides for tomorrow's meeting.
-    Cook dinner for friends coming over tonight.
-    [3] Meditate for 10 minutes #daily
-    Go to Walmart #home Today (jam, milk, return pants)
+ Buy groceries for the week. http://cnn.com
+Finish editing a short film. #home
+!Call mom for her birthday.
+Fix that annoying bug in the Python script.
+-Go for a 30-minute jog.
+Water the plants.
+-Prepare slides for tomorrow's meeting.
+Cook dinner for friends coming over tonight.
+[3] Meditate for 10 minutes #daily
+Go to Walmart #home Today (jam, milk, return pants)
     `;
     let textArea = document.getElementById('initial-list');
     textArea.value = sampleTasks.trim();

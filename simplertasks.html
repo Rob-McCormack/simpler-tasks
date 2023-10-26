@@ -33,6 +33,10 @@
     </nav>
 
     <div class="container">
+        <!-- Modal button to activate the Help modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#helpModal">
+            Help
+        </button>
         <ul class="nav nav-tabs" id="myTabs" role="tablist">
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="plain-tab" data-bs-toggle="tab" href="#plain" role="tab"
@@ -51,10 +55,6 @@
                 <a class="nav-link" id="settings-tab" data-bs-toggle="tab" href="#settings">Settings</a>
             </li>
 
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="help-tab" data-bs-toggle="tab" href="#help" role="tab" aria-controls="help"
-                    aria-selected="false">Help</a>
-            </li>
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="plain" role="tabpanel" aria-labelledby="plain-tab">
@@ -103,6 +103,31 @@
         </div>
         <small><a href="https://www.flaticon.com/free-icons/task" title="task icons">Task icons created by Anggara -
                 Flaticon</a></small>
+    </div>
+
+    <!-- Help modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="helpModalLabel">Help</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here's a simple guide to use SimplerTasks:</p>
+                    <ul>
+                        <li>Use "!" at the beginning for high priority tasks.</li>
+                        <li>Use "-" at the beginning for low priority tasks.</li>
+                        <li>Use "x" at the beginning for completed tasks.</li>
+                        <li>Use "#context" to categorize tasks, like #home or #work.</li>
+                        <li>Use "@name" to assign tasks, like @Rob or @Alice.</li>
+                        <li>
+                            Tasks can also include links, which will be clickable in the fancy
+                            view.
+                        </li>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

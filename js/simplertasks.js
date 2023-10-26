@@ -125,15 +125,15 @@ function sortAndGroup() {
 
     let sortedList = document.getElementById('sortedTasks');
     sortedList.innerHTML = `
-        <h2 class="mt-3">Today</h2>
+        <h5 class="mt-3">Today</h5>
         ${buildGroup([...taskMap.keys()].filter(task => task.toLowerCase().includes('today') && !task.startsWith('TODAY')), 'today')}
-        <h2 class="mt-3">High Priority</h2>
+        <h5 class="mt-3">High Priority</h5>
         ${buildGroup([...taskMap.keys()].filter(task => task.startsWith('!') && !task.toLowerCase().includes('today')), 'high')}
-        <h2 class="mt-3">Normal</h2>
+        <h5 class="mt-3">Normal</h5>
         ${buildGroup([...taskMap.keys()].filter(task => !task.startsWith('!') && !task.startsWith('-') && !task.startsWith('x') && !task.toLowerCase().includes('today')), 'normal')}
-        <h2 class="mt-3">Low Priority</h2>
+        <h5 class="mt-3">Low Priority</h5>
         ${buildGroup([...taskMap.keys()].filter(task => task.startsWith('-') && !task.toLowerCase().includes('today')), 'low')}
-        <h2 class="mt-3">Done</h2>
+        <h5 class="mt-3">Done</h5>
         ${buildGroup([...taskMap.keys()].filter(task => task.startsWith('x')), 'done')}
     `;
 }

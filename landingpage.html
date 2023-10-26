@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimperTasks</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @keyframes typewriter {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        h1.typewriter {
+            font-family: 'Courier New', monospace;
+            font-size: 20px;
+            color: #4CAF50;
+            /* Green color */
+            background-color: #282C34;
+            /* Dark background */
+            padding: 15px;
+            border-radius: 5px;
+            overflow: hidden;
+            border-right: .15em solid #4CAF50;
+            /* Green cursor */
+            white-space: nowrap;
+            letter-spacing: 1px;
+            animation: typewriter 4s steps(40, end), blink-caret .75s step-end infinite;
+            text-align: left;
+            /* Positioning text to the left */
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">SimperTasks</a>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="typewriter">Task management the easy way.</h1>
+
+        <!-- Two-column layout starts here -->
+        <div class="row mt-5">
+            <!-- Left column with image -->
+            <div class="col-md-6">
+                <img src="https://img.freepik.com/free-vector/done-concept-illustration_114360-3060.jpg?w=740&t=st=1698319056~exp=1698319656~hmac=bcca23bff7eb83c7cbaa115d0deaad065a4482f7c34fdc301a9976947f509f9f"
+                    alt="Done Concept" class="img-fluid">
+            </div>
+
+            <!-- Right column with filler text -->
+            <div class="col-md-6">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Donec
+                    in efficitur leo. Sed nec tempus nibh. Orci varius natoque penatibus et magnis dis parturient
+                    montes, nascetur ridiculus mus. Suspendisse potenti.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

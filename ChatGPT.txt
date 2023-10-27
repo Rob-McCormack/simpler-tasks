@@ -1,3 +1,22 @@
+I'm validating the HTML, and notice two idential id tags...
+            <div class="tab-pane" id="email" role="tabpanel" aria-labelledby="email-tab">
+
+                <!-- Inside the Email tab pane -->
+                <div class="tab-pane fade" id="email" role="tabpanel" aria-labelledby="email-tab">
+                    <div id="emailAlert" class="alert alert-light" role="alert">
+                        abc
+                    </div>
+
+                </div>
+
+                <button id="email-button" class="btn btn-info">Send Email</button>
+            </div>
+
+But... if I change one of them the Email tab doesn't populate any more
+Any suggestions how to handle this?
+            
+
+
 Question:
 I wonder if we should delete the email tab completely and any JavaScript
 related to it... then when we have everything else working... and implement

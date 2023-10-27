@@ -10,6 +10,12 @@ body {
     }
 }
 
+/* required to see the list in Email tab */
+#email {
+    opacity: 1 !important;
+}
+
+
 textarea {
     font-family: 'Roboto Mono', monospace;
 }

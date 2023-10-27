@@ -12,46 +12,16 @@ document.getElementById('plain-tab').addEventListener('click', showPlainText);
 document.getElementById('email-tab').addEventListener('click', transferToEmailList);
 document.getElementById('themeToggle').addEventListener('change', toggleTheme);
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function () {
     initializeSampleTasks();
+    transferToEmailList();
 });
 
 
+document.addEventListener('DOMContentLoaded', function () {
+    transferToEmailList();
+});
 
-// const textArea = document.getElementById('initial-list');
-
-// textArea.addEventListener('input', autoResizeTextArea);
-
-// function autoResizeTextArea() {
-//     this.style.height = 'auto'; // Reset height to auto first
-//     this.style.height = (this.scrollHeight) + 'px'; // Then set it to its scroll height
-// }
-
-// // Initial resize (if you want to resize it on page load)
-// autoResizeTextArea.call(textArea);
-
-
-//  ---- This is mostly working Rob
-
-// const textAreas = [
-//     document.getElementById('initial-list'),
-//     document.getElementById('email-list')
-// ];
-
-// textAreas.forEach(textArea => {
-//     textArea.addEventListener('input', autoResizeTextArea);
-//     autoResizeTextArea.call(textArea); // For initial resize on page load
-// });
-
-// // Initial resize (if you want to resize it on page load)
-// autoResizeTextArea.call(textArea);
-
-// function autoResizeTextArea() {
-//     this.style.height = 'auto';
-//     this.style.height = (this.scrollHeight) + 'px';
-// }
-
-//  ====
 
 document.getElementById('initial-list').addEventListener('input', function () {
     // Get the content of the textarea
@@ -104,17 +74,45 @@ function copyTextToClipboard(elementId) {
     document.execCommand('copy');
 }
 
+// function emailList() {
+//     let textArea = document.getElementById('email-list');
+//     let lines = textArea.value.trim().split('\n').join('%0D%0A');
+//     window.location.href = `mailto:?subject=Your To-Do List&body=${lines}`;
+// }
+
 function emailList() {
-    let textArea = document.getElementById('email-list');
+    let textArea = document.getElementById('initial-list');
     let lines = textArea.value.trim().split('\n').join('%0D%0A');
     window.location.href = `mailto:?subject=Your To-Do List&body=${lines}`;
 }
 
+
+
+// function transferToEmailList() {
+//     let initialList = document.getElementById('initial-list');
+//     let emailAlert = document.getElementById('emailAlert');
+//     emailAlert.innerText = initialList.value;
+// }
+
+
+// function transferToEmailList() {
+//     console.log("transferToEmailList function called"); // Logging for debugging
+//     let initialList = document.getElementById('initial-list');
+//     let emailAlert = document.getElementById('emailAlert');
+//     emailAlert.innerText = initialList.value;
+// }
+
 function transferToEmailList() {
+    console.log("transferToEmailList function called");
     let initialList = document.getElementById('initial-list');
-    let emailList = document.getElementById('email-list');
-    emailList.value = initialList.value;
+    console.log("Content from initial-list:", initialList.value); // Logging for debugging
+    let emailAlert = document.getElementById('emailAlert');
+    emailAlert.innerText = initialList.value;
 }
+
+
+
+
 
 function toggleTheme(event) {
     if (event.currentTarget.checked) {
@@ -143,11 +141,6 @@ function changeTheme(mode) {
         }
     }
 }
-
-
-
-
-
 
 
 function sortAndGroup() {
@@ -224,20 +217,6 @@ function sortAndGroup() {
 
 
 
-
-
-
-
-// // Append the notes to the sortedTasks div
-// if (notes) {
-//     let formattedNotes = notes.replace(/(\r\n|\n|\r)/gm, '<br>');  // Convert newline characters to <br>
-//     sortedList.innerHTML += `
-//             <h5 class="mt-3">NOTES:</h5>
-//             <p>${formattedNotes}</p>
-//         `;
-// }
-
-
 function updateCheckboxStatus(task, id) {
     let checkbox = document.getElementById(id);
     taskMap.set(task, checkbox.checked);
@@ -292,4 +271,3 @@ Go to Walmart #home Today (jam, milk, return pants)
     let textArea = document.getElementById('initial-list');
     textArea.value = sampleTasks.trim();
 }
-

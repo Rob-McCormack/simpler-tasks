@@ -143,6 +143,13 @@ function changeTheme(mode) {
 }
 
 
+function createHeader(title, additionalClass = '') {
+    return `<h5 class="mt-3 ${additionalClass}">${title}</h5>`;
+}
+
+
+
+
 function sortAndGroup() {
     let notesContent = extractNotes(document.getElementById('initial-list').value);
 
@@ -189,16 +196,25 @@ function sortAndGroup() {
     };
 
     let sortedList = document.getElementById('sortedTasks');
+
+    let buildHeader = (title, colorClass = '') => {
+        return `<h5 class="mt-3 ${colorClass}">${title}</h5>`;
+    };
+
     sortedList.innerHTML = `
-        <h5 class="mt-3">Today</h5>
+        ${buildHeader('Today', 'text-danger')}
         ${buildGroup([...taskMap.keys()].filter(task => task.toLowerCase().includes('today') && !task.startsWith('TODAY')), 'today')}
-        <h5 class="mt-3">High Priority</h5>
+        
+        ${buildHeader('High Priority', 'text-info')}
         ${buildGroup([...taskMap.keys()].filter(task => task.startsWith('!') && !task.toLowerCase().includes('today')), 'high')}
-        <h5 class="mt-3">Normal</h5>
+        
+        ${buildHeader('Normal')}
         ${buildGroup([...taskMap.keys()].filter(task => !task.startsWith('!') && !task.startsWith('-') && !task.startsWith('x') && !task.toLowerCase().includes('today')), 'normal')}
-        <h5 class="mt-3">Low Priority</h5>
+        
+        ${buildHeader('Low Priority')}
         ${buildGroup([...taskMap.keys()].filter(task => task.startsWith('-') && !task.toLowerCase().includes('today')), 'low')}
-        <h5 class="mt-3">Done</h5>
+        
+        ${buildHeader('Done')}
         ${buildGroup([...taskMap.keys()].filter(task => task.startsWith('x')), 'done')}
     `;
 

@@ -50,6 +50,17 @@ document.getElementById('initial-list').addEventListener('input', function() {
 
 
 
+// A function to extract NOTES from the task list
+function extractNotes(content) {
+    const notesRegex = /^NOTES:\n([\s\S]*)$/m;  // This regex matches "NOTES:" at the start of a line and captures everything after it
+    const match = content.match(notesRegex);
+    if (match) {
+        return match[1].trim();  // Return the captured group (the actual notes)
+    }
+    return null;
+}
+
+
 function copyTextToClipboard(elementId) {
     let textArea = document.getElementById(elementId);
     textArea.select();
@@ -171,6 +182,18 @@ function sortAndGroup() {
         <h5 class="mt-3">Done</h5>
         ${buildGroup([...taskMap.keys()].filter(task => task.startsWith('x')), 'done')}
     `;
+
+        // Extract notes from the initial list and store in a variable
+    let notes = extractNotes(document.getElementById('initial-list').value);
+    
+
+    // Append the notes to the sortedTasks div
+    if (notes) {
+        sortedList.innerHTML += `
+            <h5 class="mt-3">NOTES:</h5>
+            <p>${notes}</p>
+        `;
+    }
 }
 
 function updateCheckboxStatus(task, id) {

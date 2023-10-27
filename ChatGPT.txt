@@ -1,35 +1,572 @@
-Here are the 3 files 
+NOTES: feature 
+I want to add a feature for NOTES:
+Tasks could optionally include multi-line  Notes at the very bottom, as shown:
+NOTES:
+This is an important note,
+will help explain.
+things
 
+The first thing we want to do is check if the Task list contains NOTES:
+at the end.
+If it does,  we need to extract all the lines for NOTES:
+and not process them as Task items.
+
+For the Fancy tab, NOTES: will occur at the very bottom,
+and be formatted with a heading just like `High Priority` etc.
+
+Here are the three working files for reference:
 
 ---
 
 simplertasks.html
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SimplerTasks</title>
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://rob-mccormack.github.io/simpler-tasks/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="https://rob-mccormack.github.io/simpler-tasks/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="https://rob-mccormack.github.io/simpler-tasks/favicon-16x16.png" />
+    <link rel="manifest" href="https://rob-mccormack.github.io/simpler-tasks/site.webmanifest" />
+    <link rel="shortcut icon" href="https://rob-mccormack.github.io/simpler-tasks/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="msapplication-config" content="https://rob-mccormack.github.io/simpler-tasks/browserconfig.xml" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/simplertasks.css" />
+</head>
+
+<body class="bg-body-primary">
+    <div class="container">
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="stlogo.png" alt="Logo" width="48" height="48"
+                        class="d-inline-block align-text-top me-2" />
+                    SimplerTasks
+                </a>
+
+                <!-- Dropdown menu, right-justified -->
+                <div class="dropdown ms-auto">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Menu
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li>
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                data-bs-target="#helpModal">Help</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                data-bs-target="#settingsModal">Settings</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="plain-tab" data-bs-toggle="tab" href="#plain" role="tab"
+                    aria-controls="plain" aria-selected="true">Plain</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="fancy-tab" data-bs-toggle="tab" href="#fancy" role="tab" aria-controls="fancy"
+                    aria-selected="false">Fancy</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="email-tab" data-bs-toggle="tab" href="#email" role="tab" aria-controls="email"
+                    aria-selected="false">Email</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="plain" role="tabpanel" aria-labelledby="plain-tab">
+                <textarea id="initial-list" class="form-control mt-3" rows="10"></textarea>
+                <button id="copy-button" class="btn btn-secondary mt-2">Copy</button>
+            </div>
+
+            <div class="tab-pane fade" id="fancy" role="tabpanel" aria-labelledby="fancy-tab">
+                <div id="specialTodayTask" class="alert alert-danger" role="alert">
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                    <input type="checkbox" class="me-2" />
+                    <span id="specialTodayText"></span>
+                </div>
+                <div id="sortedTasks"></div>
+            </div>
+
+            <div class="tab-pane fade" id="email" role="tabpanel" aria-labelledby="email-tab">
+                <textarea id="email-list" class="form-control my-3" rows="10"></textarea>
+                <button id="email-button" class="btn btn-info">Send Email</button>
+            </div>
+
+            <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="exampleFormControlInput1"
+                        placeholder="name@example.com" />
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+
+                <div class="theme-switcher">
+                    <label class="form-check-label" for="themeToggle">Enable Dark Mode!</label>
+                    <input type="checkbox" id="themeToggle" class="form-check-input" />
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="help" role="tabpanel" aria-labelledby="help-tab">
+                <h3>Here's a simple guide to use SimplerTasks:</h3>
+
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Indicator</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>!</strong></td>
+                            <td>High Priority</td>
+                        </tr>
+                        <tr>
+                            <td><strong>-</strong></td>
+                            <td>Low Priority</td>
+                        </tr>
+                        <tr>
+                            <td>(no character)</td>
+                            <td>Normal Priority</td>
+                        </tr>
+                        <tr>
+                            <td><strong>x</strong></td>
+                            <td>Completed Tasks</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TODAY</strong></td>
+                            <td>Must-Do Task for Today</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TITLE:</strong></td>
+                            <td>A title for the SmaterTask list, will be displayed in Fancy tab.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>#</strong></td>
+                            <td>
+                                Use to categorize or give context to a task. E.g., #home,
+                                #work
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>@</strong></td>
+                            <td>Use to refer or assign to a person. E.g., @Rob, @Alice</td>
+                        </tr>
+                        <tr>
+                            <td><strong>http://</strong> or <strong>https://</strong></td>
+                            <td>Links will be clickable in the Fancy view</td>
+                        </tr>
+                        <tr>
+                            <td><strong>today</strong></td>
+                            <td>Includes the task as a Today task</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <small><a href="https://www.flaticon.com/free-icons/task" title="task icons">Task icons created by Anggara -
+                Flaticon</a></small>
+
+
+    </div>
+
+    <!-- Help modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="helpModalLabel">Help</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Here's a simple guide to use SimplerTasks:</p>
+                    <p>
+                        Note:
+                        <span style="color: red; font-size: 0.8em">*</span> indicates it
+                        must be the first character in a task item
+                    </p>
+
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Indicator</th>
+                                <th scope="col">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows with the red star -->
+                            <tr>
+                                <td>
+                                    <strong>!<span style="color: red; font-size: 0.8em">*</span></strong>
+                                </td>
+                                <td>High Priority</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>-<span style="color: red; font-size: 0.8em">*</span></strong>
+                                </td>
+                                <td>Low Priority</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    (no character)<span style="color: red; font-size: 0.8em">*</span>
+                                </td>
+                                <td>Normal Priority</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>x<span style="color: red; font-size: 0.8em">*</span></strong>
+                                </td>
+                                <td>Completed Tasks</td>
+                            </tr>
+                            <!-- Rest of the rows without the red star -->
+                            <tr>
+                                <td>
+                                    <strong>TODAY<span style="color: red; font-size: 0.8em">*</span></strong>
+                                </td>
+                                <td>Must-Do Task for Today</td>
+                            </tr>
+                            <tr>
+
+                            <tr>
+                                <td>
+                                    <strong>TITLE:<span style="color: red; font-size: 0.8em">*</span></strong>
+                                </td>
+                                <td>The title of the SmarterTask list, will be displayed as a heading in Fancy tab.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>#</strong></td>
+                                <td>
+                                    Use to categorize or give context to a task. E.g., #home,
+                                    #work
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>@</strong></td>
+                                <td>
+                                    Use to refer or assign to a person. E.g., @Rob, @Alice
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>http://</strong> or <strong>https://</strong></td>
+                                <td>Links will be clickable in the Fancy view</td>
+                            </tr>
+                            <tr>
+                                <td><strong>today</strong></td>
+                                <td>Includes the task as a Today task</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings modal -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1"
+                            placeholder="name@example.com" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/simplertasks.js"></script>
+</body>
+
+</html>
 
 ---
 simplertasks.js
+let taskMap = new Map();
+let isFormatted = false;
+
+// Event Listeners
+document.getElementById('copy-button').addEventListener('click', function() {
+    copyTextToClipboard('initial-list');
+    alert('Text copied to clipboard!');
+});
+
+document.getElementById('fancy-tab').addEventListener('click', sortAndGroup);
+document.getElementById('plain-tab').addEventListener('click', showPlainText);
+document.getElementById('email-tab').addEventListener('click', transferToEmailList);
+document.getElementById('themeToggle').addEventListener('change', toggleTheme);
+
+document.addEventListener("DOMContentLoaded", function() {
+    initializeSampleTasks();
+});
+
+document.getElementById('initial-list').addEventListener('input', function() {
+    // Get the content of the textarea
+    let content = this.value;
+
+    // Check if the first line starts with "TITLE:"
+    if (content.startsWith("TITLE:")) {
+        // Extract the title
+        let title = content.split('\n')[0].replace("TITLE:", "").trim();
+        
+        // Display it in the Fancy tab
+        let fancyTab = document.getElementById('fancy');
+        let titleElement = fancyTab.querySelector('h3.title'); // Try to select an existing title element
+
+        // If the title element doesn't exist, create it
+        if (!titleElement) {
+            titleElement = document.createElement('h3');
+            titleElement.classList.add('title'); // Add a class for potential styling
+            fancyTab.prepend(titleElement); // Add it to the start of the Fancy tab
+        }
+
+        // Update the content of the title element
+        titleElement.textContent = title;
+    } else {
+        // If the TITLE: pattern is not found, remove any existing title element
+        let fancyTab = document.getElementById('fancy');
+        let titleElement = fancyTab.querySelector('h3.title');
+        if (titleElement) {
+            titleElement.remove();
+        }
+    }
+});
+
+
+
+function copyTextToClipboard(elementId) {
+    let textArea = document.getElementById(elementId);
+    textArea.select();
+    document.execCommand('copy');
+}
+
+function emailList() {
+    let textArea = document.getElementById('email-list');
+    let lines = textArea.value.trim().split('\n').join('%0D%0A');
+    window.location.href = `mailto:?subject=Your To-Do List&body=${lines}`;
+}
+
+function transferToEmailList() {
+    let initialList = document.getElementById('initial-list');
+    let emailList = document.getElementById('email-list');
+    emailList.value = initialList.value;
+}
+
+function toggleTheme(event) {
+    if (event.currentTarget.checked) {
+        changeTheme('dark');
+    } else {
+        changeTheme('light');
+    }
+}
+
+function changeTheme(mode) {
+    const body = document.body;
+    if (mode === 'light') {
+        body.classList.remove('bg-dark', 'text-white');
+        body.classList.add('bg-light', 'text-dark');
+    } else if (mode === 'dark') {
+        body.classList.remove('bg-light', 'text-dark');
+        body.classList.add('bg-dark', 'text-white');
+    } else {
+        const hour = new Date().getHours();
+        if (hour < 6 || hour > 18) {
+            body.classList.remove('bg-light', 'text-dark');
+            body.classList.add('bg-dark', 'text-white');
+        } else {
+            body.classList.remove('bg-dark', 'text-white');
+            body.classList.add('bg-light', 'text-dark');
+        }
+    }
+}
+
+function initializeSampleTasks() {
+    let sampleTasks = `
+TITLE: The Big list for BOB    
+Buy groceries for the week. http://cnn.com
+Finish editing a short film. #home
+!Call mom for her birthday.
+Fix that annoying bug in the Python script.
+-Go for a 30-minute jog.
+Water the plants.
+-Prepare slides for tomorrow's meeting.
+Cook dinner for friends coming over tonight.
+[3] Meditate for 10 minutes #daily
+Go to Walmart #home Today (jam, milk, return pants)
+    `;
+    let textArea = document.getElementById('initial-list');
+    textArea.value = sampleTasks.trim();
+}
+
+// Your other functions for sortAndGroup, showPlainText, updateCheckboxStatus, etc. 
+// I've kept them mostly the same as the initial code you provided.
+function sortAndGroup() {
+    let specialTodayTask = [...taskMap.keys()].find(task => /^TODAY\s*:?\s+/i.test(task));
+    console.log("Detected TODAY task:", specialTodayTask);
+
+    let todayElement = document.getElementById('specialTodayTask');
+    let todayTextElement = todayElement.querySelector('#specialTodayText');
+
+    if (specialTodayTask) {
+        todayTextElement.textContent = specialTodayTask;
+        todayElement.style.display = 'block';
+    } else {
+        todayElement.style.display = 'none';
+    }
+
+    if (!isFormatted) {
+        let textArea = document.getElementById('initial-list');
+        let lines = textArea.value.trim().split('\n');
+        taskMap.clear();
+
+        lines.forEach((line) => {
+            let checkboxStatus = taskMap.has(line) ? taskMap.get(line) : false;
+            taskMap.set(line, checkboxStatus);
+        });
+    }
+
+    isFormatted = true;
+
+    let buildGroup = (tasks, status) => {
+        return tasks.map((task, index) => {
+            let checkedAttribute = taskMap.get(task) ? 'checked' : '';
+            let noteMatch = task.match(/\(([^)]+)\)/);
+            let note = noteMatch ? `<div class="note">${noteMatch[1]}</div>` : '';
+            let taskWithoutNote = noteMatch ? task.replace(noteMatch[0], '') : task;
+
+            let urlMatch = taskWithoutNote.match(/https?:\/\/[^\s]+/);
+            let taskContent = urlMatch ? taskWithoutNote.replace(urlMatch[0], `<a href="${urlMatch[0]}" target="_blank">${urlMatch[0]}</a>`) : taskWithoutNote;
+
+            return `<input type="checkbox" id="${status}-${index}" ${checkedAttribute} 
+                    onchange="updateCheckboxStatus('${task}', '${status}-${index}')"> ${taskContent}<br>${note}`;
+        }).join('');
+    };
+
+    let sortedList = document.getElementById('sortedTasks');
+    sortedList.innerHTML = `
+        <h5 class="mt-3">Today</h5>
+        ${buildGroup([...taskMap.keys()].filter(task => task.toLowerCase().includes('today') && !task.startsWith('TODAY')), 'today')}
+        <h5 class="mt-3">High Priority</h5>
+        ${buildGroup([...taskMap.keys()].filter(task => task.startsWith('!') && !task.toLowerCase().includes('today')), 'high')}
+        <h5 class="mt-3">Normal</h5>
+        ${buildGroup([...taskMap.keys()].filter(task => !task.startsWith('!') && !task.startsWith('-') && !task.startsWith('x') && !task.toLowerCase().includes('today')), 'normal')}
+        <h5 class="mt-3">Low Priority</h5>
+        ${buildGroup([...taskMap.keys()].filter(task => task.startsWith('-') && !task.toLowerCase().includes('today')), 'low')}
+        <h5 class="mt-3">Done</h5>
+        ${buildGroup([...taskMap.keys()].filter(task => task.startsWith('x')), 'done')}
+    `;
+}
+
+function updateCheckboxStatus(task, id) {
+    let checkbox = document.getElementById(id);
+    taskMap.set(task, checkbox.checked);
+}
+
+function showPlainText() {
+    let textArea = document.getElementById('initial-list');
+    let plainTasks = [...taskMap.keys()].map(task => {
+        if (taskMap.get(task)) {
+            return `x ${task}`;
+        }
+        return task;
+    });
+    textArea.value = plainTasks.join('\n');
+    isFormatted = false;
+}
 
 
 ---
 simplertasks.css
+/* Default font size for larger screens */
+body {
+    font-size: 16px;
+}
 
------
+/* Increase font size for screens smaller than 768px wide */
+@media (max-width: 767px) {
+    body {
+        font-size: 18px;
+    }
+}
+
+textarea {
+    font-family: 'Roboto Mono', monospace;
+}
 
 
-OK, I want to add a feature:
-If the task item starts with TODAY, all caps, it is very Special
 
-TODAY Pick up Lenny
+.today-tasks {
+    color: red;
+}
 
-This will occur at the very top of the Fancy tab as a:
-`danger alert with an icon`
-It will have a check box beside it same as other items do in Fancy tab
 
-It will still be grouped under the Fancy tab as a Today.
+.note {
+    margin-left: 20px;
+    /* Adjust as needed */
+    display: block;
+}
 
-There can only be one special TODAY item, have the JS find the first occurance only,
-in case there are more.
 
+/* Light theme styles */
+.bg-light .form-control {
+    background-color: #FFF;
+    /* White background */
+    color: #333;
+    /* Dark text */
+}
+
+/* Dark theme styles */
+.bg-dark .form-control {
+    background-color: #333;
+    /* Dark background */
+    color: #FFF;
+    /* White text */
+}
+
+
+[data-theme="light"] {
+    background-color: #fff;
+    color: #333;
+    /* Add other light theme styles here */
+}
+
+[data-theme="dark"] {
+    background-color: #333;
+    color: #fff;
+    /* Add other dark theme styles here */
+}
 
 
 

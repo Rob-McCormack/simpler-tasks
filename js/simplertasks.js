@@ -128,6 +128,9 @@ Go to Walmart #home Today (jam, milk, return pants)
 // Your other functions for sortAndGroup, showPlainText, updateCheckboxStatus, etc. 
 // I've kept them mostly the same as the initial code you provided.
 function sortAndGroup() {
+
+    let notesContent = extractNotes(document.getElementById('initial-list').value);
+
     let specialTodayTask = [...taskMap.keys()].find(task => /^TODAY\s*:?\s+/i.test(task));
     console.log("Detected TODAY task:", specialTodayTask);
 
@@ -143,14 +146,18 @@ function sortAndGroup() {
 
     if (!isFormatted) {
         let textArea = document.getElementById('initial-list');
-        let lines = textArea.value.trim().split('\n');
+        
+        // This single line replaces the old one and filters out lines starting with "NOTES:"
+        let lines = textArea.value.trim().split('\n').filter(line => !line.startsWith("NOTES:"));
+    
         taskMap.clear();
-
+    
         lines.forEach((line) => {
             let checkboxStatus = taskMap.has(line) ? taskMap.get(line) : false;
             taskMap.set(line, checkboxStatus);
         });
     }
+    
 
     isFormatted = true;
 
@@ -196,19 +203,76 @@ function sortAndGroup() {
     }
 }
 
+    // Append the notes to the sortedTasks div
+    if (notes) {
+        let formattedNotes = notes.replace(/(\r\n|\n|\r)/gm, '<br>');  // Convert newline characters to <br>
+        sortedList.innerHTML += `
+            <h5 class="mt-3">NOTES:</h5>
+            <p>${formattedNotes}</p>
+        `;
+    }
+
+
 function updateCheckboxStatus(task, id) {
     let checkbox = document.getElementById(id);
     taskMap.set(task, checkbox.checked);
 }
 
+// function showPlainText() {
+//     let textArea = document.getElementById('initial-list');
+//     let plainTasks = [...taskMap.keys()].map(task => {
+//         if (taskMap.get(task)) {
+//             return `x ${task}`;
+//         }
+//         return task;
+//     });
+//     textArea.value = plainTasks.join('\n');
+//     isFormatted = false;
+// }
+
+
+// function showPlainText() {
+//     let textArea = document.getElementById('initial-list');
+//     let plainTasks = [...taskMap.keys()].map(task => {
+//         // Check if the task is a note and prepend "NOTES:"
+//         if (task.startsWith("This is") || task.startsWith("will help") || task.startsWith("things")) {
+//             return `NOTES:\n${task}`;
+//         } else if (taskMap.get(task)) {
+//             return `x ${task}`;
+//         }
+//         return task;
+//     });
+//     textArea.value = plainTasks.join('\n');
+//     isFormatted = false;
+// }
+
 function showPlainText() {
     let textArea = document.getElementById('initial-list');
-    let plainTasks = [...taskMap.keys()].map(task => {
+    let plainTasks = [...taskMap.keys()].filter(task => !task.startsWith("This is") && !task.startsWith("will help") && !task.startsWith("things")).map(task => {
         if (taskMap.get(task)) {
             return `x ${task}`;
         }
         return task;
     });
+
+    // Extract notes from the initial list and store in a variable
+    let notes = extractNotes(document.getElementById('initial-list').value);
+    console.log("Extracted Notes:", notes);
+
+
+    // Append the notes to the sortedTasks div
+    if (notes) {
+        let formattedNotes = notes.replace(/(\r\n|\n|\r)/g, '<br>');
+        console.log(formattedNotes);  // <-- Temporary debugging line
+        sortedList.innerHTML += `
+            <h5 class="mt-3">NOTES:</h5>
+            <p>${formattedNotes}</p>
+        `;
+    }
+
+    
+
+
     textArea.value = plainTasks.join('\n');
     isFormatted = false;
 }

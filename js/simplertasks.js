@@ -16,6 +16,43 @@ document.addEventListener("DOMContentLoaded", function () {
     initializeSampleTasks();
 });
 
+
+
+// const textArea = document.getElementById('initial-list');
+
+// textArea.addEventListener('input', autoResizeTextArea);
+
+// function autoResizeTextArea() {
+//     this.style.height = 'auto'; // Reset height to auto first
+//     this.style.height = (this.scrollHeight) + 'px'; // Then set it to its scroll height
+// }
+
+// // Initial resize (if you want to resize it on page load)
+// autoResizeTextArea.call(textArea);
+
+
+//  ---- This is mostly working Rob
+
+// const textAreas = [
+//     document.getElementById('initial-list'),
+//     document.getElementById('email-list')
+// ];
+
+// textAreas.forEach(textArea => {
+//     textArea.addEventListener('input', autoResizeTextArea);
+//     autoResizeTextArea.call(textArea); // For initial resize on page load
+// });
+
+// // Initial resize (if you want to resize it on page load)
+// autoResizeTextArea.call(textArea);
+
+// function autoResizeTextArea() {
+//     this.style.height = 'auto';
+//     this.style.height = (this.scrollHeight) + 'px';
+// }
+
+//  ====
+
 document.getElementById('initial-list').addEventListener('input', function () {
     // Get the content of the textarea
     let content = this.value;

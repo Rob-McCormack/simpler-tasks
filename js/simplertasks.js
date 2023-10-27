@@ -2,7 +2,7 @@ let taskMap = new Map();
 let isFormatted = false;
 
 // Event Listeners
-document.getElementById('copy-button').addEventListener('click', function() {
+document.getElementById('copy-button').addEventListener('click', function () {
     copyTextToClipboard('initial-list');
     alert('Text copied to clipboard!');
 });
@@ -12,11 +12,11 @@ document.getElementById('plain-tab').addEventListener('click', showPlainText);
 document.getElementById('email-tab').addEventListener('click', transferToEmailList);
 document.getElementById('themeToggle').addEventListener('change', toggleTheme);
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     initializeSampleTasks();
 });
 
-document.getElementById('initial-list').addEventListener('input', function() {
+document.getElementById('initial-list').addEventListener('input', function () {
     // Get the content of the textarea
     let content = this.value;
 
@@ -24,7 +24,7 @@ document.getElementById('initial-list').addEventListener('input', function() {
     if (content.startsWith("TITLE:")) {
         // Extract the title
         let title = content.split('\n')[0].replace("TITLE:", "").trim();
-        
+
         // Display it in the Fancy tab
         let fancyTab = document.getElementById('fancy');
         let titleElement = fancyTab.querySelector('h3.title'); // Try to select an existing title element
@@ -125,10 +125,12 @@ Go to Walmart #home Today (jam, milk, return pants)
     textArea.value = sampleTasks.trim();
 }
 
-// Your other functions for sortAndGroup, showPlainText, updateCheckboxStatus, etc. 
-// I've kept them mostly the same as the initial code you provided.
-function sortAndGroup() {
 
+
+
+
+
+function sortAndGroup() {
     let notesContent = extractNotes(document.getElementById('initial-list').value);
 
     let specialTodayTask = [...taskMap.keys()].find(task => /^TODAY\s*:?\s+/i.test(task));
@@ -146,18 +148,15 @@ function sortAndGroup() {
 
     if (!isFormatted) {
         let textArea = document.getElementById('initial-list');
-        
-        // This single line replaces the old one and filters out lines starting with "NOTES:"
         let lines = textArea.value.trim().split('\n').filter(line => !line.startsWith("NOTES:"));
-    
+
         taskMap.clear();
-    
+
         lines.forEach((line) => {
             let checkboxStatus = taskMap.has(line) ? taskMap.get(line) : false;
             taskMap.set(line, checkboxStatus);
         });
     }
-    
 
     isFormatted = true;
 
@@ -190,18 +189,8 @@ function sortAndGroup() {
         ${buildGroup([...taskMap.keys()].filter(task => task.startsWith('x')), 'done')}
     `;
 
-        // Extract notes from the initial list and store in a variable
+    // Extract notes from the initial list and store in a variable
     let notes = extractNotes(document.getElementById('initial-list').value);
-    
-
-    // Append the notes to the sortedTasks div
-    if (notes) {
-        sortedList.innerHTML += `
-            <h5 class="mt-3">NOTES:</h5>
-            <p>${notes}</p>
-        `;
-    }
-}
 
     // Append the notes to the sortedTasks div
     if (notes) {
@@ -211,6 +200,22 @@ function sortAndGroup() {
             <p>${formattedNotes}</p>
         `;
     }
+}
+
+
+
+
+
+
+
+// Append the notes to the sortedTasks div
+if (notes) {
+    let formattedNotes = notes.replace(/(\r\n|\n|\r)/gm, '<br>');  // Convert newline characters to <br>
+    sortedList.innerHTML += `
+            <h5 class="mt-3">NOTES:</h5>
+            <p>${formattedNotes}</p>
+        `;
+}
 
 
 function updateCheckboxStatus(task, id) {
@@ -218,33 +223,6 @@ function updateCheckboxStatus(task, id) {
     taskMap.set(task, checkbox.checked);
 }
 
-// function showPlainText() {
-//     let textArea = document.getElementById('initial-list');
-//     let plainTasks = [...taskMap.keys()].map(task => {
-//         if (taskMap.get(task)) {
-//             return `x ${task}`;
-//         }
-//         return task;
-//     });
-//     textArea.value = plainTasks.join('\n');
-//     isFormatted = false;
-// }
-
-
-// function showPlainText() {
-//     let textArea = document.getElementById('initial-list');
-//     let plainTasks = [...taskMap.keys()].map(task => {
-//         // Check if the task is a note and prepend "NOTES:"
-//         if (task.startsWith("This is") || task.startsWith("will help") || task.startsWith("things")) {
-//             return `NOTES:\n${task}`;
-//         } else if (taskMap.get(task)) {
-//             return `x ${task}`;
-//         }
-//         return task;
-//     });
-//     textArea.value = plainTasks.join('\n');
-//     isFormatted = false;
-// }
 
 function showPlainText() {
     let textArea = document.getElementById('initial-list');
@@ -270,7 +248,7 @@ function showPlainText() {
         `;
     }
 
-    
+
 
 
     textArea.value = plainTasks.join('\n');

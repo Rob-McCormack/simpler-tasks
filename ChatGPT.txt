@@ -1,3 +1,23 @@
+
+I will continue the conversation, but I wanted to let you know, I am building the "concept" of a simpler "ToDo.txt", a PWA , a website with domain simplertasks.com, as an experiment in using AI, every aspect of this adventure will very heavily rely on AI - from coding to content, from images, to Icons... It's a lot of fun for my and I am 70 years old.  The website and PWA will be an easy way to present the plain text in a nicer format,
+As far as what people might use to author their SimplerTasks.txt text, Email done as a draft is a great option, Google Docs and SimpleNotes are prefect with their history functionality .  And, God forbid, people could use Microsoft Word :)
+Also sharing text based lists as SMS is something that could be good.
+
+I'm a 70-year-old programmer, retired Engineer/Professor....
+I've embarked on an adventure ( or an experiment you might say),
+to use AI extensively, to create a simple concept about
+"Getting things done" with plain text files, much simpler than "ToDo.txt"
+AI will assist my old mind greatly, from coding, to context to images.
+I will build a webapp, a website and a PWA with help
+AI is allowing me to accomplish things I couldn't do on my own.
+
+
+I will continue the conversation, but I wanted to let you know, I am 
+building the "concept" of a simpler "ToDo.txt", a PWA , a website with domain simplertasks.com, as an experiment in using AI, every aspect of this adventure will very heavily rely on AI - from coding to content, from images, to Icons... It's a lot of fun for my and I am 70 years old.  The website and PWA will be an easy way to present the plain text in a nicer format,
+As far as what people might use to author their SimplerTasks.txt text, Email done as a draft is a great option, Google Docs and SimpleNotes are prefect with their history functionality .  And, God forbid, people could use Microsoft Word :)
+Also sharing text based lists as SMS is something that could be good.
+
+
 NOTES: feature 
 I want to add a feature for NOTES:
 Tasks could optionally include multi-line  Notes at the very bottom, as shown:

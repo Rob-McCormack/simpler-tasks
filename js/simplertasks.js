@@ -57,6 +57,45 @@ document.getElementById('initial-list').addEventListener('input', function () {
 
 
 
+function extractUsernames(task) {
+    const regex = /@(\w+)/g;
+    let match;
+    const usernames = [];
+
+    while ((match = regex.exec(task)) !== null) {
+        usernames.push(match[1]);
+    }
+
+    return usernames;
+}
+
+const colorClasses = [
+    "bg-danger", "bg-success", "bg-info",
+    "bg-warning", "bg-primary", "bg-secondary", "bg-dark"
+];
+const userColorMap = new Map();
+
+function getBadgeColorForUser(username) {
+    if (!userColorMap.has(username)) {
+        const nextColor = colorClasses[userColorMap.size % colorClasses.length];
+        userColorMap.set(username, nextColor);
+    }
+
+    return userColorMap.get(username);
+}
+
+function formatUsernamesInTask(task) {
+    const usernames = extractUsernames(task);
+
+    usernames.forEach(username => {
+        const colorClass = getBadgeColorForUser(username);
+        task = task.replace(`@${username}`, `<span class="badge rounded-pill ${colorClass}">@${username}</span>`);
+    });
+
+    return task;
+}
+
+
 // A function to extract NOTES from the task list
 function extractNotes(content) {
     const notesRegex = /^NOTES:\n([\s\S]*)$/m;  // This regex matches "NOTES:" at the start of a line and captures everything after it
@@ -189,6 +228,10 @@ function sortAndGroup() {
 
             let urlMatch = taskWithoutNote.match(/https?:\/\/[^\s]+/);
             let taskContent = urlMatch ? taskWithoutNote.replace(urlMatch[0], `<a href="${urlMatch[0]}" target="_blank">${urlMatch[0]}</a>`) : taskWithoutNote;
+
+
+            // Update this line
+            taskContent = formatUsernamesInTask(taskContent);
 
             return `<input type="checkbox" id="${status}-${index}" ${checkedAttribute} 
                     onchange="updateCheckboxStatus('${task}', '${status}-${index}')"> ${taskContent}<br>${note}`;

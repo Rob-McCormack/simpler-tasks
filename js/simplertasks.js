@@ -144,23 +144,6 @@ function changeTheme(mode) {
     }
 }
 
-function initializeSampleTasks() {
-    let sampleTasks = `
-TITLE: The Big list for BOB    
-Buy groceries for the week. http://cnn.com
-Finish editing a short film. #home
-!Call mom for her birthday.
-Fix that annoying bug in the Python script.
--Go for a 30-minute jog.
-Water the plants.
--Prepare slides for tomorrow's meeting.
-Cook dinner for friends coming over tonight.
-[3] Meditate for 10 minutes #daily
-Go to Walmart #home Today (jam, milk, return pants)
-    `;
-    let textArea = document.getElementById('initial-list');
-    textArea.value = sampleTasks.trim();
-}
 
 
 
@@ -245,14 +228,14 @@ function sortAndGroup() {
 
 
 
-// Append the notes to the sortedTasks div
-if (notes) {
-    let formattedNotes = notes.replace(/(\r\n|\n|\r)/gm, '<br>');  // Convert newline characters to <br>
-    sortedList.innerHTML += `
-            <h5 class="mt-3">NOTES:</h5>
-            <p>${formattedNotes}</p>
-        `;
-}
+// // Append the notes to the sortedTasks div
+// if (notes) {
+//     let formattedNotes = notes.replace(/(\r\n|\n|\r)/gm, '<br>');  // Convert newline characters to <br>
+//     sortedList.innerHTML += `
+//             <h5 class="mt-3">NOTES:</h5>
+//             <p>${formattedNotes}</p>
+//         `;
+// }
 
 
 function updateCheckboxStatus(task, id) {
@@ -291,3 +274,22 @@ function showPlainText() {
     textArea.value = plainTasks.join('\n');
     isFormatted = false;
 }
+
+function initializeSampleTasks() {
+    let sampleTasks = `
+TITLE: The Big list for BOB    
+Buy groceries for the week. http://cnn.com
+Finish editing a short film. #home
+!Call mom for her birthday.
+Fix that annoying bug in the Python script.
+-Go for a 30-minute jog.
+Water the plants.
+-Prepare slides for tomorrow's meeting.
+Cook dinner for friends coming over tonight.
+[3] Meditate for 10 minutes #daily
+Go to Walmart #home Today (jam, milk, return pants)
+    `;
+    let textArea = document.getElementById('initial-list');
+    textArea.value = sampleTasks.trim();
+}
+

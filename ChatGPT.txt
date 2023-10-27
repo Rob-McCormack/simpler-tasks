@@ -1,44 +1,14 @@
+Question:
+I wonder if we should delete the email tab completely and any JavaScript
+related to it... then when we have everything else working... and implement
+the other features I want, the Email tab can be added back....
+Also, it may not be a textarea, since it is just sending the text to email client.
 
-I will continue the conversation, but I wanted to let you know, I am building the "concept" of a simpler "ToDo.txt", a PWA , a website with domain simplertasks.com, as an experiment in using AI, every aspect of this adventure will very heavily rely on AI - from coding to content, from images, to Icons... It's a lot of fun for my and I am 70 years old.  The website and PWA will be an easy way to present the plain text in a nicer format,
-As far as what people might use to author their SimplerTasks.txt text, Email done as a draft is a great option, Google Docs and SimpleNotes are prefect with their history functionality .  And, God forbid, people could use Microsoft Word :)
-Also sharing text based lists as SMS is something that could be good.
+Anyways, here is my code:
 
-I'm a 70-year-old programmer, retired Engineer/Professor....
-I've embarked on an adventure ( or an experiment you might say),
-to use AI extensively, to create a simple concept about
-"Getting things done" with plain text files, much simpler than "ToDo.txt"
-AI will assist my old mind greatly, from coding, to context to images.
-I will build a webapp, a website and a PWA with help
-AI is allowing me to accomplish things I couldn't do on my own.
-
-
-I will continue the conversation, but I wanted to let you know, I am 
-building the "concept" of a simpler "ToDo.txt", a PWA , a website with domain simplertasks.com, as an experiment in using AI, every aspect of this adventure will very heavily rely on AI - from coding to content, from images, to Icons... It's a lot of fun for my and I am 70 years old.  The website and PWA will be an easy way to present the plain text in a nicer format,
-As far as what people might use to author their SimplerTasks.txt text, Email done as a draft is a great option, Google Docs and SimpleNotes are prefect with their history functionality .  And, God forbid, people could use Microsoft Word :)
-Also sharing text based lists as SMS is something that could be good.
-
-
-NOTES: feature 
-I want to add a feature for NOTES:
-Tasks could optionally include multi-line  Notes at the very bottom, as shown:
-NOTES:
-This is an important note,
-will help explain.
-things
-
-The first thing we want to do is check if the Task list contains NOTES:
-at the end.
-If it does,  we need to extract all the lines for NOTES:
-and not process them as Task items.
-
-For the Fancy tab, NOTES: will occur at the very bottom,
-and be formatted with a heading just like `High Priority` etc.
-
-Here are the three working files for reference:
 
 ---
-
-simplertasks.html
+simpletasks.html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -333,12 +303,12 @@ simplertasks.html
 </html>
 
 ---
-simplertasks.js
+simpletasks.js
 let taskMap = new Map();
 let isFormatted = false;
 
 // Event Listeners
-document.getElementById('copy-button').addEventListener('click', function() {
+document.getElementById('copy-button').addEventListener('click', function () {
     copyTextToClipboard('initial-list');
     alert('Text copied to clipboard!');
 });
@@ -348,11 +318,48 @@ document.getElementById('plain-tab').addEventListener('click', showPlainText);
 document.getElementById('email-tab').addEventListener('click', transferToEmailList);
 document.getElementById('themeToggle').addEventListener('change', toggleTheme);
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     initializeSampleTasks();
 });
 
-document.getElementById('initial-list').addEventListener('input', function() {
+
+
+// const textArea = document.getElementById('initial-list');
+
+// textArea.addEventListener('input', autoResizeTextArea);
+
+// function autoResizeTextArea() {
+//     this.style.height = 'auto'; // Reset height to auto first
+//     this.style.height = (this.scrollHeight) + 'px'; // Then set it to its scroll height
+// }
+
+// // Initial resize (if you want to resize it on page load)
+// autoResizeTextArea.call(textArea);
+
+
+//  ---- This is mostly working Rob
+
+// const textAreas = [
+//     document.getElementById('initial-list'),
+//     document.getElementById('email-list')
+// ];
+
+// textAreas.forEach(textArea => {
+//     textArea.addEventListener('input', autoResizeTextArea);
+//     autoResizeTextArea.call(textArea); // For initial resize on page load
+// });
+
+// // Initial resize (if you want to resize it on page load)
+// autoResizeTextArea.call(textArea);
+
+// function autoResizeTextArea() {
+//     this.style.height = 'auto';
+//     this.style.height = (this.scrollHeight) + 'px';
+// }
+
+//  ====
+
+document.getElementById('initial-list').addEventListener('input', function () {
     // Get the content of the textarea
     let content = this.value;
 
@@ -360,7 +367,7 @@ document.getElementById('initial-list').addEventListener('input', function() {
     if (content.startsWith("TITLE:")) {
         // Extract the title
         let title = content.split('\n')[0].replace("TITLE:", "").trim();
-        
+
         // Display it in the Fancy tab
         let fancyTab = document.getElementById('fancy');
         let titleElement = fancyTab.querySelector('h3.title'); // Try to select an existing title element
@@ -384,6 +391,17 @@ document.getElementById('initial-list').addEventListener('input', function() {
     }
 });
 
+
+
+// A function to extract NOTES from the task list
+function extractNotes(content) {
+    const notesRegex = /^NOTES:\n([\s\S]*)$/m;  // This regex matches "NOTES:" at the start of a line and captures everything after it
+    const match = content.match(notesRegex);
+    if (match) {
+        return match[1].trim();  // Return the captured group (the actual notes)
+    }
+    return null;
+}
 
 
 function copyTextToClipboard(elementId) {
@@ -432,27 +450,15 @@ function changeTheme(mode) {
     }
 }
 
-function initializeSampleTasks() {
-    let sampleTasks = `
-TITLE: The Big list for BOB    
-Buy groceries for the week. http://cnn.com
-Finish editing a short film. #home
-!Call mom for her birthday.
-Fix that annoying bug in the Python script.
--Go for a 30-minute jog.
-Water the plants.
--Prepare slides for tomorrow's meeting.
-Cook dinner for friends coming over tonight.
-[3] Meditate for 10 minutes #daily
-Go to Walmart #home Today (jam, milk, return pants)
-    `;
-    let textArea = document.getElementById('initial-list');
-    textArea.value = sampleTasks.trim();
-}
 
-// Your other functions for sortAndGroup, showPlainText, updateCheckboxStatus, etc. 
-// I've kept them mostly the same as the initial code you provided.
+
+
+
+
+
 function sortAndGroup() {
+    let notesContent = extractNotes(document.getElementById('initial-list').value);
+
     let specialTodayTask = [...taskMap.keys()].find(task => /^TODAY\s*:?\s+/i.test(task));
     console.log("Detected TODAY task:", specialTodayTask);
 
@@ -468,7 +474,8 @@ function sortAndGroup() {
 
     if (!isFormatted) {
         let textArea = document.getElementById('initial-list');
-        let lines = textArea.value.trim().split('\n');
+        let lines = textArea.value.trim().split('\n').filter(line => !line.startsWith("NOTES:"));
+
         taskMap.clear();
 
         lines.forEach((line) => {
@@ -507,28 +514,98 @@ function sortAndGroup() {
         <h5 class="mt-3">Done</h5>
         ${buildGroup([...taskMap.keys()].filter(task => task.startsWith('x')), 'done')}
     `;
+
+    // Extract notes from the initial list and store in a variable
+    let notes = extractNotes(document.getElementById('initial-list').value);
+
+    // Append the notes to the sortedTasks div
+    if (notes) {
+        let formattedNotes = notes.replace(/(\r\n|\n|\r)/gm, '<br>');  // Convert newline characters to <br>
+        sortedList.innerHTML += `
+            <h5 class="mt-3">NOTES:</h5>
+            <p>${formattedNotes}</p>
+        `;
+    }
 }
+
+
+
+
+
+
+
+// Append the notes to the sortedTasks div
+if (notes) {
+    let formattedNotes = notes.replace(/(\r\n|\n|\r)/gm, '<br>');  // Convert newline characters to <br>
+    sortedList.innerHTML += `
+            <h5 class="mt-3">NOTES:</h5>
+            <p>${formattedNotes}</p>
+        `;
+}
+
 
 function updateCheckboxStatus(task, id) {
     let checkbox = document.getElementById(id);
     taskMap.set(task, checkbox.checked);
 }
 
+
 function showPlainText() {
     let textArea = document.getElementById('initial-list');
-    let plainTasks = [...taskMap.keys()].map(task => {
+    let plainTasks = [...taskMap.keys()].filter(task => !task.startsWith("This is") && !task.startsWith("will help") && !task.startsWith("things")).map(task => {
         if (taskMap.get(task)) {
             return `x ${task}`;
         }
         return task;
     });
+
+    // Extract notes from the initial list and store in a variable
+    let notes = extractNotes(document.getElementById('initial-list').value);
+    console.log("Extracted Notes:", notes);
+
+
+    // Append the notes to the sortedTasks div
+    if (notes) {
+        let formattedNotes = notes.replace(/(\r\n|\n|\r)/g, '<br>');
+        console.log(formattedNotes);  // <-- Temporary debugging line
+        sortedList.innerHTML += `
+            <h5 class="mt-3">NOTES:</h5>
+            <p>${formattedNotes}</p>
+        `;
+    }
+
+
+
+
     textArea.value = plainTasks.join('\n');
     isFormatted = false;
 }
 
+function initializeSampleTasks() {
+    let sampleTasks = `
+TITLE: The Big list for BOB    
+Buy groceries for the week. http://cnn.com
+Finish editing a short film. #home
+!Call mom for her birthday.
+Fix that annoying bug in the Python script.
+-Go for a 30-minute jog.
+Water the plants.
+-Prepare slides for tomorrow's meeting.
+Cook dinner for friends coming over tonight.
+[3] Meditate for 10 minutes #daily
+Go to Walmart #home Today (jam, milk, return pants)
+    `;
+    let textArea = document.getElementById('initial-list');
+    textArea.value = sampleTasks.trim();
+}
+
+
+
 
 ---
-simplertasks.css
+
+simpletasks.css
+
 /* Default font size for larger screens */
 body {
     font-size: 16px;
@@ -587,131 +664,3 @@ textarea {
     color: #fff;
     /* Add other dark theme styles here */
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-I want to remove the Help tab, and place its contents in a bootstrap <div class="modal-dialog modal-lg">...</div>
-and add a button to activate
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SimplerTasks</title>
-    <link rel="apple-touch-icon" sizes="180x180"
-        href="https://rob-mccormack.github.io/simpler-tasks/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32"
-        href="https://rob-mccormack.github.io/simpler-tasks/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16"
-        href="https://rob-mccormack.github.io/simpler-tasks/favicon-16x16.png">
-    <link rel="manifest" href="https://rob-mccormack.github.io/simpler-tasks/site.webmanifest">
-    <link rel="shortcut icon" href="https://rob-mccormack.github.io/simpler-tasks/favicon.ico">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-config" content="https://rob-mccormack.github.io/simpler-tasks/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="css/simplertasks.css">
-</head>
-
-<body class="bg-body-primary">
-    <nav class="navbar bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="stlogo.png" alt="Logo" width="48" height="48" class="d-inline-block align-text-top me-2">
-                SimplerTasks
-            </a>
-        </div>
-    </nav>
-
-    <div class="container">
-        <ul class="nav nav-tabs" id="myTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="plain-tab" data-bs-toggle="tab" href="#plain" role="tab"
-                    aria-controls="plain" aria-selected="true">Plain</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="fancy-tab" data-bs-toggle="tab" href="#fancy" role="tab" aria-controls="fancy"
-                    aria-selected="false">Fancy</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="email-tab" data-bs-toggle="tab" href="#email" role="tab" aria-controls="email"
-                    aria-selected="false">Email</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" id="settings-tab" data-bs-toggle="tab" href="#settings">Settings</a>
-            </li>
-
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="help-tab" data-bs-toggle="tab" href="#help" role="tab" aria-controls="help"
-                    aria-selected="false">Help</a>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="plain" role="tabpanel" aria-labelledby="plain-tab">
-                <textarea id="initial-list" class="form-control mt-3" rows="10"></textarea>
-                <button id="copy-button" class="btn btn-secondary mt-2">Copy</button>
-            </div>
-            <div class="tab-pane fade" id="fancy" role="tabpanel" aria-labelledby="fancy-tab">
-                <!-- Content for the Fancy tab will be populated by JavaScript -->
-            </div>
-            <div class="tab-pane fade" id="email" role="tabpanel" aria-labelledby="email-tab">
-                <textarea id="email-list" class="form-control my-3" rows="10"></textarea>
-                <button id="email-button" class="btn btn-info">Send Email</button>
-            </div>
-
-            <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput1"
-                        placeholder="name@example.com">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                </div>
-
-                <div class="theme-switcher">
-                    <label class="form-check-label" for="themeToggle">Enable Dark Mode!</label>
-                    <input type="checkbox" id="themeToggle" class="form-check-input">
-                </div>
-            </div>
-
-            <div class="tab-pane fade" id="help" role="tabpanel" aria-labelledby="help-tab">
-                <p>Here's a simple guide to use SimplerTasks:</p>
-                <ul>
-                    <li>Use "!" at the beginning for high priority tasks.</li>
-                    <li>Use "-" at the beginning for low priority tasks.</li>
-                    <li>Use "x" at the beginning for completed tasks.</li>
-                    <li>Use "#context" to categorize tasks, like #home or #work.</li>
-                    <li>Use "@name" to assign tasks, like @Rob or @Alice.</li>
-                    <li>
-                        Tasks can also include links, which will be clickable in the fancy
-                        view.
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <small><a href="https://www.flaticon.com/free-icons/task" title="task icons">Task icons created by Anggara -
-                Flaticon</a></small>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/simplertasks.js"></script>
-</body>
-
-</html>

@@ -1,0 +1,17 @@
+TITLE: The Big list for BOB    
+Buy groceries for the week. http://cnn.com
+Finish editing a short film. #home
+!Call mom for her birthday. @robmcc
+Fix that annoying bug in the Python script.
+-Go for a 30-minute jog.
+Water the plants.@debbie
+-Prepare slides for tomorrow's meeting.@james
+Cook dinner for friends coming over tonight.@debbie
+[3] Meditate for 10 minutes #daily 
+Go to Walmart #home Today (jam, milk, return pants)
+-take out garbage @doug
+NOTES:
+Notes line 1
+Notes line 2
+Notes line 3
+Notes END

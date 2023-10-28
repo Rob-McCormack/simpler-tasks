@@ -1,6 +1,9 @@
 let taskMap = new Map();
 let isFormatted = false;
 
+let timeout;  // Define a variable to hold the timeout
+const debounceTime = 300;  // Time in milliseconds to wait after the last edit
+
 // Event Listeners
 document.getElementById('copy-button').addEventListener('click', function () {
     copyTextToClipboard('initial-list');
@@ -53,7 +56,10 @@ document.getElementById('initial-list').addEventListener('input', function () {
             titleElement.remove();
         }
     }
-});
+
+
+
+}); // end
 
 
 // ...

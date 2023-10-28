@@ -27,6 +27,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 document.getElementById('initial-list').addEventListener('input', function () {
+    clearTimeout(timeout);  // Clear any existing timeouts
+
+    timeout = setTimeout(() => {
+        // Update the task count here
+        let content = this.value;
+        let tasks = content.split('\n').filter(task => task.trim() !== ''); // filter out empty lines
+        let taskCountElement = document.getElementById('taskCount');
+        if (taskCountElement) {
+            taskCountElement.textContent = tasks.length;
+        }
+    }, debounceTime);  // End of setTimeout
     // Get the content of the textarea
     let content = this.value;
 

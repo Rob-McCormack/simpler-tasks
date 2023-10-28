@@ -1,3 +1,45 @@
+We are keeping track of the done, low, high normat priority,
+and we are currently writing these out to the bottom of the page for testing...
+
+They are written out when Fancy tab is clicked- which is OK for testing
+
+Changes:
+I think the total count is counting the done items, which it shouldn't like:
+x Go to the store
+
+Can you make these changes...
+
+1. The task count in the nav should be:
+   `totalTasks - doneTasks`
+
+2. When the page loads, we need to update the count at the top,
+   currently it is `15` since that is hard coded in the HTML
+
+ 
+
+
+
+
+
+
+
+I'm a little confused
+
+Any changes to the Plain textarea should updates the taskCount as we planned:
+`SimplerTasks <sup class="text-center text-danger fw-bold" id="taskCount">15</sup> `
+using:
+`document.getElementById('initial-list').addEventListener('input', function ()...
+
+But we don't want to comment out this line, since this is how the Fancy content is sorted and grouped:
+`document.getElementById('fancy-tab').addEventListener('click', sortAndGroup);`
+
+We don't want to update the Fancy content with every change to Plain textarea, since it is never
+displayed until we click on Fancy Tab
+
+What do you think?
+
+
+
 1. I think I'm going to change the tab name "Email" to "Summary"
 which will summarize everyting in HTML without ability to edit anything,
 and I will Show Different Count Items in the Summary, maye as a progress bar.

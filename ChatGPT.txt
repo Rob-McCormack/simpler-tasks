@@ -1,3 +1,31 @@
+1. I think I'm going to change the tab name "Email" to "Summary"
+which will summarize everyting in HTML without ability to edit anything,
+and I will Show Different Count Items in the Summary, maye as a progress bar.
+I will move the Email features to the Menu, in a Modal window
+
+2. I'm validating the HTML, and notice two idential id tags...
+   <div class="tab-pane" id="email" role="tabpanel" aria-labelledby="email-tab">
+   <div class="tab-pane fade" id="email" role="tabpanel" aria-labelledby="email-tab">
+But... if I change one of them the Email tab doesn't populate any more
+Any suggestions how to handle this?
+
+3. Regarding 3. show me the code - and I think we "wait a fraction
+of a second after the user stops typing/editing to then update the counts."
+
+
+
+
+===
+whow location
+Add this for a few weconds while update
+        <div class="spinner-grow text-danger" role="status">
+        </div>ds
+
+
+Remove any blank lines in Plain textarea, they serve no purpost and can get counted as a Task.
+
+
+---
 I'm validating the HTML, and notice two idential id tags...
             <div class="tab-pane" id="email" role="tabpanel" aria-labelledby="email-tab">
 
@@ -14,7 +42,7 @@ I'm validating the HTML, and notice two idential id tags...
 
 But... if I change one of them the Email tab doesn't populate any more
 Any suggestions how to handle this?
-            
+
 
 
 Question:

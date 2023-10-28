@@ -56,6 +56,36 @@ document.getElementById('initial-list').addEventListener('input', function () {
 });
 
 
+// ...
+
+// Function to count and display the task categories at the bottom
+function displayTaskCounts() {
+    let totalTasks = [...taskMap.keys()].filter(task => !task.startsWith('x')).length;
+    let todayTasks = [...taskMap.keys()].filter(task => task.toLowerCase().includes('today') && !task.startsWith('TODAY')).length;
+    let highPriorityTasks = [...taskMap.keys()].filter(task => task.startsWith('!') && !task.toLowerCase().includes('today')).length;
+    let normalPriorityTasks = [...taskMap.keys()].filter(task => !task.startsWith('!') && !task.startsWith('-') && !task.startsWith('x') && !task.toLowerCase().includes('today')).length;
+    let lowPriorityTasks = [...taskMap.keys()].filter(task => task.startsWith('-') && !task.toLowerCase().includes('today')).length;
+    let doneTasks = [...taskMap.keys()].filter(task => task.startsWith('x')).length;
+    let navbarTaskCount = document.getElementById('taskCount');
+    navbarTaskCount.textContent = totalTasks;
+
+    let countsDiv = document.createElement('div');
+    countsDiv.innerHTML = `
+        <p>Total tasks: ${totalTasks}</p>
+        <p>Today tasks: ${todayTasks}</p>
+        <p>High priority: ${highPriorityTasks}</p>
+        <p>Normal priority: ${normalPriorityTasks}</p>
+        <p>Low priority: ${lowPriorityTasks}</p>
+        <p>Done tasks: ${doneTasks}</p>
+    `;
+
+    document.body.appendChild(countsDiv);
+}
+
+// ...
+
+
+
 
 function extractUsernames(task) {
     const regex = /@(\w+)/g;
@@ -270,6 +300,8 @@ function sortAndGroup() {
             <p>${formattedNotes}</p>
         `;
     }
+    // Add this line at the end of the sortAndGroup function
+    displayTaskCounts();
 }
 
 

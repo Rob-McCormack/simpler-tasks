@@ -83,17 +83,15 @@ function getBadgeColorForUser(username) {
 
     return userColorMap.get(username);
 }
-
 function formatUsernamesInTask(task) {
-    const usernames = extractUsernames(task);
-
+    let usernames = extractUsernames(task);
     usernames.forEach(username => {
-        const colorClass = getBadgeColorForUser(username);
-        task = task.replace(`@${username}`, `<span class="badge rounded-pill ${colorClass}">@${username}</span>`);
+        let badgeColor = getBadgeColorForUser(username);
+        task = task.replace(`@${username}`, `<span class="badge rounded-pill ${badgeColor} lighter-text">@${username}</span>`);
     });
-
     return task;
 }
+
 
 
 // A function to extract NOTES from the task list

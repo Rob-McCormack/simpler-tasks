@@ -28,6 +28,8 @@ document.getElementById("copy-button").addEventListener("click", function () {
 // });
 
 
+
+
 document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
     checkbox.addEventListener('change', function () {
         let task = checkbox.nextElementSibling.wholeText.trim(); // Try using nextElementSibling
@@ -429,6 +431,8 @@ function updateCheckboxStatus(task, id) {
     let checkbox = document.getElementById(id);
     let isChecked = checkbox.checked;
     taskMap.set(task, isChecked);
+    console.log("Checkbox changed for task:", task, "New status:", isChecked);
+    console.log("Updated textarea content:", document.getElementById("initial-list").value);
 
     // Update the textarea content based on the taskMap
     let updatedTasks = [...taskMap.keys()].map(t => {
@@ -436,12 +440,10 @@ function updateCheckboxStatus(task, id) {
             return `x ${t}`;
         }
         return t;
-        console.log("Checkbox changed for task:", task, "New status:", isChecked);
 
     });
 
     document.getElementById("initial-list").value = updatedTasks.join("\n");
-    console.log("Updated textarea content:", document.getElementById("initial-list").value);
 
 
     displayTaskCounts(); // Ensure count is updated

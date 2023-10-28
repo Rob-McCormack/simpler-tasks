@@ -10,7 +10,13 @@ document.getElementById("copy-button").addEventListener("click", function () {
     alert("Text copied to clipboard!");
 });
 
-document.getElementById("fancy-tab").addEventListener("click", sortAndGroup);
+document.getElementById("fancy-tab").addEventListener("click", function () {
+    reconcileTaskMapWithTextarea(); // Ensure taskMap is up-to-date
+    sortAndGroup(); // Render tasks in the Fancy tab
+    displayTaskCounts(); // Update the count
+});
+
+
 document.getElementById("plain-tab").addEventListener("click", showPlainText);
 document
     .getElementById("email-tab")
@@ -19,25 +25,46 @@ document.getElementById("themeToggle").addEventListener("change", toggleTheme);
 
 document.addEventListener("DOMContentLoaded", function () {
     initializeSampleTasks();
+    reconcileTaskMapWithTextarea();
+    sortAndGroup();
+    displayTaskCounts();
     transferToEmailList();
 });
+
+
+function reconcileTaskMapWithTextarea() {
+    const textArea = document.getElementById("initial-list");
+    const lines = textArea.value.trim().split("\n");
+    const newTaskMap = new Map();
+
+    lines.forEach((line) => {
+        const checkboxStatus = line.startsWith("x");
+        newTaskMap.set(line, checkboxStatus);
+    });
+
+    taskMap = newTaskMap;
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     transferToEmailList();
 });
 
+
 document.getElementById("initial-list").addEventListener("input", function () {
     clearTimeout(timeout); // Clear any existing timeouts
+    // Reconcile the taskMap with the textarea content
+    reconcileTaskMapWithTextarea();
 
-    timeout = setTimeout(() => {
-        // Update the task count here
-        let content = this.value;
-        let tasks = content.split("\n").filter((task) => task.trim() !== ""); // filter out empty lines
-        let taskCountElement = document.getElementById("taskCount");
-        if (taskCountElement) {
-            taskCountElement.textContent = tasks.length;
-        }
-    }, debounceTime); // End of setTimeout
+    // timeout = setTimeout(() => {
+    //     // Update the task count here
+    //     let content = this.value;
+    //     let tasks = content.split("\n").filter((task) => task.trim() !== ""); // filter out empty lines
+    //     let taskCountElement = document.getElementById("taskCount");
+    //     if (taskCountElement) {
+    //         taskCountElement.textContent = tasks.length;
+    //     }
+    // }, debounceTime); // End of setTimeout
+
     // Get the content of the textarea
     let content = this.value;
 
@@ -67,7 +94,24 @@ document.getElementById("initial-list").addEventListener("input", function () {
             titleElement.remove();
         }
     }
+
+    reconcileTaskMapWithTextarea(); // Sync taskMap with textarea content
+    displayTaskCounts();
 }); // end
+
+
+function displayTaskCounts() {
+    const tasks = [...taskMap.keys()];
+    const doneTasks = tasks.filter((task) => task.startsWith("x")).length;
+    const totalTasks = tasks.length;
+    const navTaskCount = totalTasks - doneTasks;
+
+    const taskCountElement = document.getElementById("taskCount");
+    if (taskCountElement) {
+        taskCountElement.textContent = navTaskCount;
+        taskCountElement.style.display = "inline"; // or whatever the original display value was
+    }
+}
 
 function extractUsernames(task) {
     const regex = /@(\w+)/g;
@@ -304,10 +348,13 @@ function sortAndGroup() {
     displayTaskCounts();
 }
 
+
 function updateCheckboxStatus(task, id) {
     let checkbox = document.getElementById(id);
     taskMap.set(task, checkbox.checked);
+    displayTaskCounts();
 }
+
 
 function showPlainText() {
     let textArea = document.getElementById("initial-list");

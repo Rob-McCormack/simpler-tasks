@@ -10,6 +10,10 @@ body {
     }
 }
 
+#taskCount {
+    display: none;
+}
+
 
 .lighter-text {
     font-weight: 400; /* This is a regular font weight, less bold than the default Bootstrap badge text */

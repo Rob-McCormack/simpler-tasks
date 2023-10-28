@@ -1,19 +1,21 @@
-We are keeping track of the done, low, high normat priority,
-and we are currently writing these out to the bottom of the page for testing...
+Let's start with latest code...
+To review this is the problem - I start with navTaskCount = 11:
+navTaskCount is correct only when click on Fancy tab.
 
-They are written out when Fancy tab is clicked- which is OK for testing
+In Plain textarea, when a `x` is placed, the navTaskCount briefly 
+says `10`, but then goes back to `11`
 
-Changes:
-I think the total count is counting the done items, which it shouldn't like:
-x Go to the store
+Now, in Fancy tab... when I load page:
+I check off 3 items, but navTaskCount still says `11`
+But if I click on Plain Tab, and back to Fancy tab, navTaskCount=7 which is correct
+Here is entire code:
 
-Can you make these changes...
+Here is latest js code:
 
-1. The task count in the nav should be:
-   `totalTasks - doneTasks`
 
-2. When the page loads, we need to update the count at the top,
-   currently it is `15` since that is hard coded in the HTML
+
+
+
 
  
 

@@ -10,11 +10,39 @@ document.getElementById("copy-button").addEventListener("click", function () {
     alert("Text copied to clipboard!");
 });
 
-document.getElementById("fancy-tab").addEventListener("click", function () {
-    reconcileTaskMapWithTextarea(); // Ensure taskMap is up-to-date
-    sortAndGroup(); // Render tasks in the Fancy tab
-    displayTaskCounts(); // Update the count
+// document.getElementById("fancy-tab").addEventListener("click", function () {
+//     reconcileTaskMapWithTextarea(); // Ensure taskMap is up-to-date
+//     sortAndGroup(); // Render tasks in the Fancy tab
+//     displayTaskCounts(); // Update the count
+// });
+
+
+
+
+
+// document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+//     checkbox.addEventListener('change', function () {
+//         let task = checkbox.nextSibling.textContent.trim(); // Assuming the task text is right after the checkbox
+//         updateCheckboxStatus(task, checkbox.id);
+//     });
+// });
+
+
+document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function () {
+        let task = checkbox.nextElementSibling.wholeText.trim(); // Try using nextElementSibling
+        updateCheckboxStatus(task, checkbox.id);
+    });
 });
+
+
+
+document.getElementById("fancy-tab").addEventListener("click", function () {
+    reconcileTaskMapWithTextarea();
+    sortAndGroup();
+    displayTaskCounts(); // Ensure count is updated
+});
+
 
 
 document.getElementById("plain-tab").addEventListener("click", showPlainText);
@@ -111,6 +139,8 @@ function displayTaskCounts() {
         taskCountElement.textContent = navTaskCount;
         taskCountElement.style.display = "inline"; // or whatever the original display value was
     }
+    console.log("Displaying task count. TaskMap:", taskMap);
+
 }
 
 function extractUsernames(task) {
@@ -345,15 +375,87 @@ function sortAndGroup() {
         `;
     }
     // Add this line at the end of the sortAndGroup function
-    displayTaskCounts();
+    // displayTaskCounts();
 }
+
+
+
+
+// function updateCheckboxStatus(task, id) {
+//     let checkbox = document.getElementById(id);
+//     taskMap.set(task, checkbox.checked);
+//     displayTaskCounts();
+// }
+
+
+// function updateCheckboxStatus(task, id) {
+//     let checkbox = document.getElementById(id);
+//     taskMap.set(task, checkbox.checked);
+
+//     // Update the textarea content based on the taskMap
+//     let updatedTasks = [...taskMap.keys()].map(t => {
+//         if (taskMap.get(t)) {
+//             return `x ${t}`;
+//         }
+//         return t;
+//     });
+//     document.getElementById("initial-list").value = updatedTasks.join("\n");
+
+//     displayTaskCounts();
+// }
+
+
+
+// function updateCheckboxStatus(task, id) {
+//     let checkbox = document.getElementById(id);
+//     taskMap.set(task, checkbox.checked);
+
+//     // Update the textarea content based on the taskMap
+//     let updatedTasks = [...taskMap.keys()].map(t => {
+//         if (taskMap.get(t)) {
+//             return `x ${t}`;
+//         }
+//         return t;
+//     });
+
+//     document.getElementById("initial-list").value = updatedTasks.join("\n");
+
+//     displayTaskCounts(); // Ensure count is updated
+// }
+
 
 
 function updateCheckboxStatus(task, id) {
     let checkbox = document.getElementById(id);
-    taskMap.set(task, checkbox.checked);
-    displayTaskCounts();
+    let isChecked = checkbox.checked;
+    taskMap.set(task, isChecked);
+
+    // Update the textarea content based on the taskMap
+    let updatedTasks = [...taskMap.keys()].map(t => {
+        if (taskMap.get(t)) {
+            return `x ${t}`;
+        }
+        return t;
+        console.log("Checkbox changed for task:", task, "New status:", isChecked);
+
+    });
+
+    document.getElementById("initial-list").value = updatedTasks.join("\n");
+    console.log("Updated textarea content:", document.getElementById("initial-list").value);
+
+
+    displayTaskCounts(); // Ensure count is updated
 }
+
+
+
+
+
+
+
+
+
+
 
 
 function showPlainText() {

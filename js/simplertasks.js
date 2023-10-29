@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 document.getElementById("initial-list").addEventListener("input", function () {
-    // Reconcile the taskMap with the textarea content
+    // Reconcile the taskMap with the textarea xcontent
     reconcileTaskMapWithTextarea();
 
     let content = this.value;

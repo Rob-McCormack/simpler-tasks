@@ -1,15 +1,9 @@
+1. Change appearance of first special characters in View:
+I want to show the special first characters differently in view,
+If they exist,
+Can you just wrap them in a <kbd>h</kbd> tag.
 
-Output with changes shows, alert correctly at top
-then, the today items..., but
-then the `Must-Do` occurs again.
-The Big list for BOB
-! Drive Debbie  (bootstrap alert)
-Today
-TITLE: The Big list for BOB
-l Finish editing a short film. #home
-Fix that annoying bug in the Python script.
-h Go to Walmart #home Today (jam, milk, return pants)
-ltake out garbage @doug
-Must-Do
-! Drive Debbie
-... rest of items
+2. Google Material Symbols
+- can you set this up, and show checkmark and checkbox icons in View
+
+

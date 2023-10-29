@@ -16,12 +16,9 @@
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="msapplication-config" content="https://rob-mccormack.github.io/simpler-tasks/browserconfig.xml">
   <meta name="theme-color" content="#ffffff">
-
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
   <link rel="stylesheet" href="css/simplertasks.css">
 </head>
 
@@ -34,10 +31,6 @@
           SimplerTasks <sup class="text-center text-danger fw-bold" id="taskCount"></sup>
         </a>
 
-
-
-
-        <!-- Dropdown menu, right-justified -->
         <div class=" dropdown ms-auto">
           <button class="btn  btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton"
             data-bs-toggle="dropdown" aria-expanded="false">
@@ -57,11 +50,9 @@
   </div>
 
   <div class="container">
-
-
     <ul class="nav nav-pills nav-fill" id="myTabs" role="tablist">
       <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="edit-tab" data-bs-toggle="tab" href="#edit" role="tab" aria-controls="plain"
+        <a class="nav-link active" id="edit-tab" data-bs-toggle="tab" href="#edit" role="tab" aria-controls="edit"
           aria-selected="true"><span class="material-symbols-outlined fs-1">edit</span>Edit</a>
       </li>
       <li class="nav-item" role="presentation">
@@ -71,7 +62,7 @@
           </span> View </a>
       </li>
       <li class="nav-item" role="presentation">
-        <a class="nav-link" id="email-tab" data-bs-toggle="tab" href="#email" role="tab" aria-controls="email"
+        <a class="nav-link" id="help-tab" data-bs-toggle="tab" href="#help" role="tab" aria-controls="help"
           aria-selected="false"><span class="material-symbols-outlined fs-1">
             help
           </span> Help</a>
@@ -81,10 +72,7 @@
       <div class="tab-pane fade show active" id="edit" role="tabpanel" aria-labelledby="edit-tab">
         <textarea id="initial-list" class="form-control mt-3" rows="10"></textarea>
         <button id="copy-button" class="btn btn-secondary mt-2">Copy</button>
-
-
       </div>
-
 
       <div class="tab-pane fade" id="view" role="tabpanel" aria-labelledby="view-tab">
         <div id="specialTodayTask" class="alert alert-danger" role="alert">
@@ -95,22 +83,17 @@
         <div id="sortedTasks"></div>
       </div>
 
-
-      <div class="tab-pane" id="email" role="tabpanel" aria-labelledby="email-tab">
-
-        <!-- Inside the Email tab panel -->
-        <div class="tab-pane fade" id="email" role="tabpanel" aria-labelledby="email-tab">
-          <div id="emailAlert" class="alert alert-light" role="alert">
-            abc
-          </div>
-
+      <div class="tab-pane" id="help" role="tabpanel" aria-labelledby="help-tab">ttt
+        <!-- Inside the help tab panel -->
+        <p>Hello world</p>
+        <div class="tab-pane fade" id="helpXX" role="tabpanel" aria-labelledby="help-tab">
+          <p>Hello world</p>
         </div>
 
         <button id="email-button" class="btn btn-info">Send Email</button>
       </div>
-
-
     </div>
+
     <small><a href="https://www.flaticon.com/free-icons/task" title="task icons">Task icons created by Anggara -
         Flaticon</a></small>
 
@@ -253,12 +236,11 @@
     </p>
 
 
-    Use this as a sort
-
 
     <p>
 
-      <button id="copy-buttonxx" class="btn btn-secondary mt-2"><span class="material-symbols-outlined">
+      Use this as a sort
+      <button id="copy-buttonxxxx" class="btn btn-secondary mt-2"><span class="material-symbols-outlined">
           swap_vert
         </span> Sort </button>
       <span class="material-symbols-outlined">
@@ -268,18 +250,10 @@
 
 
     <p>
-
-      <button id="copy-buttonxx" class="btn btn-secondary mt-2"> <span class="material-symbols-outlined">
-          content_copy
-        </span> Copy</button>
-
+      <span class="material-symbols-outlined">
+        content_copy
+      </span><button> Copy</button>
     </p>
-
-
-    <p>
-
-    </p>
-
 
     <span class="material-symbols-outlined text-success">
       check_circle
@@ -289,19 +263,18 @@
       grade
     </span>
 
-    <span class="material-symbols-outlined text-muted"">
-    cancel
+    <span class="material-symbols-outlined text-muted">
+      cancel
     </span>
 
-    
-  <span class=" material-symbols-outlined text-muted">
+
+    <span class=" material-symbols-outlined text-muted">
       radio_button_unchecked
     </span>
 
     <span class="material-symbols-outlined">edit</span>
 
   </div>
-
 
   <!-- START TEMPLATES HIDDEN -->
   <template id="checkbox-template">
@@ -311,8 +284,6 @@
   <template id="title-template">
     <p class="text-uppercase">Uppercased Title</p>
   </template>
-
-
   <!-- END TEMPLATES HIDDEN -->
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

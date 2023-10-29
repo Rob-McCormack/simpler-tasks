@@ -14,9 +14,7 @@ document.getElementById("view-tab").addEventListener("click", function () {
 });
 
 document.getElementById("edit-tab").addEventListener("click", showPlainText);
-document
-    .getElementById("email-tab")
-    .addEventListener("click", transferToEmailList);
+
 document.getElementById("themeToggle").addEventListener("change", toggleTheme);
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -24,7 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
     reconcileTaskMapWithTextarea();
     sortAndGroup();
     displayTaskCounts();
-    transferToEmailList();
 });
 
 function reconcileTaskMapWithTextarea() {
@@ -39,38 +36,6 @@ function reconcileTaskMapWithTextarea() {
 
     taskMap = newTaskMap;
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-    transferToEmailList();
-});
-
-// document.getElementById("initial-list").addEventListener("input", function () {
-//     // Reconcile the taskMap with the textarea content
-//     reconcileTaskMapWithTextarea();
-//     let content = this.value;
-
-//     // Check if the first line starts with "TITLE:"
-//     if (content.startsWith("TITLE:")) {
-//         let title = content.split("\n")[0].replace("TITLE:", "").trim();
-//         let viewTab = document.getElementById("view");
-//         let titleElement = viewTab.querySelector("h3.title");
-//         if (!titleElement) {
-//             titleElement = document.createElement("h3");
-//             titleElement.classList.add("title");
-//             viewTab.prepend(titleElement);
-//         }
-//         titleElement.textContent = title;
-//     } else {
-//         let viewTab = document.getElementById("view");
-//         let titleElement = viewTab.querySelector("h3.title");
-//         if (titleElement) {
-//             titleElement.remove();
-//         }
-//     }
-
-//     reconcileTaskMapWithTextarea();
-//     displayTaskCounts();
-// });
 
 
 document.getElementById("initial-list").addEventListener("input", function () {
@@ -208,17 +173,6 @@ function copyTextToClipboard(elementId) {
     document.execCommand("copy");
 }
 
-function emailList() {
-    let textArea = document.getElementById("initial-list");
-    let lines = textArea.value.trim().split("\n").join("%0D%0A");
-    window.location.href = `mailto:?subject=Your To-Do List&body=${lines}`;
-}
-
-function transferToEmailList() {
-    let initialList = document.getElementById("initial-list");
-    let emailAlert = document.getElementById("emailAlert");
-    emailAlert.innerText = initialList.value;
-}
 
 function toggleTheme(event) {
     if (event.currentTarget.checked) {

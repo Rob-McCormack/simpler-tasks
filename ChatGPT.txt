@@ -1,5 +1,14 @@
 
-1. Change appearance of first special characters in View:
+A) Trim trailing spaces every where in list
+Now we have items such as:
+h Buy groceries for the week. 
+which has annoying trailing spaces,
+
+How do we TRIM all trailing spaces?
+
+---
+
+B)Change appearance of first special characters in View:
 I want to show the special first characters differently in view,
 For example,
  `h Go to Walmart`
@@ -9,37 +18,3 @@ For example,
  <sub> </sub> visit with mom
 
 ---
-
-2. Google Symbols
-I want to use
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-
-
-The check box symbol is aligned to the TOP of the line height
-How do I align horizontally centered this google symbol 
-<span class="material-symbols-outlined">check_box_outline_blank</span> Go to Walmart
-
-
----
-3. Separation of HTML from JavaScript
-If I wanted to use something like
-<span class="material-symbols-outlined">check_box_outline_blank</span>
-for the checkboxes in View,
-would it be an idea to include this somewhere in the HTML file as a hiddent element or template,
-rather than trying to write it out with javascript?
-
-
-
-
-
-
-<kbd>h</kbd>
-
-      <span class="material-symbols-outlined">
-        check_box_outline_blank
-      </span>
-
-
-      <span class="material-symbols-outlined"></span><sub class="text-muted">h</sub>
-
-<span class="material-symbols-outlined text-primary"></span>

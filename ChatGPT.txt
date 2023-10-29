@@ -1,3 +1,18 @@
-Let's Change the Fancy tab, to view only.
-If I give you my latest js file, can you do that.
-It should be way simpler with few addEventListener etc.
+It worked, great!
+
+Now... I want to change the function of the special first character in task list.
+
+We will no longer user "TODAY" to designate todays task, it will be repaced by `t `
+
+We will use these starting letters (case insensitive) followed by a `space` :
+
+Starting characters folowed by a space:
+t for a single TODAY task, displayed as we did with Must-Do Task for Today
+! Must do, allowed only one, others will just go in list as high priority 
+h High priority
+  Normal priority (no character prefix)
+l Low priority
+x denotes task is DONE, make sure x or X works, case insensitive
+
+
+

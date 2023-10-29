@@ -7,13 +7,13 @@ document.getElementById("copy-button").addEventListener("click", function () {
     alert("Text copied to clipboard!");
 });
 
-document.getElementById("fancy-tab").addEventListener("click", function () {
+document.getElementById("view-tab").addEventListener("click", function () {
     reconcileTaskMapWithTextarea();
     sortAndGroup();
     displayTaskCounts(); // Ensure count is updated
 });
 
-document.getElementById("plain-tab").addEventListener("click", showPlainText);
+document.getElementById("edit-tab").addEventListener("click", showPlainText);
 document
     .getElementById("email-tab")
     .addEventListener("click", transferToEmailList);
@@ -52,17 +52,17 @@ document.getElementById("initial-list").addEventListener("input", function () {
     // Check if the first line starts with "TITLE:"
     if (content.startsWith("TITLE:")) {
         let title = content.split("\n")[0].replace("TITLE:", "").trim();
-        let fancyTab = document.getElementById("fancy");
-        let titleElement = fancyTab.querySelector("h3.title");
+        let viewTab = document.getElementById("view");
+        let titleElement = viewTab.querySelector("h3.title");
         if (!titleElement) {
             titleElement = document.createElement("h3");
             titleElement.classList.add("title");
-            fancyTab.prepend(titleElement);
+            viewTab.prepend(titleElement);
         }
         titleElement.textContent = title;
     } else {
-        let fancyTab = document.getElementById("fancy");
-        let titleElement = fancyTab.querySelector("h3.title");
+        let viewTab = document.getElementById("view");
+        let titleElement = viewTab.querySelector("h3.title");
         if (titleElement) {
             titleElement.remove();
         }
@@ -184,6 +184,8 @@ function changeTheme(mode) {
     }
 }
 
+
+
 function sortAndGroup() {
     let notesContent = extractNotes(document.getElementById("initial-list").value);
     let specialTodayTask = [...taskMap.keys()].find((task) => /^TODAY\s*:?\s+/i.test(task));
@@ -209,25 +211,30 @@ function sortAndGroup() {
 
     isFormatted = true;
     let sortedList = document.getElementById("sortedTasks");
+
     let buildHeader = (title, colorClass = "") => {
         return `<h5 class="mt-3 ${colorClass}">${title}</h5>`;
     };
 
+    let processTasks = (tasks) => {
+        return tasks.map(task => formatUsernamesInTask(task)).join('<br>');
+    };
+
     sortedList.innerHTML = `
         ${buildHeader("Today", "text-danger")}
-        ${[...taskMap.keys()].filter((task) => task.toLowerCase().includes("today") && !task.startsWith("TODAY")).join('<br>')}
+        ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().includes("today") && !task.startsWith("TODAY")))}
 
         ${buildHeader("High Priority", "text-info")}
-        ${[...taskMap.keys()].filter((task) => task.startsWith("!") && !task.toLowerCase().includes("today")).join('<br>')}
+        ${processTasks([...taskMap.keys()].filter(task => task.startsWith("!") && !task.toLowerCase().includes("today")))}
 
         ${buildHeader("Normal")}
-        ${[...taskMap.keys()].filter((task) => !task.startsWith("!") && !task.startsWith("-") && !task.startsWith("x") && !task.toLowerCase().includes("today")).join('<br>')}
+        ${processTasks([...taskMap.keys()].filter(task => !task.startsWith("!") && !task.startsWith("-") && !task.startsWith("x") && !task.toLowerCase().includes("today")))}
 
         ${buildHeader("Low Priority")}
-        ${[...taskMap.keys()].filter((task) => task.startsWith("-") && !task.toLowerCase().includes("today")).join('<br>')}
+        ${processTasks([...taskMap.keys()].filter(task => task.startsWith("-") && !task.toLowerCase().includes("today")))}
 
         ${buildHeader("Done")}
-        ${[...taskMap.keys()].filter((task) => task.startsWith("x")).join('<br>')}
+        ${processTasks([...taskMap.keys()].filter(task => task.startsWith("x")))}
     `;
 
     let notes = extractNotes(document.getElementById("initial-list").value);
@@ -239,6 +246,8 @@ function sortAndGroup() {
         `;
     }
 }
+
+
 
 function updateCheckboxStatus(task, id) {
     let checkbox = document.getElementById(id);
@@ -276,11 +285,11 @@ function showPlainText() {
 function initializeSampleTasks() {
     let sampleTasks = `
 TITLE: The Big list for BOB    
-Buy groceries for the week.
+Buy groceries for the week. @james
 Finish editing a short film.
-!Call mom for her birthday.
+!Call mom for her birthday. @bill
 Fix that annoying bug in the Python script.
--Go for a 30-minute jog.
+-Go for a 30-minute jog. @ debbie
 Water the plants.
 -Prepare slides for tomorrow's meeting.
 Cook dinner for friends coming over tonight.

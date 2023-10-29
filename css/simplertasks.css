@@ -10,6 +10,11 @@ body {
     }
 }
 
+
+/* #view {
+    font-family: 'Courier New', Courier, monospace;
+} */
+
 #taskCount {
     display: none;
 }

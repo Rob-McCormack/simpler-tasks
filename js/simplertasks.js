@@ -117,6 +117,30 @@ function getBadgeColorForUser(username) {
     return userColorMap.get(username);
 }
 
+const textColorClasses = [
+    "text-danger",
+    "text-success",
+    "text-info",
+    "text-warning",
+    "text-primary",
+    "text-secondary",
+    "text-dark"
+];
+
+
+
+function formatContextInTask(task) {
+    let contexts = task.match(/#\w+/g) || [];
+    contexts.forEach((context) => {
+        let colorClass = getBadgeColorForUser(context); // Reusing the function as it cycles through colors
+        task = task.replace(
+            context,
+            `<span class="${colorClass} lighter-text">${context}</span>`
+        );
+    });
+    return task;
+}
+
 function formatUsernamesInTask(task) {
     let usernames = extractUsernames(task);
     usernames.forEach((username) => {
@@ -217,25 +241,47 @@ function sortAndGroup() {
     };
 
     let processTasks = (tasks) => {
-        return tasks.map(task => formatUsernamesInTask(task)).join('<br>');
+        return tasks.map(task => {
+            task = formatUsernamesInTask(task);
+            task = formatContextInTask(task);  // <-- Place it here
+            return task;
+        }).join('<br>');
     };
 
+
+
+
+
+    let mustDoTask = [...taskMap.keys()].find(task => task.startsWith("! "));
+    let mustDoHTML = "";
+    if (mustDoTask) {
+        mustDoHTML = `<div class="alert alert-danger" role="alert">${mustDoTask}</div>`;
+    }
+
     sortedList.innerHTML = `
-        ${buildHeader("Today", "text-danger")}
-        ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().includes("today") && !task.startsWith("TODAY")))}
+    ${mustDoHTML}
+    ${buildHeader("Today", "text-danger")}
+    ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().includes("t ") && !task.startsWith("t ")))}
+
+        
+
+        ${buildHeader("Must-Do", "text-info")}
+        ${processTasks([...taskMap.keys()].filter(task => task.startsWith("! ") && !task.toLowerCase().startsWith("t ")))}
 
         ${buildHeader("High Priority", "text-info")}
-        ${processTasks([...taskMap.keys()].filter(task => task.startsWith("!") && !task.toLowerCase().includes("today")))}
+        ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("h ") && !task.toLowerCase().startsWith("t ") && !task.startsWith("! ")))}
 
         ${buildHeader("Normal")}
-        ${processTasks([...taskMap.keys()].filter(task => !task.startsWith("!") && !task.startsWith("-") && !task.startsWith("x") && !task.toLowerCase().includes("today")))}
+        ${processTasks([...taskMap.keys()].filter(task => !task.startsWith("! ") && !task.startsWith("- ") && !task.startsWith("x ") && !task.toLowerCase().startsWith("h ") && !task.toLowerCase().startsWith("l ") && !task.toLowerCase().startsWith("t ") && !task.startsWith("TITLE: ")))}
 
         ${buildHeader("Low Priority")}
-        ${processTasks([...taskMap.keys()].filter(task => task.startsWith("-") && !task.toLowerCase().includes("today")))}
+        ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("l ") && !task.toLowerCase().startsWith("t ")))}
 
         ${buildHeader("Done")}
-        ${processTasks([...taskMap.keys()].filter(task => task.startsWith("x")))}
+        ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("x ")))}
     `;
+
+
 
     let notes = extractNotes(document.getElementById("initial-list").value);
     if (notes) {
@@ -284,21 +330,24 @@ function showPlainText() {
 
 function initializeSampleTasks() {
     let sampleTasks = `
-TITLE: The Big list for BOB    
-Buy groceries for the week. @james
-Finish editing a short film.
-!Call mom for her birthday. @bill
+TITLE: The Big list for BOB   
+! Drive Debbie 
+h Buy groceries for the week. http://cnn.com
+l Finish editing a short film. #home
+!Call mom for her birthday. @robmcc
 Fix that annoying bug in the Python script.
--Go for a 30-minute jog. @ debbie
-Water the plants.
--Prepare slides for tomorrow's meeting.
-Cook dinner for friends coming over tonight.
-[3] Meditate for 10 minutes
-Go to Walmart Today (jam, milk, return pants)
+l Go for a 30-minute jog.
+Water the plants.@debbie
+l Prepare slides for tomorrow's meeting.@james
+Cook dinner for friends coming over tonight.@debbie
+[3] Meditate for 10 minutes #daily 
+h Go to Walmart #home Today (jam, milk, return pants)
+ltake out garbage @doug
 NOTES:
-This is a note line 1
-This is a note line 2
-This is End of NOTES
+Notes line 1
+Notes line 2
+Notes line 3
+Notes END
     `;
     let textArea = document.getElementById("initial-list");
     textArea.value = sampleTasks.trim();

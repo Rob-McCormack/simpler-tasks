@@ -1,18 +1,15 @@
-It worked, great!
 
-Now... I want to change the function of the special first character in task list.
+Re: 2. Font color the #context words:
+Duplication of Must Do:
 
-We will no longer user "TODAY" to designate todays task, it will be repaced by `t `
+This code does remove duplication, but 
+it doesn't show the alert, just the heading like other catagories
+  let mustDoTask = [...taskMap.keys()].find(task => task.startsWith("! "));
+    let mustDoHTML = "";
+    if (mustDoTask) {
+        mustDoHTML = `<div class="alert alert-danger" role="alert">${mustDoTask}</div>`;
+    }
 
-We will use these starting letters (case insensitive) followed by a `space` :
-
-Starting characters folowed by a space:
-t for a single TODAY task, displayed as we did with Must-Do Task for Today
-! Must do, allowed only one, others will just go in list as high priority 
-h High priority
-  Normal priority (no character prefix)
-l Low priority
-x denotes task is DONE, make sure x or X works, case insensitive
-
-
-
+Re: 2. Font Color for #context words:
+Modify the formatContextInTask
+I don't have that function `formatContextInTask`

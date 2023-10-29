@@ -1,15 +1,15 @@
 
-Re: 2. Font color the #context words:
-Duplication of Must Do:
-
-This code does remove duplication, but 
-it doesn't show the alert, just the heading like other catagories
-  let mustDoTask = [...taskMap.keys()].find(task => task.startsWith("! "));
-    let mustDoHTML = "";
-    if (mustDoTask) {
-        mustDoHTML = `<div class="alert alert-danger" role="alert">${mustDoTask}</div>`;
-    }
-
-Re: 2. Font Color for #context words:
-Modify the formatContextInTask
-I don't have that function `formatContextInTask`
+Output with changes shows, alert correctly at top
+then, the today items..., but
+then the `Must-Do` occurs again.
+The Big list for BOB
+! Drive Debbie  (bootstrap alert)
+Today
+TITLE: The Big list for BOB
+l Finish editing a short film. #home
+Fix that annoying bug in the Python script.
+h Go to Walmart #home Today (jam, milk, return pants)
+ltake out garbage @doug
+Must-Do
+! Drive Debbie
+... rest of items

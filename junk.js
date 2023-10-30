@@ -1,30 +1,23 @@
 function sortAndGroup() {
-    // ... [Rest of your function]
+    // ... [Previous part of your sortAndGroup function]
 
-    // Extract the must-do task from the alert box:
-    let mustDoTaskFromAlert = document.querySelector(".alert.alert-danger").textContent.trim();
+    let notesContent = extractNotes(document.getElementById("initial-list").value);
+    let specialTodayTask = [...taskMap.keys()].find((task) => /^TODAY\s*:?\s+/i.test(task));
+    let todayElement = document.getElementById("specialTodayTask");
+    let todayTextElement = todayElement.querySelector("#specialTodayText");
+    // ... [rest of your code till this point]
 
-    let mustDoHTML = "";
-    let mustDoTasks = [...taskMap.keys()].filter(task => task.startsWith("! ") && !task.toLowerCase().startsWith("t "));
-
-    // Exclude the must-do task from the main list if it's the same as the one in the alert
-    if (mustDoTasks.length > 0 && mustDoTaskFromAlert !== mustDoTasks[0]) {
-        mustDoHTML = `<div class="alert alert-danger" role="alert">${mustDoTasks[0]}</div>`;
-    } else {
-        mustDoTasks = [];  // Empty the array to avoid adding it again
+    // Convert special characters to lowercase
+    const tasks = [...taskMap.keys()];
+    for (let task of tasks) {
+        for (let item of specialChars) {
+            if (task.startsWith(item.char.toUpperCase() + " ")) {
+                const modifiedTask = task.charAt(0).toLowerCase() + task.slice(1);
+                taskMap.delete(task);
+                taskMap.set(modifiedTask, false);
+            }
+        }
     }
 
-    let todayTasks = [...taskMap.keys()].filter(task => task.toLowerCase().includes("today") && !task.startsWith("TODAY") && !task.startsWith("TITLE:"));
-
-    // Exclude tasks that start with "Today" from the main list
-    todayTasks = todayTasks.filter(task => task !== mustDoTaskFromAlert);
-
-    sortedList.innerHTML = `
-    ${mustDoHTML}
-    ${buildHeader("Today", "text-danger")}
-    ${todayTasks.join('<br>')}
-    // ... [Rest of your function]
-    `;
-
-    // ... [Rest of your function]
+    // ... [Continue with the rest of your sortAndGroup function]
 }

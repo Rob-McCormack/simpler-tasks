@@ -250,6 +250,31 @@ function sortAndGroup() {
     let todayElement = document.getElementById("specialTodayTask");
     let todayTextElement = todayElement.querySelector("#specialTodayText");
 
+
+    // // Convert special characters to lowercase
+    // const tasks = [...taskMap.keys()];
+    // for (let task of tasks) {
+    //     for (let item of specialChars) {
+    //         if (task.startsWith(item.char.toUpperCase() + " ")) {
+    //             const modifiedTask = task.charAt(0).toLowerCase() + task.slice(1);
+    //             taskMap.delete(task);
+    //             taskMap.set(modifiedTask, false);
+    //         }
+    //     }
+    // }
+
+    // Convert tasks to lowercase for special characters
+    const tasks = [...taskMap.keys()];
+    tasks.forEach((task, index) => {
+        for (let item of specialChars) {
+            if (task.startsWith(item.char.toUpperCase() + " ")) {
+                tasks[index] = task.charAt(0).toLowerCase() + task.slice(1);
+            }
+        }
+    });
+
+
+
     if (specialTodayTask) {
         todayTextElement.textContent = specialTodayTask;
         todayElement.style.display = "block";
@@ -379,6 +404,8 @@ Cook dinner for friends coming over tonight.@debbie
 [3] Meditate for 10 minutes #daily 
 h Go to Walmart #home Today (jam, milk, return pants)
 l take out garbage @doug
+r make bed
+R make coffee
 NOTES:
 Notes line 1
 Notes line 2

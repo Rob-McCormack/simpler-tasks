@@ -1,7 +1,14 @@
-B) I don't have that function...
-I am using `sub` so in View the user doesn't get too confused about their task item, and the special characters
+a) I notice that you have build in a remove duplicates,
+If I have
+`
+h go to bank
+h go to bank
+h go to bank
+`
+they are trimmed to
+`
+h go to bank
+`
 
-Please add `r ` to the function, this will be a special character for "recurring" tasks, more on that later.
-could you not use a list, or array to hold the special charcters,
-and loop through them?
-I indent to add more.
+
+b) 

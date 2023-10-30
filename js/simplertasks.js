@@ -80,14 +80,37 @@ function wrapSpecialCharacter(task) {
 
 
 
+// function reconcileTaskMapWithTextarea() {
+//     const textArea = document.getElementById("initial-list");
+//     let content = textArea.value.trim();
+
+//     // Separate tasks and notes
+//     let tasks = content.split("NOTES:")[0].trim().split("\n");
+//     let notes = content.includes("NOTES:") ? content.split("NOTES:")[1].trim() : null;
+
+//     const newTaskMap = new Map();
+
+//     tasks.forEach((task) => {
+//         const checkboxStatus = task.startsWith("d ");
+//         newTaskMap.set(task, checkboxStatus);
+//     });
+
+//     taskMap = newTaskMap;
+// }
+
+
 function reconcileTaskMapWithTextarea() {
     const textArea = document.getElementById("initial-list");
-    const lines = textArea.value.trim().split("\n");
+    let content = textArea.value.trim();
+
+    // Separate tasks and notes
+    let tasks = content.split("NOTES:")[0].trim().split("\n");
+
     const newTaskMap = new Map();
 
-    lines.forEach((line) => {
-        const checkboxStatus = line.startsWith("x");
-        newTaskMap.set(line, checkboxStatus);
+    tasks.forEach((task) => {
+        const checkboxStatus = task.startsWith("d ");
+        newTaskMap.set(task, checkboxStatus);
     });
 
     taskMap = newTaskMap;
@@ -106,6 +129,7 @@ document.getElementById("initial-list").addEventListener("input", function () {
 
     // Reconcile the taskMap with the textarea content
     reconcileTaskMapWithTextarea();
+
 
     // Update the task counts
     displayTaskCounts();
@@ -201,18 +225,12 @@ function formatUsernamesInTask(task) {
 function extractNotes(content) {
     const notesRegex = /^NOTES:\n([\s\S]*)$/m;
     const match = content.match(notesRegex);
-    if (match) {
-        content = content.replace(notesRegex, '').trim(); // Remove the notes from the content
-        return {
-            notes: match[1].trim(),
-            content: content
-        };
+    if (match && match[1]) {
+        return { notes: match[1].trim() };
     }
-    return {
-        notes: null,
-        content: content
-    };
+    return { notes: null };
 }
+
 
 function copyTextToClipboard(elementId) {
     let textArea = document.getElementById(elementId);
@@ -252,9 +270,13 @@ function changeTheme(mode) {
 
 
 function sortAndGroup() {
-    // function sortAndGroup() {
+
+    let content = document.getElementById("initial-list").value.trim();
+
+
     let extractionResult = extractNotes(document.getElementById("initial-list").value);
-    let notesContent = extractionResult.notes;
+    let notesContent = extractNotes(document.getElementById("initial-list").value).notes;
+
     let specialTodayTask = [...taskMap.keys()].find((task) => /^TODAY\s*:?\s+/i.test(task));
     let todayElement = document.getElementById("specialTodayTask");
     let todayTextElement = todayElement.querySelector("#specialTodayText");
@@ -327,10 +349,10 @@ function sortAndGroup() {
         !task.startsWith("d ") &&
         !task.toLowerCase().startsWith("h ") &&
         !task.toLowerCase().startsWith("l ") &&
-        !task.toLowerCase().startsWith("r ") &&
         !task.toLowerCase().startsWith("t ") &&
-        !task.startsWith("TITLE: ") &&
-        !task.startsWith("NOTES:")
+        !task.toLowerCase().startsWith("r ") && // Exclude recurring tasks
+        !task.startsWith("R ") && // Also exclude uppercase recurring tasks
+        !task.startsWith("TITLE: ")
     ))}
 
 
@@ -346,14 +368,17 @@ function sortAndGroup() {
     `;
 
 
-
     let notes = extractNotes(document.getElementById("initial-list").value);
-    if (notesContent) {
+    if (notes && typeof notes === "string") {
+        let formattedNotes = notes.replace(/(\r\n|\n|\r)/gm, "<br>");
         sortedList.innerHTML += `
             <h5 class="mt-3">NOTES:</h5>
-            <p>${notesContent.replace(/(\r\n|\n|\r)/gm, "<br>")}</p>
+            <p>${formattedNotes}</p>
         `;
     }
+
+
+
 }
 
 
@@ -406,7 +431,7 @@ t item today1
 l item low2  (this is low2 note, note2, note3)
 item normal2 @robmcc
 r item recurring2  
-x item x old @debbie
+r item recurring3
 l item low3 @james
 h item high1
 t item today2

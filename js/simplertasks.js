@@ -9,29 +9,29 @@ document.getElementById("view-tab").addEventListener("click", function () {
     let content = document.getElementById("initial-list").value;
     let trimmedContent = content.trim();
 
-    // Check if the first line starts with "TITLE:"
-    if (trimmedContent.startsWith("TITLE:")) {
-        let title = trimmedContent.split("\n")[0].replace("TITLE:", "").trim();
-        let viewTab = document.getElementById("view");
-        let titleTemplate = document.getElementById("title-template");
-        let titleClone = document.importNode(titleTemplate.content, true);
-        let titleElement = titleClone.querySelector("p");
-        titleElement.textContent = title.toUpperCase();
+    // // Check if the first line starts with "TITLE:"
+    // if (trimmedContent.startsWith("TITLE:")) {
+    //     let title = trimmedContent.split("\n")[0].replace("TITLE:", "").trim();
+    //     let viewTab = document.getElementById("view");
+    //     let titleTemplate = document.getElementById("title-template");
+    //     let titleClone = document.importNode(titleTemplate.content, true);
+    //     let titleElement = titleClone.querySelector("p");
+    //     titleElement.textContent = title.toUpperCase();
 
-        // Check if an existing title element is already present, if so replace it, otherwise add it
-        let existingTitleElement = viewTab.querySelector("p.text-uppercase");
-        if (existingTitleElement) {
-            existingTitleElement.replaceWith(titleElement);
-        } else {
-            viewTab.prepend(titleElement);
-        }
-    } else {
-        let viewTab = document.getElementById("view");
-        let titleElement = viewTab.querySelector("p.text-uppercase");
-        if (titleElement) {
-            titleElement.remove();
-        }
-    }
+    //     // Check if an existing title element is already present, if so replace it, otherwise add it
+    //     let existingTitleElement = viewTab.querySelector("p.text-uppercase");
+    //     if (existingTitleElement) {
+    //         existingTitleElement.replaceWith(titleElement);
+    //     } else {
+    //         viewTab.prepend(titleElement);
+    //     }
+    // } else {
+    //     let viewTab = document.getElementById("view");
+    //     let titleElement = viewTab.querySelector("p.text-uppercase");
+    //     if (titleElement) {
+    //         titleElement.remove();
+    //     }
+    // }
 
     // You can also include any other code that should run when the "View" tab is clicked.
 });
@@ -355,18 +355,22 @@ function sortAndGroup() {
 
     let mustDoTask = [...taskMap.keys()].find(task => task.startsWith("! "));
     let mustDoHTML = "";
-    if (mustDoTask) {
-        mustDoHTML = `<div class="alert alert-danger" role="alert">${mustDoTask}</div>`;
-    }
+    // if (mustDoTask) {
+    //     mustDoHTML = `<div class="alert alert-danger" role="alert">${mustDoTask}</div>`;
+    // }
 
     sortedList.innerHTML = `
-        ${mustDoHTML}
-        ${buildHeader("Today", "text-danger")}
-        ${[...taskMap.keys()].filter(task => task.toLowerCase().includes("today") && !task.startsWith("TODAY") && !task.startsWith("TITLE:")).join('<br>')}
-       
 
-        ${buildHeader("Must-Do", "text-info")}
-        ${processTasks([...taskMap.keys()].filter(task => task.startsWith("! ") && !task.toLowerCase().startsWith("t ")))}
+
+
+    ${buildHeader("Title")}
+    ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("title ")))}
+
+    ${buildHeader("Must-Do", "text-info")}
+    ${processTasks([...taskMap.keys()].filter(task => task.startsWith("! ") && !task.toLowerCase().startsWith("t ")))}
+
+    ${buildHeader("Today", "text-danger")}
+    ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("t ")))}
 
         ${buildHeader("High Priority", "text-info")}
         ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("h ") && !task.toLowerCase().startsWith("t ") && !task.startsWith("! ")))}
@@ -374,13 +378,13 @@ function sortAndGroup() {
         ${buildHeader("Normal")}
         ${processTasks([...taskMap.keys()].filter(task =>
         !task.startsWith("! ") &&
-        !task.startsWith("d ") &&
+        !task.toLowerCase().startsWith("d ") &&
         !task.toLowerCase().startsWith("h ") &&
         !task.toLowerCase().startsWith("l ") &&
         !task.toLowerCase().startsWith("t ") &&
         !task.toLowerCase().startsWith("r ") && // Exclude recurring tasks
         !task.startsWith("R ") && // Also exclude uppercase recurring tasks
-        !task.startsWith("TITLE: ") &&
+        // !task.startsWith("TITLE: ") &&
         !task.toLowerCase().startsWith("n ")  // Exclude notes
     ))}
         
@@ -390,7 +394,7 @@ function sortAndGroup() {
         ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("l ") && !task.toLowerCase().startsWith("t ")))}
 
         ${buildHeader("Recurring", "text-warning")}
-        ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("r ") && !task.startsWith("! ") && !task.startsWith("- ") && !task.startsWith("d ") && !task.toLowerCase().startsWith("h ") && !task.toLowerCase().startsWith("l ") && !task.toLowerCase().startsWith("t ") && !task.startsWith("TITLE: ")))}
+        ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("r ") && !task.startsWith("! ") && !task.startsWith("- ") && !task.startsWith("d ") && !task.toLowerCase().startsWith("h ") && !task.toLowerCase().startsWith("l ") && !task.toLowerCase().startsWith("t ")))}
         
 
         ${buildHeader("Done")}
@@ -452,6 +456,7 @@ function initializeSampleTasks() {
     let sampleTasks = `
 TITLE: The Big list for BOB  
 item normal 3 
+title new format for title xxxxxxxxxxx
 ! item Must do single @robmcc 
 h item high1 http://cnn.com #work
 l item low1 #home

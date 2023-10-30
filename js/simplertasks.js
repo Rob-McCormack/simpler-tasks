@@ -122,6 +122,13 @@ function wrapSpecialCharacter(task) {
 // }
 
 
+
+function convertToClickableURLs(text) {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
+}
+
+
 function reconcileTaskMapWithTextarea() {
     const textArea = document.getElementById("initial-list");
     let content = textArea.value.trim();
@@ -345,10 +352,19 @@ function sortAndGroup() {
         return `<h5 class="mt-3 ${colorClass}">${title}</h5>`;
     };
 
+    // let processTasks = (tasks) => {
+    //     return tasks.map(task => {
+    //         task = formatUsernamesInTask(task);  // This function call was already here
+    //         task = wrapSpecialCharacter(task);   // Add this new function call here
+    //         return task;
+    //     }).join('<br>');
+    // };
+
     let processTasks = (tasks) => {
         return tasks.map(task => {
             task = formatUsernamesInTask(task);  // This function call was already here
-            task = wrapSpecialCharacter(task);   // Add this new function call here
+            task = wrapSpecialCharacter(task);   // This function call was already here
+            task = convertToClickableURLs(task); // Add this new function call here
             return task;
         }).join('<br>');
     };

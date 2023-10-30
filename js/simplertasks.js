@@ -303,8 +303,8 @@ function sortAndGroup() {
     let content = document.getElementById("initial-list").value.trim();
 
 
-    let extractionResult = extractNotes(document.getElementById("initial-list").value);
-    let notesContent = extractNotes(document.getElementById("initial-list").value).notes;
+    // let extractionResult = extractNotes(document.getElementById("initial-list").value);
+    // let notesContent = extractNotes(document.getElementById("initial-list").value).notes;
 
     let specialTodayTask = [...taskMap.keys()].find((task) => /^TODAY\s*:?\s+/i.test(task));
     let todayElement = document.getElementById("specialTodayTask");
@@ -374,18 +374,16 @@ function sortAndGroup() {
         ${buildHeader("Normal")}
         ${processTasks([...taskMap.keys()].filter(task =>
         !task.startsWith("! ") &&
-        !task.startsWith("- ") &&
         !task.startsWith("d ") &&
         !task.toLowerCase().startsWith("h ") &&
         !task.toLowerCase().startsWith("l ") &&
         !task.toLowerCase().startsWith("t ") &&
-        !task.toLowerCase().startsWith("t ") &&
         !task.toLowerCase().startsWith("r ") && // Exclude recurring tasks
         !task.startsWith("R ") && // Also exclude uppercase recurring tasks
-        !task.startsWith("TITLE: ")
-
-
+        !task.startsWith("TITLE: ") &&
+        !task.toLowerCase().startsWith("n ")  // Exclude notes
     ))}
+        
 
 
         ${buildHeader("Low Priority")}
@@ -398,21 +396,17 @@ function sortAndGroup() {
         ${buildHeader("Done")}
         ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("d ")))}
 
-        ${buildHeader("Notes")}
-        ${processTasks([...taskMap.keys()].filter(task => task.startsWith("n ")))}
+        
+        ${buildHeader("NOTES")}
+        ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("n ")))}
+        
+
             `;
 
     console.log("Notes Content:", notesContent);
 
     let notes = extractNotes(document.getElementById("initial-list").value);
-    if (notes && typeof notes === "string") {
-        let formattedNotes = notes.replace(/(\r\n|\n|\r)/gm, "<br>");
-        sortedList.innerHTML += `
-            <h5 class="mt-3">NOTES:</h5>
-            <p>${formattedNotes}</p>
-        `;
 
-    }
 
 
 }

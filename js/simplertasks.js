@@ -1,6 +1,22 @@
 let taskMap = new Map();
 let isFormatted = false;
 
+document.addEventListener('keydown', function (event) {
+    if (event.ctrlKey && event.shiftKey) {
+        if (event.key === 'E' || event.key === 'e') {
+            // Activate Edit tab
+            new bootstrap.Tab(document.getElementById('edit-tab')).show();
+        } else if (event.key === 'V' || event.key === 'v') {
+            // Activate View tab
+            new bootstrap.Tab(document.getElementById('view-tab')).show();
+        } else if (event.key === 'H' || event.key === 'h') {
+            // Activate Help tab
+            new bootstrap.Tab(document.getElementById('help-tab')).show();
+        }
+    }
+});
+
+
 // Event Listeners
 document.getElementById("edit-tab").addEventListener("click", trimTrailingSpaces);
 document.getElementById("view-tab").addEventListener("click", trimTrailingSpaces);

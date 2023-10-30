@@ -5,6 +5,37 @@ let isFormatted = false;
 document.getElementById("edit-tab").addEventListener("click", trimTrailingSpaces);
 document.getElementById("view-tab").addEventListener("click", trimTrailingSpaces);
 
+document.getElementById("view-tab").addEventListener("click", function () {
+    let content = document.getElementById("initial-list").value;
+    let trimmedContent = content.trim();
+
+    // Check if the first line starts with "TITLE:"
+    if (trimmedContent.startsWith("TITLE:")) {
+        let title = trimmedContent.split("\n")[0].replace("TITLE:", "").trim();
+        let viewTab = document.getElementById("view");
+        let titleTemplate = document.getElementById("title-template");
+        let titleClone = document.importNode(titleTemplate.content, true);
+        let titleElement = titleClone.querySelector("p");
+        titleElement.textContent = title.toUpperCase();
+
+        // Check if an existing title element is already present, if so replace it, otherwise add it
+        let existingTitleElement = viewTab.querySelector("p.text-uppercase");
+        if (existingTitleElement) {
+            existingTitleElement.replaceWith(titleElement);
+        } else {
+            viewTab.prepend(titleElement);
+        }
+    } else {
+        let viewTab = document.getElementById("view");
+        let titleElement = viewTab.querySelector("p.text-uppercase");
+        if (titleElement) {
+            titleElement.remove();
+        }
+    }
+
+    // You can also include any other code that should run when the "View" tab is clicked.
+});
+
 
 document.getElementById("copy-button").addEventListener("click", function () {
     copyTextToClipboard("initial-list");
@@ -74,30 +105,6 @@ document.getElementById("initial-list").addEventListener("input", function () {
 
     // Reconcile the taskMap with the textarea content
     reconcileTaskMapWithTextarea();
-
-    // Check if the first line starts with "TITLE:"
-    if (trimmedContent.startsWith("TITLE:")) {
-        let title = trimmedContent.split("\n")[0].replace("TITLE:", "").trim();
-        let viewTab = document.getElementById("view");
-        let titleTemplate = document.getElementById("title-template");
-        let titleClone = document.importNode(titleTemplate.content, true);
-        let titleElement = titleClone.querySelector("p");
-        titleElement.textContent = title.toUpperCase();
-
-        // Check if an existing title element is already present, if so replace it, otherwise add it
-        let existingTitleElement = viewTab.querySelector("p.text-uppercase");
-        if (existingTitleElement) {
-            existingTitleElement.replaceWith(titleElement);
-        } else {
-            viewTab.prepend(titleElement);
-        }
-    } else {
-        let viewTab = document.getElementById("view");
-        let titleElement = viewTab.querySelector("p.text-uppercase");
-        if (titleElement) {
-            titleElement.remove();
-        }
-    }
 
     reconcileTaskMapWithTextarea();
     displayTaskCounts();
@@ -266,17 +273,6 @@ function sortAndGroup() {
         return `<h5 class="mt-3 ${colorClass}">${title}</h5>`;
     };
 
-    // let processTasks = (tasks) => {
-    //     return tasks.map(task => {
-    //         task = formatUsernamesInTask(task);
-    //         task = formatContextInTask(task);  // <-- Place it here
-    //         return task;
-    //     }).join('<br>');
-    // };
-
-
-
-
     let processTasks = (tasks) => {
         return tasks.map(task => {
             task = formatUsernamesInTask(task);  // This function call was already here
@@ -284,8 +280,6 @@ function sortAndGroup() {
             return task;
         }).join('<br>');
     };
-
-
 
 
     let mustDoTask = [...taskMap.keys()].find(task => task.startsWith("! "));
@@ -297,7 +291,7 @@ function sortAndGroup() {
     sortedList.innerHTML = `
     ${mustDoHTML}
     ${buildHeader("Today", "text-danger")}
-    ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().includes("t ") && !task.startsWith("t ")))}
+    ${[...taskMap.keys()].filter(task => task.toLowerCase().includes("today") && !task.startsWith("TODAY") && !task.startsWith("TITLE:")).join('<br>')}
 
         
 
@@ -373,12 +367,12 @@ l Finish editing a short film. #home
 !Call mom for her birthday. @robmcc
 Fix that annoying bug in the Python script.
 l Go for a 30-minute jog.
-Water the plants.@debbie
+x Water the plants.@debbie
 l Prepare slides for tomorrow's meeting.@james
 Cook dinner for friends coming over tonight.@debbie
 [3] Meditate for 10 minutes #daily 
 h Go to Walmart #home Today (jam, milk, return pants)
-ltake out garbage @doug
+l take out garbage @doug
 NOTES:
 Notes line 1
 Notes line 2

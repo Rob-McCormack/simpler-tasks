@@ -1,7 +1,17 @@
-T hello<span class="material-symbols-outlined"></span>
+If this is just hiddenon the page
 
-T hello<span class="material-symbols-outlined">asdf</span>
+<div id="title-div">
+    <h3 class="text-uppercase">#title</h3>
+</div>
 
-T hello world<span class="material-symbols-outlined">check_box_outline_blank</span>
+Could we just do read that HTML into a variable,
+then replace the token #title, with the `TITLE: Bob's To Do List`
 
-<sub>t</sub>
+THen, I can easily make changes just to the hidden `div` tag
+
+What do you think of this approach?
+
+
+<template id="title-template" style="display:none;">
+    <h3 class="text-uppercase">#title</h3>
+</template>

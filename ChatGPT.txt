@@ -1,14 +1,47 @@
-In `View` recurring items are showing up in Normal, with some ` ))}`
-Normal
-item normal 3
+
+Here is my starting list:
+`
+TITLE: The Big list for BOB  
+item normal 3 
+! item Must do single @robmcc 
+h item high1 http://cnn.com #work
+l item low1 #home
 item normal1 @robmcc
-r item recurring1
+r item recurring1 
+t item today1
+l item low2  (this is low2 note, note2, note3)
 item normal2 @robmcc
-r item recurring2
-r item recurring3 ))}
+r item recurring2  
+r item recurring3
+n NOtest out of order
+l item low3 @james
+h item high1
+n NOTES:
+n Notes line 1
+n Notes line 2
+n Notes line 3
+n Notes END
+t item today2
+`
+
+I get only 
+`
+Notes
+n NOtest out of order
+`
+
+and when I return to `Edit` tab a lot of `n ` are missing,
+`
+n NOtest out of order
+l item low3 @james
+h item high1
+n
+d NOTES:
+`
 
 
-Please fix
+
+
 
 ====
 We want to summarize the @name and #context, for example

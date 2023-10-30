@@ -48,6 +48,7 @@ document.getElementById("view-tab").addEventListener("click", function () {
     displayTaskCounts(); // Ensure count is updated
 });
 
+
 document.getElementById("edit-tab").addEventListener("click", showPlainText);
 
 document.getElementById("themeToggle").addEventListener("change", toggleTheme);
@@ -60,13 +61,33 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+// const specialChars = [
+//     { char: "d", meaning: "done" },
+//     { char: "!", meaning: "must-do" },
+//     { char: "h", meaning: "high priority" },
+//     { char: "l", meaning: "low priority" },
+//     { char: "r", meaning: "recurring" }
+// ];
+
 const specialChars = [
     { char: "d", meaning: "done" },
     { char: "!", meaning: "must-do" },
     { char: "h", meaning: "high priority" },
     { char: "l", meaning: "low priority" },
-    { char: "r", meaning: "recurring" }
+    { char: "r", meaning: "recurring" },
+    { char: "n", meaning: "note" }
 ];
+
+
+// function wrapSpecialCharacter(task) {
+//     for (let item of specialChars) {
+//         if (task.startsWith(item.char + " ")) {
+//             return `<sub>${item.char}</sub> ${task.slice(2)}`;
+//         }
+//     }
+//     // If no special character is found at the start, treat as normal priority
+//     return `<sub> </sub> ${task}`;
+// }
 
 function wrapSpecialCharacter(task) {
     for (let item of specialChars) {
@@ -77,6 +98,7 @@ function wrapSpecialCharacter(task) {
     // If no special character is found at the start, treat as normal priority
     return `<sub> </sub> ${task}`;
 }
+
 
 
 
@@ -102,9 +124,10 @@ function wrapSpecialCharacter(task) {
 function reconcileTaskMapWithTextarea() {
     const textArea = document.getElementById("initial-list");
     let content = textArea.value.trim();
+    let notesSegment = content.includes("NOTES:") ? content.split("NOTES:")[1].trim() : null;
 
     // Separate tasks and notes
-    let tasks = content.split("NOTES:")[0].trim().split("\n");
+    let tasks = notesSegment ? content.split("NOTES:")[0].trim().split("\n") : content.split("\n");
 
     const newTaskMap = new Map();
 
@@ -113,7 +136,13 @@ function reconcileTaskMapWithTextarea() {
         newTaskMap.set(task, checkboxStatus);
     });
 
+    if (notesSegment) {
+        newTaskMap.set("NOTES:", notesSegment);
+    }
+
     taskMap = newTaskMap;
+    console.log("Updated taskMap:", taskMap);
+
 }
 
 
@@ -350,9 +379,12 @@ function sortAndGroup() {
         !task.toLowerCase().startsWith("h ") &&
         !task.toLowerCase().startsWith("l ") &&
         !task.toLowerCase().startsWith("t ") &&
+        !task.toLowerCase().startsWith("t ") &&
         !task.toLowerCase().startsWith("r ") && // Exclude recurring tasks
         !task.startsWith("R ") && // Also exclude uppercase recurring tasks
         !task.startsWith("TITLE: ")
+
+
     ))}
 
 
@@ -365,8 +397,12 @@ function sortAndGroup() {
 
         ${buildHeader("Done")}
         ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("d ")))}
-    `;
 
+        ${buildHeader("Notes")}
+        ${processTasks([...taskMap.keys()].filter(task => task.startsWith("n ")))}
+            `;
+
+    console.log("Notes Content:", notesContent);
 
     let notes = extractNotes(document.getElementById("initial-list").value);
     if (notes && typeof notes === "string") {
@@ -375,8 +411,8 @@ function sortAndGroup() {
             <h5 class="mt-3">NOTES:</h5>
             <p>${formattedNotes}</p>
         `;
-    }
 
+    }
 
 
 }
@@ -432,14 +468,15 @@ l item low2  (this is low2 note, note2, note3)
 item normal2 @robmcc
 r item recurring2  
 r item recurring3
+n NOtest out of order
 l item low3 @james
 h item high1
+
+n Notes TITLE
+n Notes line 2
+n Notes line 3
+n Notes END
 t item today2
-NOTES:
-Notes line 1
-Notes line 2
-Notes line 3
-Notes END
     `;
     let textArea = document.getElementById("initial-list");
     textArea.value = sampleTasks.trim();

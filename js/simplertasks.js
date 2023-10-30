@@ -308,7 +308,7 @@ function sortAndGroup() {
         ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("l ") && !task.toLowerCase().startsWith("t ")))}
 
         ${buildHeader("Recurring", "text-warning")}
-        ${processTasks([...taskMap.keys()].filter(task => task.startsWith("r ") && !task.startsWith("! ") && !task.startsWith("- ") && !task.startsWith("d ") && !task.toLowerCase().startsWith("h ") && !task.toLowerCase().startsWith("l ") && !task.toLowerCase().startsWith("t ") && !task.startsWith("TITLE: ")))}
+        ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("r ") && !task.startsWith("! ") && !task.startsWith("- ") && !task.startsWith("d ") && !task.toLowerCase().startsWith("h ") && !task.toLowerCase().startsWith("l ") && !task.toLowerCase().startsWith("t ") && !task.startsWith("TITLE: ")))}
         
 
         ${buildHeader("Done")}

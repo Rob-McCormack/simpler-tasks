@@ -1,17 +1,11 @@
-If this is just hiddenon the page
-
-<div id="title-div">
-    <h3 class="text-uppercase">#title</h3>
-</div>
-
-Could we just do read that HTML into a variable,
-then replace the token #title, with the `TITLE: Bob's To Do List`
-
-THen, I can easily make changes just to the hidden `div` tag
-
-What do you think of this approach?
-
-
-<template id="title-template" style="display:none;">
-    <h3 class="text-uppercase">#title</h3>
-</template>
+<script>
+    const specialChars = [
+        { char: "d", meaning: "done" },
+        { char: "!", meaning: "must-do" },
+        { char: "h", meaning: "high priority" },
+        { char: "l", meaning: "low priority" },
+        { char: "r", meaning: "recurring" },
+        { char: "n", meaning: "note" },
+        { char: "u", meaning: "updated" },
+    ];
+</script>

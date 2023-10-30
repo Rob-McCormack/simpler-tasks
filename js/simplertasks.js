@@ -69,16 +69,10 @@ document.addEventListener("DOMContentLoaded", function () {
 //     { char: "r", meaning: "recurring" }
 // ];
 
-const specialChars = [
-    { char: "d", meaning: "done" },
-    { char: "!", meaning: "must-do" },
-    { char: "h", meaning: "high priority" },
-    { char: "l", meaning: "low priority" },
-    { char: "r", meaning: "recurring" },
-    { char: "n", meaning: "note" },
-    { char: "u", meaning: "updated" },
-];
+const specialCharsxxxx = [
 
+    // moved to HTML document
+];
 
 // function wrapSpecialCharacter(task) {
 //     for (let item of specialChars) {
@@ -197,7 +191,7 @@ function reconcileTaskMapWithTextarea() {
     }
 
     taskMap = newTaskMap;
-    console.log("Updated taskMap:", taskMap);
+    // console.log("Updated taskMap:", taskMap);
 
 }
 

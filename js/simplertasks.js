@@ -129,6 +129,54 @@ function convertToClickableURLs(text) {
 }
 
 
+
+// function stMarkDown(text) {
+//     // Replace *bold text here* with <strong>bold text here</strong>
+//     text = text.replace(/\*([^\*]+)\*/g, '<strong>$1</strong>');
+
+//     // Replace _italic text here_ with <em>italic text here</em>
+//     text = text.replace(/_([^_]+)_/g, '<em>$1</em>');
+
+//     // Replace :highlight text here: with <mark>highlight text here</mark>
+//     text = text.replace(/:([^:]+):/g, '<mark>$1</mark>');
+
+//     // Replace :) with smiley symbol
+//     text = text.replace(/:\)/g, '<span class="material-symbols-outlined">mood</span>');
+
+//     // Replace :( with sad symbol
+//     text = text.replace(/:\(/g, '<span class="material-symbols-outlined">sentiment_dissatisfied</span>');
+
+//     return text;
+// }
+
+
+const emoticonMappings = [
+    { emoticon: ":\\)", symbol: "sentiment_satisfied" },  // Notice the double backslashes before )
+    { emoticon: ":\\(", symbol: "sentiment_dissatisfied" }  // Notice the double backslashes before (
+    //... add more mappings as needed
+];
+
+function stMarkDown(text) {
+    // Replace **bold text** with <strong>bold text</strong>
+    text = text.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
+
+    // Replace __italics text__ with <em>italics text</em>
+    text = text.replace(/__([^_]+)__/g, '<em>$1</em>');
+
+    // Replace ::highlight text:: with <mark>highlight text</mark>
+    text = text.replace(/::([^:]+)::/g, '<mark>$1</mark>');
+
+    // Replace emoticons with corresponding Google symbols
+    for (let mapping of emoticonMappings) {
+        const regex = new RegExp(mapping.emoticon, 'g');
+        text = text.replace(regex, `<span class="material-symbols-outlined">${mapping.symbol}</span>`);
+    }
+
+    return text;
+}
+
+
+
 function reconcileTaskMapWithTextarea() {
     const textArea = document.getElementById("initial-list");
     let content = textArea.value.trim();
@@ -360,15 +408,23 @@ function sortAndGroup() {
     //     }).join('<br>');
     // };
 
+    // let processTasks = (tasks) => {
+    //     return tasks.map(task => {
+    //         task = formatUsernamesInTask(task);  // This function call was already here
+    //         task = wrapSpecialCharacter(task);   // This function call was already here
+    //         task = convertToClickableURLs(task); // Add this new function call here
+    //         return task;
+    //     }).join('<br>');
+    // };
+
     let processTasks = (tasks) => {
         return tasks.map(task => {
-            task = formatUsernamesInTask(task);  // This function call was already here
-            task = wrapSpecialCharacter(task);   // This function call was already here
-            task = convertToClickableURLs(task); // Add this new function call here
+            task = formatUsernamesInTask(task);  // Existing function call
+            task = wrapSpecialCharacter(task);   // Existing function call
+            task = stMarkDown(task);  // New function call for stMarkDown processing
             return task;
         }).join('<br>');
     };
-
 
     let mustDoTask = [...taskMap.keys()].find(task => task.startsWith("! "));
     let mustDoHTML = "";
@@ -427,7 +483,7 @@ function sortAndGroup() {
 
             `;
 
-    console.log("Notes Content:", notesContent);
+    // console.log("Notes Content:", notesContent);
 
     let notes = extractNotes(document.getElementById("initial-list").value);
 
@@ -474,23 +530,22 @@ function showPlainText() {
 
 function initializeSampleTasks() {
     let sampleTasks = `
-item normal 3 
-title new format for title xxxxxxxxxxx
+item normal 3
+title new *format* for title xxxxxxxxxxx
 updated Oct 23, 2023
-! item Must do single @robmcc 
-h item high1 http://cnn.com #work
+! item Must do single @robmcc
+h item high1 http://cnn.com #work *is it bold*
 l item low1 #home
 item normal1 @robmcc
-r item recurring1 
-t item today1
+r item recurring1
+t item today1 with stMarkup **bold **  __ Italic__ ::highlight:: 
 l item low2  (this is low2 note, note2, note3)
 item normal2 @robmcc
-r item recurring2  
+r item recurring2
 r item recurring3
 n NOtest out of order
 l item low3 @james
-h item high1
-
+h item high1 with emoticons  :) and :(
 n Notes TITLE
 n Notes line 2
 n Notes line 3

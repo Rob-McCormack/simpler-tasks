@@ -97,16 +97,17 @@ function reconcileTaskMapWithTextarea() {
 
 
 document.getElementById("initial-list").addEventListener("input", function () {
+    const textarea = document.getElementById("initial-list");
+    const trimmedContent = textarea.value.trim();
 
-    // Only update the textarea's value if there are changes after trimming
-    if (originalContent !== trimmedContent) {
-        this.value = trimmedContent;
+    if (textarea.value !== trimmedContent) {
+        textarea.value = trimmedContent; // Trim any leading/trailing spaces
     }
 
     // Reconcile the taskMap with the textarea content
     reconcileTaskMapWithTextarea();
 
-    reconcileTaskMapWithTextarea();
+    // Update the task counts
     displayTaskCounts();
 });
 
@@ -118,7 +119,7 @@ function trimTrailingSpaces() {
 
 function displayTaskCounts() {
     const tasks = [...taskMap.keys()];
-    const doneTasks = tasks.filter((task) => task.startsWith("x")).length;
+    const doneTasks = tasks.filter((task) => task.startsWith("d ")).length;
     const totalTasks = tasks.length;
     const navTaskCount = totalTasks - doneTasks;
 
@@ -289,11 +290,10 @@ function sortAndGroup() {
     }
 
     sortedList.innerHTML = `
-    ${mustDoHTML}
-    ${buildHeader("Today", "text-danger")}
-    ${[...taskMap.keys()].filter(task => task.toLowerCase().includes("today") && !task.startsWith("TODAY") && !task.startsWith("TITLE:")).join('<br>')}
-
-        
+        ${mustDoHTML}
+        ${buildHeader("Today", "text-danger")}
+        ${[...taskMap.keys()].filter(task => task.toLowerCase().includes("today") && !task.startsWith("TODAY") && !task.startsWith("TITLE:")).join('<br>')}
+       
 
         ${buildHeader("Must-Do", "text-info")}
         ${processTasks([...taskMap.keys()].filter(task => task.startsWith("! ") && !task.toLowerCase().startsWith("t ")))}
@@ -307,8 +307,12 @@ function sortAndGroup() {
         ${buildHeader("Low Priority")}
         ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("l ") && !task.toLowerCase().startsWith("t ")))}
 
+        ${buildHeader("Recurring", "text-warning")}
+        ${processTasks([...taskMap.keys()].filter(task => task.startsWith("r ") && !task.startsWith("! ") && !task.startsWith("- ") && !task.startsWith("d ") && !task.toLowerCase().startsWith("h ") && !task.toLowerCase().startsWith("l ") && !task.toLowerCase().startsWith("t ") && !task.startsWith("TITLE: ")))}
+        
+
         ${buildHeader("Done")}
-        ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("x ")))}
+        ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("d ")))}
     `;
 
 
@@ -350,7 +354,9 @@ function showPlainText() {
         )
         .map((task) => {
             if (taskMap.get(task)) {
-                return `x ${task}`;
+                // return `x ${task}`;
+                return `d ${task}`;
+
             }
             return task;
         });
@@ -365,7 +371,7 @@ TITLE: The Big list for BOB
 h Buy groceries for the week. http://cnn.com
 l Finish editing a short film. #home
 !Call mom for her birthday. @robmcc
-Fix that annoying bug in the Python script.
+t Fix that annoying bug in the Python script.
 l Go for a 30-minute jog.
 x Water the plants.@debbie
 l Prepare slides for tomorrow's meeting.@james

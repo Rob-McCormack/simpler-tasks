@@ -1,16 +1,18 @@
-TITLE: The Big list for BOB   
-! Drive Debbie 
-h Buy groceries for the week. http://cnn.com
-l Finish editing a short film. #home
-!Call mom for her birthday. @robmcc
-Fix that annoying bug in the Python script.
-l Go for a 30-minute jog.
-Water the plants.@debbie
-l Prepare slides for tomorrow's meeting.@james
-Cook dinner for friends coming over tonight.@debbie
-[3] Meditate for 10 minutes #daily 
-h Go to Walmart #home Today (jam, milk, return pants)
-ltake out garbage @doug
+TITLE: The Big list for BOB @robmcc  
+ normal 1 
+! item Must do single @robmcc 
+h item high1 http://cnn.com #work
+l item low1 #home
+  item normal1 @robmcc
+r item recurring1 
+t item today1
+l item low2  (this is low2 note, note2, note3)
+  item normal2 @robmcc
+r item recurring2  
+x item x old @debbie
+l item low3 @james
+h item high1
+t item today2
 NOTES:
 Notes line 1
 Notes line 2

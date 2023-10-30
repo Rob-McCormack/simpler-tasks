@@ -1,14 +1,66 @@
-a) I notice that you have build in a remove duplicates,
-If I have
-`
-h go to bank
-h go to bank
-h go to bank
-`
-they are trimmed to
-`
-h go to bank
-`
+Let's tackle a few bugs...
+---
+Sample list:
+function initializeSampleTasks() {
+    let sampleTasks = `
+TITLE: The Big list for BOB  
+normal 1 
+! item Must do single @robmcc 
+h item high1 http://cnn.com #work
+l item low1 #home
+item normal1 @robmcc
+r item recurring1 
+t item today1
+l item low2  (this is low2 note, note2, note3)
+item normal2 @robmcc
+r item recurring2  
+x item x old @debbie
+l item low3 @james
+h item high1
+t item today2
+NOTES:
+Notes line 1
+Notes line 2
+Notes line 3
+Notes END
+    `;
+    let textArea = document.getElementById("initial-list");
+    textArea.value = sampleTasks.trim();
+}
+
+    `;
+    let textArea = document.getElementById("initial-list");
+    textArea.value = sampleTasks.trim();
+}
+---
+
+a)  Normal catagory has too many items, it should only have 3 items
+Normal
+item normal 3
+item normal1 @robmcc
+r item recurring1
+item normal2 @robmcc
+r item recurring2
+NOTES:
+Notes line 1
+Notes line 2
+Notes line 3
+Notes END
 
 
-b) 
+
+====
+We want to summarize the @name and #context, for example
+
+@james
+- all items he is resonsible for
+@robert
+- all items he is response for
+etc.
+
+then
+#home
+- all items that belong to that context
+#work
+- all items that belong to that context.
+

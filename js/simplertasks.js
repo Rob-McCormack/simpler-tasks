@@ -202,9 +202,16 @@ function extractNotes(content) {
     const notesRegex = /^NOTES:\n([\s\S]*)$/m;
     const match = content.match(notesRegex);
     if (match) {
-        return match[1].trim();
+        content = content.replace(notesRegex, '').trim(); // Remove the notes from the content
+        return {
+            notes: match[1].trim(),
+            content: content
+        };
     }
-    return null;
+    return {
+        notes: null,
+        content: content
+    };
 }
 
 function copyTextToClipboard(elementId) {
@@ -245,23 +252,12 @@ function changeTheme(mode) {
 
 
 function sortAndGroup() {
-    let notesContent = extractNotes(document.getElementById("initial-list").value);
+    // function sortAndGroup() {
+    let extractionResult = extractNotes(document.getElementById("initial-list").value);
+    let notesContent = extractionResult.notes;
     let specialTodayTask = [...taskMap.keys()].find((task) => /^TODAY\s*:?\s+/i.test(task));
     let todayElement = document.getElementById("specialTodayTask");
     let todayTextElement = todayElement.querySelector("#specialTodayText");
-
-
-    // // Convert special characters to lowercase
-    // const tasks = [...taskMap.keys()];
-    // for (let task of tasks) {
-    //     for (let item of specialChars) {
-    //         if (task.startsWith(item.char.toUpperCase() + " ")) {
-    //             const modifiedTask = task.charAt(0).toLowerCase() + task.slice(1);
-    //             taskMap.delete(task);
-    //             taskMap.set(modifiedTask, false);
-    //         }
-    //     }
-    // }
 
     // Convert tasks to lowercase for special characters
     const tasks = [...taskMap.keys()];
@@ -272,8 +268,6 @@ function sortAndGroup() {
             }
         }
     });
-
-
 
     if (specialTodayTask) {
         todayTextElement.textContent = specialTodayTask;
@@ -327,7 +321,18 @@ function sortAndGroup() {
         ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("h ") && !task.toLowerCase().startsWith("t ") && !task.startsWith("! ")))}
 
         ${buildHeader("Normal")}
-        ${processTasks([...taskMap.keys()].filter(task => !task.startsWith("! ") && !task.startsWith("- ") && !task.startsWith("x ") && !task.toLowerCase().startsWith("h ") && !task.toLowerCase().startsWith("l ") && !task.toLowerCase().startsWith("t ") && !task.startsWith("TITLE: ")))}
+        ${processTasks([...taskMap.keys()].filter(task =>
+        !task.startsWith("! ") &&
+        !task.startsWith("- ") &&
+        !task.startsWith("d ") &&
+        !task.toLowerCase().startsWith("h ") &&
+        !task.toLowerCase().startsWith("l ") &&
+        !task.toLowerCase().startsWith("r ") &&
+        !task.toLowerCase().startsWith("t ") &&
+        !task.startsWith("TITLE: ") &&
+        !task.startsWith("NOTES:")
+    ))}
+
 
         ${buildHeader("Low Priority")}
         ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("l ") && !task.toLowerCase().startsWith("t ")))}
@@ -343,11 +348,10 @@ function sortAndGroup() {
 
 
     let notes = extractNotes(document.getElementById("initial-list").value);
-    if (notes) {
-        let formattedNotes = notes.replace(/(\r\n|\n|\r)/gm, "<br>");
+    if (notesContent) {
         sortedList.innerHTML += `
             <h5 class="mt-3">NOTES:</h5>
-            <p>${formattedNotes}</p>
+            <p>${notesContent.replace(/(\r\n|\n|\r)/gm, "<br>")}</p>
         `;
     }
 }
@@ -391,21 +395,21 @@ function showPlainText() {
 
 function initializeSampleTasks() {
     let sampleTasks = `
-TITLE: The Big list for BOB   
-! Drive Debbie 
-h Buy groceries for the week. http://cnn.com
-l Finish editing a short film. #home
-!Call mom for her birthday. @robmcc
-t Fix that annoying bug in the Python script.
-l Go for a 30-minute jog.
-x Water the plants.@debbie
-l Prepare slides for tomorrow's meeting.@james
-Cook dinner for friends coming over tonight.@debbie
-[3] Meditate for 10 minutes #daily 
-h Go to Walmart #home Today (jam, milk, return pants)
-l take out garbage @doug
-r make bed
-R make coffee
+TITLE: The Big list for BOB  
+item normal 3 
+! item Must do single @robmcc 
+h item high1 http://cnn.com #work
+l item low1 #home
+item normal1 @robmcc
+r item recurring1 
+t item today1
+l item low2  (this is low2 note, note2, note3)
+item normal2 @robmcc
+r item recurring2  
+x item x old @debbie
+l item low3 @james
+h item high1
+t item today2
 NOTES:
 Notes line 1
 Notes line 2

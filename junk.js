@@ -1,23 +1,18 @@
+
+
 function sortAndGroup() {
-    // ... [Previous part of your sortAndGroup function]
+    let extractionResult = extractNotes(document.getElementById("initial-list").value);
+    let notesContent = extractionResult.notes;
 
-    let notesContent = extractNotes(document.getElementById("initial-list").value);
+    // Use extractionResult.content for further processing instead of the original content
     let specialTodayTask = [...taskMap.keys()].find((task) => /^TODAY\s*:?\s+/i.test(task));
-    let todayElement = document.getElementById("specialTodayTask");
-    let todayTextElement = todayElement.querySelector("#specialTodayText");
-    // ... [rest of your code till this point]
 
-    // Convert special characters to lowercase
-    const tasks = [...taskMap.keys()];
-    for (let task of tasks) {
-        for (let item of specialChars) {
-            if (task.startsWith(item.char.toUpperCase() + " ")) {
-                const modifiedTask = task.charAt(0).toLowerCase() + task.slice(1);
-                taskMap.delete(task);
-                taskMap.set(modifiedTask, false);
-            }
-        }
+    // ... [rest of your sortAndGroup function without extracting notes again]
+
+    if (notesContent) {
+        sortedList.innerHTML += `
+            <h5 class="mt-3">NOTES:</h5>
+            <p>${notesContent.replace(/(\r\n|\n|\r)/gm, "<br>")}</p>
+        `;
     }
-
-    // ... [Continue with the rest of your sortAndGroup function]
 }

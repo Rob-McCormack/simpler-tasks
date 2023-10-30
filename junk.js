@@ -1,3 +1,7 @@
-let content = document.getElementById("initial-list").value;
-let lines = content.split("\n").map(line => line.trim()).join("\n");
-document.getElementById("initial-list").value = lines;
+let processTasks = (tasks) => {
+    return tasks.map(task => {
+        task = formatUsernamesInTask(task);  // This function call was already here
+        task = wrapSpecialCharacter(task);   // Add this new function call here
+        return task;
+    }).join('<br>');
+};

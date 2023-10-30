@@ -1,20 +1,7 @@
+B) I don't have that function...
+I am using `sub` so in View the user doesn't get too confused about their task item, and the special characters
 
-A) Trim trailing spaces every where in list
-Now we have items such as:
-h Buy groceries for the week. 
-which has annoying trailing spaces,
-
-How do we TRIM all trailing spaces?
-
----
-
-B)Change appearance of first special characters in View:
-I want to show the special first characters differently in view,
-For example,
- `h Go to Walmart`
- should be 
- <sub>h</sub> Go to Walmart
- and for normal priority
- <sub> </sub> visit with mom
-
----
+Please add `r ` to the function, this will be a special character for "recurring" tasks, more on that later.
+could you not use a list, or array to hold the special charcters,
+and loop through them?
+I indent to add more.

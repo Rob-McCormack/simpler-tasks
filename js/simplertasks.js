@@ -28,6 +28,27 @@ document.addEventListener("DOMContentLoaded", function () {
     displayTaskCounts();
 });
 
+
+const specialChars = [
+    { char: "d", meaning: "done" },
+    { char: "!", meaning: "must-do" },
+    { char: "h", meaning: "high priority" },
+    { char: "l", meaning: "low priority" },
+    { char: "r", meaning: "recurring" }
+];
+
+function wrapSpecialCharacter(task) {
+    for (let item of specialChars) {
+        if (task.startsWith(item.char + " ")) {
+            return `<sub>${item.char}</sub> ${task.slice(2)}`;
+        }
+    }
+    // If no special character is found at the start, treat as normal priority
+    return `<sub> </sub> ${task}`;
+}
+
+
+
 function reconcileTaskMapWithTextarea() {
     const textArea = document.getElementById("initial-list");
     const lines = textArea.value.trim().split("\n");
@@ -245,14 +266,24 @@ function sortAndGroup() {
         return `<h5 class="mt-3 ${colorClass}">${title}</h5>`;
     };
 
+    // let processTasks = (tasks) => {
+    //     return tasks.map(task => {
+    //         task = formatUsernamesInTask(task);
+    //         task = formatContextInTask(task);  // <-- Place it here
+    //         return task;
+    //     }).join('<br>');
+    // };
+
+
+
+
     let processTasks = (tasks) => {
         return tasks.map(task => {
-            task = formatUsernamesInTask(task);
-            task = formatContextInTask(task);  // <-- Place it here
+            task = formatUsernamesInTask(task);  // This function call was already here
+            task = wrapSpecialCharacter(task);   // Add this new function call here
             return task;
         }).join('<br>');
     };
-
 
 
 

@@ -2,6 +2,10 @@ let taskMap = new Map();
 let isFormatted = false;
 
 // Event Listeners
+document.getElementById("edit-tab").addEventListener("click", trimTrailingSpaces);
+document.getElementById("view-tab").addEventListener("click", trimTrailingSpaces);
+
+
 document.getElementById("copy-button").addEventListener("click", function () {
     copyTextToClipboard("initial-list");
     alert("Text copied to clipboard!");
@@ -38,37 +42,39 @@ function reconcileTaskMapWithTextarea() {
 }
 
 
+
+
 document.getElementById("initial-list").addEventListener("input", function () {
-    // Reconcile the taskMap with the textarea xcontent
+
+    // Only update the textarea's value if there are changes after trimming
+    if (originalContent !== trimmedContent) {
+        this.value = trimmedContent;
+    }
+
+    // Reconcile the taskMap with the textarea content
     reconcileTaskMapWithTextarea();
 
-    let content = this.value;
-
-    let viewTab = document.getElementById("view");
-    let titleTemplate = document.getElementById("title-template");
-
-    if (content.startsWith("TITLE:")) {
-        let title = content.split("\n")[0].replace("TITLE:", "").trim();
-
-        // Clone the template
+    // Check if the first line starts with "TITLE:"
+    if (trimmedContent.startsWith("TITLE:")) {
+        let title = trimmedContent.split("\n")[0].replace("TITLE:", "").trim();
+        let viewTab = document.getElementById("view");
+        let titleTemplate = document.getElementById("title-template");
         let titleClone = document.importNode(titleTemplate.content, true);
-
-        // Get the title element from the cloned content
-        let titleElement = titleClone.firstElementChild;
-        titleElement.textContent = title;
+        let titleElement = titleClone.querySelector("p");
+        titleElement.textContent = title.toUpperCase();
 
         // Check if an existing title element is already present, if so replace it, otherwise add it
-        let existingTitleElement = viewTab.querySelector(".text-uppercase");
+        let existingTitleElement = viewTab.querySelector("p.text-uppercase");
         if (existingTitleElement) {
-            viewTab.replaceChild(titleClone, existingTitleElement);
+            existingTitleElement.replaceWith(titleElement);
         } else {
-            viewTab.prepend(titleClone);
+            viewTab.prepend(titleElement);
         }
     } else {
-        // If the content does not start with "TITLE:", remove the existing title element if present
-        let existingTitleElement = viewTab.querySelector(".text-uppercase");
-        if (existingTitleElement) {
-            existingTitleElement.remove();
+        let viewTab = document.getElementById("view");
+        let titleElement = viewTab.querySelector("p.text-uppercase");
+        if (titleElement) {
+            titleElement.remove();
         }
     }
 
@@ -76,6 +82,11 @@ document.getElementById("initial-list").addEventListener("input", function () {
     displayTaskCounts();
 });
 
+
+function trimTrailingSpaces() {
+    const textarea = document.getElementById("initial-list");
+    textarea.value = textarea.value.split("\n").map(line => line.trimEnd()).join("\n");
+}
 
 function displayTaskCounts() {
     const tasks = [...taskMap.keys()];

@@ -1,14 +1,28 @@
+I want everything here, but not the numbered bullets,
 
-Good,  and I made several changes myself,  
-
-Now, although we will allow uses to use `D ` and `H `,
-I want the display to always show `d ` and `h `,
-We don't want to do this during editting, but only once they click
-on `View`
-Then, if they return to `Edit`, the special character(s) will be all lower
-case
-
-
+<ol class="list-group list-group-numbered">
+  <li class="list-group-item d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">Subheading</div>
+      Content for list item
+    </div>
+    <span class="badge bg-primary rounded-pill">14</span>
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">Subheading</div>
+      Content for list item
+    </div>
+    <span class="badge bg-primary rounded-pill">14</span>
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">Subheading</div>
+      Content for list item
+    </div>
+    <span class="badge bg-primary rounded-pill">14</span>
+  </li>
+</ol>
 
 
 

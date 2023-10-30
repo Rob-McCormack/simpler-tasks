@@ -19,6 +19,18 @@ body {
     vertical-align: middle;
 }
 
+/* possible use for `View` tab display */
+.custom-list {
+    list-style-type: none;
+    padding-left: 0; // This will remove the default padding
+}
+
+.category-heading {
+    font-weight: bold;
+    font-size: 1.2em; // Adjust size as needed
+    // Add any other styling specific to the category heading
+}
+
 
 #taskCount {
     display: none;

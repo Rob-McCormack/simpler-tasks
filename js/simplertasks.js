@@ -75,7 +75,8 @@ const specialChars = [
     { char: "h", meaning: "high priority" },
     { char: "l", meaning: "low priority" },
     { char: "r", meaning: "recurring" },
-    { char: "n", meaning: "note" }
+    { char: "n", meaning: "note" },
+    { char: "u", meaning: "updated" },
 ];
 
 
@@ -366,6 +367,9 @@ function sortAndGroup() {
     ${buildHeader("Title")}
     ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("title ")))}
 
+    ${buildHeader("Update")}
+    ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("update ")))}
+
     ${buildHeader("Must-Do", "text-info")}
     ${processTasks([...taskMap.keys()].filter(task => task.startsWith("! ") && !task.toLowerCase().startsWith("t ")))}
 
@@ -454,9 +458,9 @@ function showPlainText() {
 
 function initializeSampleTasks() {
     let sampleTasks = `
-TITLE: The Big list for BOB  
 item normal 3 
 title new format for title xxxxxxxxxxx
+updated Oct 23, 2023
 ! item Must do single @robmcc 
 h item high1 http://cnn.com #work
 l item low1 #home

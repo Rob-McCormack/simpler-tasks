@@ -22,13 +22,12 @@ body {
 /* possible use for `View` tab display */
 .custom-list {
     list-style-type: none;
-    padding-left: 0; // This will remove the default padding
-}
+    padding-left: 0;}
 
 .category-heading {
     font-weight: bold;
-    font-size: 1.2em; // Adjust size as needed
-    // Add any other styling specific to the category heading
+    font-size: 1.2em; 
+    /*  Add any other styling specific to the category heading */
 }
 
 

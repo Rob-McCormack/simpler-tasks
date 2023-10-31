@@ -1,20 +1,39 @@
 let taskMap = new Map();
 let isFormatted = false;
 
+
+document.getElementById('edit-tab').addEventListener('click', function () {
+    setTimeout(() => {
+        document.getElementById('initial-list').focus();
+    }, 100);
+});
+
+window.onload = function () {
+    document.getElementById('initial-list').focus();
+};
+
+
+
 document.addEventListener('keydown', function (event) {
-    if (event.ctrlKey && event.shiftKey) {
-        if (event.key === 'E' || event.key === 'e') {
-            // Activate Edit tab
-            new bootstrap.Tab(document.getElementById('edit-tab')).show();
-        } else if (event.key === 'V' || event.key === 'v') {
-            // Activate View tab
+    if (event.key === 'Tab') {
+        event.preventDefault();
+
+        // If the Edit tab is currently active, switch to the View tab
+        if (document.getElementById('edit-tab').classList.contains('active')) {
             new bootstrap.Tab(document.getElementById('view-tab')).show();
-        } else if (event.key === 'H' || event.key === 'h') {
-            // Activate Help tab
-            new bootstrap.Tab(document.getElementById('help-tab')).show();
+        }
+        // If any other tab is active, switch to the Edit tab and focus the textarea
+        else {
+            new bootstrap.Tab(document.getElementById('edit-tab')).show();
+            setTimeout(() => {
+                document.getElementById('initial-list').focus();
+            }, 100);
         }
     }
 });
+
+
+
 
 
 // Event Listeners

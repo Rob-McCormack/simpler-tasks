@@ -8,8 +8,9 @@ document.getElementById('edit-tab').addEventListener('click', function () {
     }, 100);
 });
 
+// TODO: Rob, this cause focus trouble when in VS code
 window.onload = function () {
-    document.getElementById('initial-list').focus();
+    // document.getElementById('initial-list').focus();
 };
 
 
@@ -85,6 +86,8 @@ function wrapSpecialCharacter(task) {
 }
 
 
+
+
 function convertToClickableURLs(text) {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     return text.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
@@ -97,6 +100,26 @@ const emoticonMappings = [
     //... add more mappings as needed
 ];
 
+// function stMarkDown(text) {
+//     // Replace **bold text** with <strong>bold text</strong>
+//     text = text.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
+
+//     // Replace __italics text__ with <em>italics text</em>
+//     text = text.replace(/__([^_]+)__/g, '<em>$1</em>');
+
+//     // Replace ::highlight text:: with <mark>highlight text</mark>
+//     text = text.replace(/::([^:]+)::/g, '<mark>$1</mark>');
+
+//     // Replace emoticons with corresponding Google symbols
+//     for (let mapping of emoticonMappings) {
+//         const regex = new RegExp(mapping.emoticon, 'g');
+//         text = text.replace(regex, `<span class="material-symbols-outlined">${mapping.symbol}</span>`);
+//     }
+
+//     return text;
+// }
+
+
 function stMarkDown(text) {
     // Replace **bold text** with <strong>bold text</strong>
     text = text.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
@@ -106,6 +129,9 @@ function stMarkDown(text) {
 
     // Replace ::highlight text:: with <mark>highlight text</mark>
     text = text.replace(/::([^:]+)::/g, '<mark>$1</mark>');
+
+    // Convert 'image=URL' to '<img src="URL" alt="">'
+    text = text.replace(/image=([^\s]+)/g, '<img src="$1" alt="">');
 
     // Replace emoticons with corresponding Google symbols
     for (let mapping of emoticonMappings) {
@@ -430,6 +456,8 @@ function initializeSampleTasks() {
 item normal 3
 title new *format* for title xxxxxxxxxxx
 updated Oct 23, 2023
+h this is code <code>hello world</code>
+h this is an image ???? image=https://rob-mccormack.github.io/simpler-tasks/stlogo.png 
 ! item Must do single @robmcc
 h item high1 http://cnn.com #work *is it bold*
 l item low1 #home

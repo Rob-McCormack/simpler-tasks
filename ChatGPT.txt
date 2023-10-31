@@ -1,12 +1,47 @@
-These are not working now, google symbols are working
-`
-* bold * _ Italic_ :highlight:
-`
 
-`Uncaught ReferenceError: notesContent is not defined
-    at sortAndGroup (simplertasks.js:486:35)
-    at HTMLDocument.<anonymous> (simplertasks.js:59:5)
-`
+This is meant to graph anything,
+
+
+Why can't I type in textarea?
+
+Please enter default text in textarea, for 10 records,
+with random dates and random decreasing weithts between:
+2023/1/4:283.1
+and
+2023/10/31:206
+again, give me entire file with everything
+
+I want to type out the weights and dates, on a mobile device.
+then translate into format:
+{date: '2023/1/4', weight: 283.1},
+{date: '2023/1/5', weight: 275},
+...
+
+Something like format:
+Weight(2023/1/4:283.1, 2023/1/5':275, ...)
+
+Please provide all the code for hml and js
+
+
+
+What would be the simplest way to have
+dates associated with the numbers, which are actually weight,
+in pounds.
+
+labels for
+y axis is Weight in pounds
+x asis is dates
+
+I meant to have a format like,
+
+(2023/1/4:283.1, 2023/1/4:275 ... to ... 2023/1/4:203)
+SimplerGraphs.html
+
+1. set up simple bootstrap 5 template, with CDN
+2. Using library https://d3js.org/ 
+3. Set up a animated line graph for this data
+(283.1, 275, 270, 266, 272, 250, 240, 220, 206,203)
+
 
 ====
 We want to summarize the @name and #context, for example

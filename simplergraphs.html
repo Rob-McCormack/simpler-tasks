@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight Tracker</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom styling for the graph */
+        .line {
+            fill: none;
+            stroke: steelblue;
+            stroke-width: 2;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 2s forwards;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <div class="mb-3">
+            <label for="weightInput" class="form-label">Enter Weights</label>
+            <textarea class="form-control" id="weightInput"
+                rows="4">g Weight/Dates(2023/1/4:283.1, 2023/1/18:279.5, 2023/2/5:277.3, 2023/3/1:274.2, 2023/4/15:271, 2023/5/20:268.7, 2023/6/8:266.5, 2023/7/11:263.3, 2023/8/28:260.1, 2023/10/15:257)</textarea>
+        </div>
+        <button class="btn btn-primary mb-4" onclick="parseWeights()">Graph</button>
+        <svg width="600" height="400"></svg>
+    </div>
+
+    <!-- Bootstrap 5 JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- D3.js Library -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <script>
+        function parseWeights() {
+            const inputText = document.getElementById('weightInput').value.trim();
+
+            if (!inputText.startsWith('g ')) {
+                alert("Input must start with 'g '");
+                return;
+            }
+
+            const entries = inputText.slice(2).split('(')[1].split(')')[0].split(',').map(s => s.trim());
+            const axisLabels = ["Weight", "Dates"];
+
+            const data = entries.map(entry => {
+                const [date, weight] = entry.split(':').map(s => s.trim());
+                return { date, weight: parseFloat(weight) };
+            });
+
+            drawGraph(data, axisLabels);
+        }
+
+        function drawGraph(data, axisLabels) {
+            const svg = d3.select("svg");
+            svg.selectAll("*").remove(); // Clear the SVG
+
+            const margin = { top: 20, right: 20, bottom: 50, left: 80 };
+            const width = +svg.attr("width") - margin.left - margin.right;
+            const height = +svg.attr("height") - margin.top - margin.bottom;
+
+            const parseTime = d3.timeParse("%Y/%m/%d");
+
+            const x = d3.scaleTime().rangeRound([0, width]);
+            const y = d3.scaleLinear().rangeRound([height, 0]);
+
+            const line = d3.line()
+                .x(d => x(parseTime(d.date)))
+                .y(d => y(d.weight));
+
+            const g = svg.append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            x.domain(d3.extent(data, d => parseTime(d.date)));
+            y.domain([d3.min(data, d => d.weight) - 5, d3.max(data, d => d.weight) + 5]);
+
+            g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x))
+                .append("text")
+                .attr("fill", "#000")
+                .attr("x", width / 2)
+                .attr("y", 40)
+                .attr("text-anchor", "middle")
+                .attr("font-size", "20px")
+                .text(axisLabels[1]);
+
+            g.append("g")
+                .call(d3.axisLeft(y))
+                .append("text")
+                .attr("fill", "#000")
+                .attr("transform", "rotate(-90)")
+                .attr("y", -60)
+                .attr("x", -(height / 2))
+                .attr("dy", "0.71em")
+                .attr("text-anchor", "middle")
+                .attr("font-size", "20px")
+                .text(axisLabels[0]);
+
+            g.append("path")
+                .datum(data)
+                .attr("fill", "none")
+                .attr("stroke", "steelblue")
+                .attr("stroke-linejoin", "round")
+                .attr("stroke-linecap", "round")
+                .attr("stroke-width", 1.5)
+                .attr("d", line);
+        }
+    </script>
+</body>
+
+</html>

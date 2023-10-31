@@ -1,19 +1,8 @@
-No, I will clarify, you know we have a`stMarkDown` function.
-I want to add another replacement to it:
+Great, we are on a roll.... let's stay with `stMarkDown`,
+add this feature
 
-This is similar to our `convertToClickableURLs` function...
+We want the character "`", to act like this
 
-I want to be able to enter in textarea,
-this markdown type of string, will always begin with `image=`:
-`image=http://_url_toimage`
-and 
-have it transforted by the stMarkdown() to:
-`image=http://_url_toimage`
-
-For example if the text area has:
-`image=https://rob-mccormack.github.io/simpler-tasks/stlogo.png `
-The stMarkDown() will trasform it to:
-`<img src="https://rob-mccormack.github.io/simpler-tasks/stlogo.png" alt="">`
-and then in View, the user will see an image...
-
-Do you understand now?
+`this is code`,
+will be transformed to bootstraps
+<code>this is code</code>

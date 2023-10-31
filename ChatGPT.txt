@@ -1,5 +1,34 @@
 
-This is meant to graph anything,
+
+a) FIX: I don't think the labels are being read from:
+Weight/Dates/line(2023/1/4:283.1 ...)
+If I change
+Weight
+to:
+Weightxxx
+the y axis label doesn't change
+
+b) 
+This is meant to graph anything, with this  super simple format,
+Lets add graph type, default will be line graph,
+for now, use the same data
+
+g Weight/Dates(2023/1/4:283.1, 2023/1/18:279.5...)
+Here is how type will work:
+
+`line` type is default.
+
+Weight/Dates(2023/1/4:283.1, 2023/1/18:279.5...)
+is the same as line type graph:
+Weight/Dates/line(2023/1/4:283.1, 2023/1/18:279.5...)
+
+line type bar:
+Weight/Dates/bar(2023/1/4:283.1, 2023/1/18:279.5...)
+
+For now, just allow 2 types and the default,
+Give me ENTIRE code
+
+
 
 
 Why can't I type in textarea?

@@ -1,89 +1,11 @@
+Goodmorning!
+I want to continue working on my SimplerTasks project.
+Here is all the working code:
+---
+simplertasks.html
 
+---
+simplertasks.js
 
-a) FIX: I don't think the labels are being read from:
-Weight/Dates/line(2023/1/4:283.1 ...)
-If I change
-Weight
-to:
-Weightxxx
-the y axis label doesn't change
-
-b) 
-This is meant to graph anything, with this  super simple format,
-Lets add graph type, default will be line graph,
-for now, use the same data
-
-g Weight/Dates(2023/1/4:283.1, 2023/1/18:279.5...)
-Here is how type will work:
-
-`line` type is default.
-
-Weight/Dates(2023/1/4:283.1, 2023/1/18:279.5...)
-is the same as line type graph:
-Weight/Dates/line(2023/1/4:283.1, 2023/1/18:279.5...)
-
-line type bar:
-Weight/Dates/bar(2023/1/4:283.1, 2023/1/18:279.5...)
-
-For now, just allow 2 types and the default,
-Give me ENTIRE code
-
-
-
-
-Why can't I type in textarea?
-
-Please enter default text in textarea, for 10 records,
-with random dates and random decreasing weithts between:
-2023/1/4:283.1
-and
-2023/10/31:206
-again, give me entire file with everything
-
-I want to type out the weights and dates, on a mobile device.
-then translate into format:
-{date: '2023/1/4', weight: 283.1},
-{date: '2023/1/5', weight: 275},
-...
-
-Something like format:
-Weight(2023/1/4:283.1, 2023/1/5':275, ...)
-
-Please provide all the code for hml and js
-
-
-
-What would be the simplest way to have
-dates associated with the numbers, which are actually weight,
-in pounds.
-
-labels for
-y axis is Weight in pounds
-x asis is dates
-
-I meant to have a format like,
-
-(2023/1/4:283.1, 2023/1/4:275 ... to ... 2023/1/4:203)
-SimplerGraphs.html
-
-1. set up simple bootstrap 5 template, with CDN
-2. Using library https://d3js.org/ 
-3. Set up a animated line graph for this data
-(283.1, 275, 270, 266, 272, 250, 240, 220, 206,203)
-
-
-====
-We want to summarize the @name and #context, for example
-
-@james
-- all items he is resonsible for
-@robert
-- all items he is response for
-etc.
-
-then
-#home
-- all items that belong to that context
-#work
-- all items that belong to that context.
-
+---
+simplertasks.css

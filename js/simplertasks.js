@@ -44,31 +44,6 @@ document.getElementById("view-tab").addEventListener("click", function () {
     let content = document.getElementById("initial-list").value;
     let trimmedContent = content.trim();
 
-    // // Check if the first line starts with "TITLE:"
-    // if (trimmedContent.startsWith("TITLE:")) {
-    //     let title = trimmedContent.split("\n")[0].replace("TITLE:", "").trim();
-    //     let viewTab = document.getElementById("view");
-    //     let titleTemplate = document.getElementById("title-template");
-    //     let titleClone = document.importNode(titleTemplate.content, true);
-    //     let titleElement = titleClone.querySelector("p");
-    //     titleElement.textContent = title.toUpperCase();
-
-    //     // Check if an existing title element is already present, if so replace it, otherwise add it
-    //     let existingTitleElement = viewTab.querySelector("p.text-uppercase");
-    //     if (existingTitleElement) {
-    //         existingTitleElement.replaceWith(titleElement);
-    //     } else {
-    //         viewTab.prepend(titleElement);
-    //     }
-    // } else {
-    //     let viewTab = document.getElementById("view");
-    //     let titleElement = viewTab.querySelector("p.text-uppercase");
-    //     if (titleElement) {
-    //         titleElement.remove();
-    //     }
-    // }
-
-    // You can also include any other code that should run when the "View" tab is clicked.
 });
 
 
@@ -83,11 +58,8 @@ document.getElementById("view-tab").addEventListener("click", function () {
     displayTaskCounts(); // Ensure count is updated
 });
 
-
 document.getElementById("edit-tab").addEventListener("click", showPlainText);
-
 document.getElementById("themeToggle").addEventListener("change", toggleTheme);
-
 document.addEventListener("DOMContentLoaded", function () {
     initializeSampleTasks();
     reconcileTaskMapWithTextarea();
@@ -96,28 +68,11 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-// const specialChars = [
-//     { char: "d", meaning: "done" },
-//     { char: "!", meaning: "must-do" },
-//     { char: "h", meaning: "high priority" },
-//     { char: "l", meaning: "low priority" },
-//     { char: "r", meaning: "recurring" }
-// ];
-
 const specialCharsxxxx = [
 
     // moved to HTML document
 ];
 
-// function wrapSpecialCharacter(task) {
-//     for (let item of specialChars) {
-//         if (task.startsWith(item.char + " ")) {
-//             return `<sub>${item.char}</sub> ${task.slice(2)}`;
-//         }
-//     }
-//     // If no special character is found at the start, treat as normal priority
-//     return `<sub> </sub> ${task}`;
-// }
 
 function wrapSpecialCharacter(task) {
     for (let item of specialChars) {
@@ -130,53 +85,10 @@ function wrapSpecialCharacter(task) {
 }
 
 
-
-
-// function reconcileTaskMapWithTextarea() {
-//     const textArea = document.getElementById("initial-list");
-//     let content = textArea.value.trim();
-
-//     // Separate tasks and notes
-//     let tasks = content.split("NOTES:")[0].trim().split("\n");
-//     let notes = content.includes("NOTES:") ? content.split("NOTES:")[1].trim() : null;
-
-//     const newTaskMap = new Map();
-
-//     tasks.forEach((task) => {
-//         const checkboxStatus = task.startsWith("d ");
-//         newTaskMap.set(task, checkboxStatus);
-//     });
-
-//     taskMap = newTaskMap;
-// }
-
-
-
 function convertToClickableURLs(text) {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     return text.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
 }
-
-
-
-// function stMarkDown(text) {
-//     // Replace *bold text here* with <strong>bold text here</strong>
-//     text = text.replace(/\*([^\*]+)\*/g, '<strong>$1</strong>');
-
-//     // Replace _italic text here_ with <em>italic text here</em>
-//     text = text.replace(/_([^_]+)_/g, '<em>$1</em>');
-
-//     // Replace :highlight text here: with <mark>highlight text here</mark>
-//     text = text.replace(/:([^:]+):/g, '<mark>$1</mark>');
-
-//     // Replace :) with smiley symbol
-//     text = text.replace(/:\)/g, '<span class="material-symbols-outlined">mood</span>');
-
-//     // Replace :( with sad symbol
-//     text = text.replace(/:\(/g, '<span class="material-symbols-outlined">sentiment_dissatisfied</span>');
-
-//     return text;
-// }
 
 
 const emoticonMappings = [
@@ -386,11 +298,6 @@ function changeTheme(mode) {
 function sortAndGroup() {
 
     let content = document.getElementById("initial-list").value.trim();
-
-
-    // let extractionResult = extractNotes(document.getElementById("initial-list").value);
-    // let notesContent = extractNotes(document.getElementById("initial-list").value).notes;
-
     let specialTodayTask = [...taskMap.keys()].find((task) => /^TODAY\s*:?\s+/i.test(task));
     let todayElement = document.getElementById("specialTodayTask");
     let todayTextElement = todayElement.querySelector("#specialTodayText");
@@ -429,22 +336,6 @@ function sortAndGroup() {
         return `<h5 class="mt-3 ${colorClass}">${title}</h5>`;
     };
 
-    // let processTasks = (tasks) => {
-    //     return tasks.map(task => {
-    //         task = formatUsernamesInTask(task);  // This function call was already here
-    //         task = wrapSpecialCharacter(task);   // Add this new function call here
-    //         return task;
-    //     }).join('<br>');
-    // };
-
-    // let processTasks = (tasks) => {
-    //     return tasks.map(task => {
-    //         task = formatUsernamesInTask(task);  // This function call was already here
-    //         task = wrapSpecialCharacter(task);   // This function call was already here
-    //         task = convertToClickableURLs(task); // Add this new function call here
-    //         return task;
-    //     }).join('<br>');
-    // };
 
     let processTasks = (tasks) => {
         return tasks.map(task => {
@@ -457,26 +348,16 @@ function sortAndGroup() {
 
     let mustDoTask = [...taskMap.keys()].find(task => task.startsWith("! "));
     let mustDoHTML = "";
-    // if (mustDoTask) {
-    //     mustDoHTML = `<div class="alert alert-danger" role="alert">${mustDoTask}</div>`;
-    // }
 
     sortedList.innerHTML = `
-
-
-
     ${buildHeader("Title")}
     ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("title ")))}
-
     ${buildHeader("Update")}
     ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("update ")))}
-
     ${buildHeader("Must-Do", "text-info")}
     ${processTasks([...taskMap.keys()].filter(task => task.startsWith("! ") && !task.toLowerCase().startsWith("t ")))}
-
     ${buildHeader("Today", "text-danger")}
     ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("t ")))}
-
         ${buildHeader("High Priority", "text-info")}
         ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("h ") && !task.toLowerCase().startsWith("t ") && !task.startsWith("! ")))}
 
@@ -495,32 +376,19 @@ function sortAndGroup() {
         
 
 
-        ${buildHeader("Low Priority")}
-        ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("l ") && !task.toLowerCase().startsWith("t ")))}
-
-        ${buildHeader("Recurring", "text-warning")}
-        ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("r ") && !task.startsWith("! ") && !task.startsWith("- ") && !task.startsWith("d ") && !task.toLowerCase().startsWith("h ") && !task.toLowerCase().startsWith("l ") && !task.toLowerCase().startsWith("t ")))}
-        
-
-        ${buildHeader("Done")}
-        ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("d ")))}
-
-        
-        ${buildHeader("NOTES")}
-        ${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("n ")))}
-        
-
-            `;
-
-    // console.log("Notes Content:", notesContent);
+${buildHeader("Low Priority")}
+${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("l ") && !task.toLowerCase().startsWith("t ")))}
+${buildHeader("Recurring", "text-warning")}
+${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("r ") && !task.startsWith("! ") && !task.startsWith("- ") && !task.startsWith("d ") && !task.toLowerCase().startsWith("h ") && !task.toLowerCase().startsWith("l ") && !task.toLowerCase().startsWith("t ")))}
+${buildHeader("Done")}
+${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("d ")))}
+${buildHeader("NOTES")}
+${processTasks([...taskMap.keys()].filter(task => task.toLowerCase().startsWith("n ")))}
+`;
 
     let notes = extractNotes(document.getElementById("initial-list").value);
 
-
-
 }
-
-
 
 function updateCheckboxStatus(task, id) {
     let checkbox = document.getElementById(id);

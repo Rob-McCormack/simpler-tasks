@@ -1,5 +1,7 @@
+I want to restrict any image to a maximum of '80px'
+I've added this to js:
+    // Convert 'image=URL' to '<img src="URL" alt="">'
+    text = text.replace(/image=([^\s]+)/g, '<img src="$1" alt="" width="80">');
 
-The Edit textarea scrolls up and down, and the View tab, and Edit tab,
-are accessible at the top.
-
-Is there a way to make the `<div id="sortedTasks">` act like a scrollable textarea?
+    Is there are way to set maximum width, like if an image is '32px', it will be shown as '32px',
+    but larger images will be reduced to '80px'

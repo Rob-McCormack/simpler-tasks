@@ -183,8 +183,12 @@ function stMarkDown(text) {
     // Replace ::highlight text:: with <mark>highlight text</mark>
     text = text.replace(/::([^:]+)::/g, '<mark>$1</mark>');
 
-    // Convert 'image=URL' to '<img src="URL" alt="">'
-    text = text.replace(/image=([^\s]+)/g, '<img src="$1" alt="">');
+    // // Convert 'image=URL' to '<img src="URL" alt="">'
+    // text = text.replace(/image=([^\s]+)/g, '<img src="$1" alt="" width="80">');
+
+    // Convert 'image=URL' to '<img src="URL" alt="" style="max-width:100px; height:auto;">'
+    text = text.replace(/image=([^\s]+)/g, '<img src="$1" alt="" style="max-width:100px; height:auto;">');
+
 
     // Convert '`code here`' to '<code>code here</code>'
     text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
@@ -511,6 +515,7 @@ function initializeSampleTasks() {
 item normal 3
 title new **format** for title xxxxxxxxxxx
 updated Oct 23, 2023
+l image=https://rob-mccormack.github.io/simpler-tasks/android-chrome-512x512.png
 h this is code <code>hello world</code>
 h this is code too with ticks \` this is code \`
 h this is an image ???? image=https://rob-mccormack.github.io/simpler-tasks/stlogo.png 
@@ -529,8 +534,8 @@ l item low3 @james
 h item high1 with emoticons  :) and :(
 n Notes TITLE
 n Notes line 2
-n Notes line 3
-n Notes END
+n Notes line 3 
+n Notes END image=https://rob-mccormack.github.io/simpler-tasks/favicon-16x16.png
 t item today2
     `;
     let textArea = document.getElementById("initial-list");

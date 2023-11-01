@@ -2,7 +2,7 @@
     "name": "MyTasks",
     "short_name": "MyTasks",
     "description": "A simple task manager PWA",
-    "start_url": "./ls.html",
+    "start_url": "./mytasks.html",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#007bff",

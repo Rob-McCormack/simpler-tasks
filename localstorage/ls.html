@@ -8,6 +8,9 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link rel="manifest" href="manifest.json">
+
 </head>
 
 <body>
@@ -32,6 +35,17 @@
                 document.getElementById('myTextarea').value = savedContent;
             }
         }
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => {
+                    console.log('Service Worker registered!', reg);
+                })
+                .catch(err => {
+                    console.error('Service Worker registration failed:', err);
+                });
+        }
+
 
         // Save content to localStorage
         function saveToLocalStorage() {

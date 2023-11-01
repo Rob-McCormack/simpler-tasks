@@ -1,11 +1,11 @@
 {
-    "name": "MyTasks",
-    "short_name": "MyTasks",
-    "description": "A simple task manager PWA",
+    "name": "Simpler Tasks",
+    "short_name": "Tasks",
+    "description": "A simple task manager",
     "start_url": "./mytasks.html",
     "display": "standalone",
     "background_color": "#ffffff",
-    "theme_color": "#007bff",
+    "theme_color": "#000000",
     "icons": [
         {
             "src": "https://rob-mccormack.github.io/simpler-tasks/android-chrome-192x192.png",
@@ -17,7 +17,8 @@
             "sizes": "512x512",
             "type": "image/png"
         }
-    ]
-}
-
+    ],
+    "scope": "./"
+  }
+  
 

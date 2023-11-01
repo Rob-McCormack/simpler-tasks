@@ -1,10 +1,11 @@
+Still not workin as a PWA , on iPhone 13 Pro in Safari 
 a) console reports
+Service Worker registered! ServiceWorkerRegistration
 
 b) Lighthouse Audit reports PWA: 
 `INSTALLABLE`
 
 c) There is no , and `scope` in manifest.json you provided
-
 
 
 PWA improvements

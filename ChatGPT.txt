@@ -1,3 +1,12 @@
+a) console reports
+
+b) Lighthouse Audit reports PWA: 
+`INSTALLABLE`
+
+c) There is no , and `scope` in manifest.json you provided
+
+
+
 PWA improvements
 
 1- add this line with today's date to the textarea at the top, then store textarea

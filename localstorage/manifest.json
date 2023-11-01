@@ -1,4 +1,4 @@
-{
+  {
     "name": "Simpler Tasks",
     "short_name": "Tasks",
     "description": "A simple task manager",
@@ -20,5 +20,5 @@
     ],
     "scope": "./"
   }
-  
+
 

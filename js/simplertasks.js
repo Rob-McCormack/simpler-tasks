@@ -2,16 +2,27 @@ let taskMap = new Map();
 let isFormatted = false;
 
 
+
+// TODO: Rob, this cause focus trouble when in VS code
+window.onload = function () {
+    // document.getElementById('initial-list').focus();
+};
+
+// When the page loads, check if there's a "tasks" query parameter and populate the textarea:
+window.onload = function () {
+    let urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('tasks')) {
+        let tasks = decodeURIComponent(urlParams.get('tasks'));
+        document.getElementById("initial-list").value = tasks;
+    }
+}
 document.getElementById('edit-tab').addEventListener('click', function () {
     setTimeout(() => {
         document.getElementById('initial-list').focus();
     }, 100);
 });
 
-// TODO: Rob, this cause focus trouble when in VS code
-window.onload = function () {
-    // document.getElementById('initial-list').focus();
-};
+
 
 
 
@@ -69,10 +80,29 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+
 const specialCharsxxxx = [
 
     // moved to HTML document
 ];
+
+
+// When you want to generate the URL for sharing:
+function generateShareableURL() {
+    let tasks = document.getElementById("initial-list").value;
+    let encodedTasks = encodeURIComponent(tasks);
+    let shareableURL = `https://SimplerTasks.com?tasks=${encodedTasks}`;
+    return shareableURL;
+}
+
+// When the page loads, check if there's a "tasks" query parameter and populate the textarea:
+window.onload = function () {
+    let urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('tasks')) {
+        let tasks = decodeURIComponent(urlParams.get('tasks'));
+        document.getElementById("initial-list").value = tasks;
+    }
+}
 
 
 function wrapSpecialCharacter(task) {

@@ -11,9 +11,16 @@ body {
 }
 
 
+#sortedTasks {
+    height: 300px;
+    overflow-y: scroll; /* always show vertical scrollbar on View content*/
+}
+
+
 /* #view {
     font-family: 'Courier New', Courier, monospace;
 } */
+
 
 .material-symbols-outlined {
     vertical-align: middle;

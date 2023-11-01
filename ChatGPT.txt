@@ -1,8 +1,5 @@
-Great, we are on a roll.... let's stay with `stMarkDown`,
-add this feature
 
-We want the character "`", to act like this
+The Edit textarea scrolls up and down, and the View tab, and Edit tab,
+are accessible at the top.
 
-`this is code`,
-will be transformed to bootstraps
-<code>this is code</code>
+Is there a way to make the `<div id="sortedTasks">` act like a scrollable textarea?

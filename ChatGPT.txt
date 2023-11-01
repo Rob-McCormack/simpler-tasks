@@ -1,14 +1,5 @@
-OK,
-Now anther button to Send the contents of textarea,
-to email using mailto:
+PWA improvements
 
-To: `blank`
-Subject: test email
-Body: `contents of textarea`
+1- add this line with today's date to the textarea at the top, then store textarea
+"h  Today is `now()`"
 
-
-OK, if we wanted to add a button to get content from:
-http://simp.ly/p/ncCtg0
-<p id="title">Test for SimplerTasks from local html file</p>
-
-and place it in textarea, how do we do that?

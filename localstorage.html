@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyTasks</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <textarea id="myTextarea" class="form-control" rows="5"
+                    placeholder="Write your tasks here..."></textarea>
+                <br>
+                <button class="btn btn-primary" onclick="saveToLocalStorage()">Save to localStorage</button>
+                <button class="btn btn-secondary mt-2" onclick="sendEmail()">Send Email</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load content from localStorage when the page loads
+        window.onload = function () {
+            const savedContent = localStorage.getItem('textareaContent');
+            if (savedContent) {
+                document.getElementById('myTextarea').value = savedContent;
+            }
+        }
+
+        // Save content to localStorage
+        function saveToLocalStorage() {
+            const content = document.getElementById('myTextarea').value;
+            localStorage.setItem('textareaContent', content);
+            alert('Saved!');
+        }
+
+        // Send content as an email
+        function sendEmail() {
+            const content = document.getElementById('myTextarea').value;
+            const mailtoLink = `mailto:?subject=test email&body=${encodeURIComponent(content)}`;
+            window.location.href = mailtoLink;
+        }
+    </script>
+
+</body>
+
+</html>

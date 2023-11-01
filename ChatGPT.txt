@@ -1,7 +1,14 @@
-I want to restrict any image to a maximum of '80px'
-I've added this to js:
-    // Convert 'image=URL' to '<img src="URL" alt="">'
-    text = text.replace(/image=([^\s]+)/g, '<img src="$1" alt="" width="80">');
+OK,
+Now anther button to Send the contents of textarea,
+to email using mailto:
 
-    Is there are way to set maximum width, like if an image is '32px', it will be shown as '32px',
-    but larger images will be reduced to '80px'
+To: `blank`
+Subject: test email
+Body: `contents of textarea`
+
+
+OK, if we wanted to add a button to get content from:
+http://simp.ly/p/ncCtg0
+<p id="title">Test for SimplerTasks from local html file</p>
+
+and place it in textarea, how do we do that?

@@ -1,3 +1,11 @@
+https://stackoverflow.com/questions/37629860/automatically-resizing-textarea-in-bootstrap
+
+
+
+best
+https://shaack.com/projekte/auto-resize-textarea/
+
+
 Excellent, congratulationa, and thanks
 
 This is sorted correctly

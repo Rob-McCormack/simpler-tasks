@@ -1,14 +1,8 @@
+This was working but is not working now...
 
-
-1- add this line with today's date to the textarea at the top, then store textarea
-"h  Today is `now()`"
-
-
-===
-Rob
-
-create a new button, calling a function that will create a link the link:
-
-<a href="https://rob-mccormack.github.io/simpler-tasks/simplertasks.html?`myTextarea`">Share my todo list</a>
-
-After the `?`, place the contents of id="myTextarea"
+The URL:
+`https://rob-mccormack.github.io/simpler-tasks/simplertasks.html?hello`
+should populate clear the 
+`id="initial-list"`
+and populate it with
+'hello'

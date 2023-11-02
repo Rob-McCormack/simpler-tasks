@@ -81,14 +81,14 @@ function generateShareableURL() {
     return shareableURL;
 }
 
-// When the page loads, check if there's a "tasks" query parameter and populate the textarea:
-window.onload = function () {
-    let urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('tasks')) {
-        let tasks = decodeURIComponent(urlParams.get('tasks'));
-        document.getElementById("initial-list").value = tasks;
-    }
-}
+// TODO: this was a duplicate.// When the page loads, check if there's a "tasks" query parameter and populate the textarea:
+// window.onload = function () {
+//     let urlParams = new URLSearchParams(window.location.search);
+//     if (urlParams.has('tasks')) {
+//         let tasks = decodeURIComponent(urlParams.get('tasks'));
+//         document.getElementById("initial-list").value = tasks;
+//     }
+// }
 
 
 function wrapSpecialCharacter(task) {
@@ -105,6 +105,7 @@ function convertToClickableURLs(text) {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     return text.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
 }
+
 
 const emoticonMappings = [
     { emoticon: ":\\)", symbol: "sentiment_satisfied" },  // Notice the double backslashes before )
@@ -157,6 +158,7 @@ function reconcileTaskMapWithTextarea() {
 
 }
 
+
 document.getElementById("initial-list").addEventListener("input", function () {
     const textarea = document.getElementById("initial-list");
     const trimmedContent = textarea.value.trim();
@@ -172,6 +174,7 @@ document.getElementById("initial-list").addEventListener("input", function () {
     // Update the task counts
     displayTaskCounts();
 });
+
 
 function trimTrailingSpaces() {
     const textarea = document.getElementById("initial-list");

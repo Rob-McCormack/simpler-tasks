@@ -1,13 +1,10 @@
-//  js TODO:
+// TODO: simple code
 
 document.addEventListener('DOMContentLoaded', function () {
     const editTab = document.getElementById('edit-tab');
     const viewTab = document.getElementById('view-tab');
     const tasksTextArea = document.getElementById('tasks');
     const viewTasksDiv = document.getElementById('viewTasks');
-
-
-
 
     editTab.addEventListener('click', () => {
         tasksTextArea.style.display = 'block';
@@ -26,17 +23,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+    // Function to resize textarea
+    function autoExpandTextarea(textarea) {
+        textarea.style.height = 'inherit'; // Reset the height
+        textarea.style.height = `${textarea.scrollHeight}px`; // Set the height to scroll height
+    }
 
-    // // Function to resize textarea
-    // function autoExpandTextarea(textarea) {
-    //     textarea.style.height = 'inherit'; // Reset the height
-    //     textarea.style.height = `${textarea.scrollHeight}px`; // Set the height to scroll height
-    // }
+    // Event listener for input on textarea to auto resize
+    tasksTextArea.addEventListener('input', function () {
+        autoExpandTextarea(this);
+    });
 
-    // // Event listener for input on textarea to auto resize
-    // tasksTextArea.addEventListener('input', function () {
-    //     autoExpandTextarea(this);
-    // });
+    // Initial resize
+    autoExpandTextarea(tasksTextArea);
 
     function convertTasksToJSON(tasks) {
         return tasks.split('\n').reduce((acc, task) => {

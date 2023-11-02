@@ -11,9 +11,13 @@ body {
 }
 
 
+
 textarea {
     font-family: 'Roboto Mono', monospace;
+    /* overflow: hidden; */
+
 }
+
 
 
 .material-symbols-outlined {

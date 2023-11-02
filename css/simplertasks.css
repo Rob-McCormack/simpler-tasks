@@ -12,7 +12,8 @@ body {
 
 #sortedTasks {
     overflow-y: auto;
-    max-height: 1500px; /* or whatever maximum height you prefer */
+    max-height: 1500px;
+    /* or whatever maximum height you prefer */
 }
 
 
@@ -29,11 +30,12 @@ body {
 /* possible use for `View` tab display */
 .custom-list {
     list-style-type: none;
-    padding-left: 0;}
+    padding-left: 0;
+}
 
 .category-heading {
     font-weight: bold;
-    font-size: 1.2em; 
+    font-size: 1.2em;
 }
 
 
@@ -43,7 +45,8 @@ body {
 
 
 .lighter-text {
-    font-weight: 400; /* This is a regular font weight, less bold than the default Bootstrap badge text */
+    font-weight: 400;
+    /* This is a regular font weight, less bold than the default Bootstrap badge text */
 }
 
 /* required to see the list in Email tab */

@@ -9,6 +9,12 @@
             "request": "launch",
             "name": "Open simplertasks.html",
             "file": "c:\\Users\\robam\\github\\simpler-tasks\\simplertasks.html"
+        },
+        {
+            "type": "chrome",
+            "name": "http://127.0.0.1:3000/localstorage/mytasks1.html",
+            "request": "launch",
+            "url": "http://127.0.0.1:3000/localstorage/mytasks1.html"
         }
     ]
 }

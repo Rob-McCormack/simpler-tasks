@@ -45,6 +45,19 @@ document.addEventListener('DOMContentLoaded', function () {
         viewTasksDiv.style.display = 'block';
     });
 
+    // Get the FAB element
+    const fab = document.getElementById('scrollFab');
+
+    // Function to show FAB when scrolling down
+    window.onscroll = function () {
+        if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+            fab.classList.add('fab-visible');
+        } else {
+            fab.classList.remove('fab-visible');
+        }
+    };
+
+
 
     function applySpecialFormats(content) {
         let formattedContent = content;

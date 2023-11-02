@@ -1,6 +1,8 @@
 let taskMap = new Map();
 let isFormatted = false;
 
+
+
 // TODO: Rob, this cause focus trouble when in VS code
 window.onload = function () {
     // document.getElementById('initial-list').focus();
@@ -19,6 +21,10 @@ document.getElementById('edit-tab').addEventListener('click', function () {
         document.getElementById('initial-list').focus();
     }, 100);
 });
+
+
+
+
 
 document.addEventListener('keydown', function (event) {
     if (event.key === 'Tab') {
@@ -39,6 +45,9 @@ document.addEventListener('keydown', function (event) {
 });
 
 
+
+
+
 // Event Listeners
 document.getElementById("edit-tab").addEventListener("click", trimTrailingSpaces);
 document.getElementById("view-tab").addEventListener("click", trimTrailingSpaces);
@@ -46,7 +55,9 @@ document.getElementById("view-tab").addEventListener("click", trimTrailingSpaces
 document.getElementById("view-tab").addEventListener("click", function () {
     let content = document.getElementById("initial-list").value;
     let trimmedContent = content.trim();
+
 });
+
 
 document.getElementById("copy-button").addEventListener("click", function () {
     copyTextToClipboard("initial-list");
@@ -68,8 +79,11 @@ document.addEventListener("DOMContentLoaded", function () {
     displayTaskCounts();
 });
 
+
+
 const specialCharsxxxx = [
-    // TODO: moved to HTML document
+
+    // moved to HTML document
 ];
 
 
@@ -101,16 +115,63 @@ function wrapSpecialCharacter(task) {
     return `<sub> </sub> ${task}`;
 }
 
+
+
+
 function convertToClickableURLs(text) {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     return text.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
 }
+
 
 const emoticonMappings = [
     { emoticon: ":\\)", symbol: "sentiment_satisfied" },  // Notice the double backslashes before )
     { emoticon: ":\\(", symbol: "sentiment_dissatisfied" }  // Notice the double backslashes before (
     //... add more mappings as needed
 ];
+
+// function stMarkDown(text) {
+//     // Replace **bold text** with <strong>bold text</strong>
+//     text = text.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
+
+//     // Replace __italics text__ with <em>italics text</em>
+//     text = text.replace(/__([^_]+)__/g, '<em>$1</em>');
+
+//     // Replace ::highlight text:: with <mark>highlight text</mark>
+//     text = text.replace(/::([^:]+)::/g, '<mark>$1</mark>');
+
+//     // Replace emoticons with corresponding Google symbols
+//     for (let mapping of emoticonMappings) {
+//         const regex = new RegExp(mapping.emoticon, 'g');
+//         text = text.replace(regex, `<span class="material-symbols-outlined">${mapping.symbol}</span>`);
+//     }
+
+//     return text;
+// }
+
+
+// function stMarkDown(text) {
+//     // Replace **bold text** with <strong>bold text</strong>
+//     text = text.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
+
+//     // Replace __italics text__ with <em>italics text</em>
+//     text = text.replace(/__([^_]+)__/g, '<em>$1</em>');
+
+//     // Replace ::highlight text:: with <mark>highlight text</mark>
+//     text = text.replace(/::([^:]+)::/g, '<mark>$1</mark>');
+
+//     // Convert 'image=URL' to '<img src="URL" alt="">'
+//     text = text.replace(/image=([^\s]+)/g, '<img src="$1" alt="">');
+
+//     // Replace emoticons with corresponding Google symbols
+//     for (let mapping of emoticonMappings) {
+//         const regex = new RegExp(mapping.emoticon, 'g');
+//         text = text.replace(regex, `<span class="material-symbols-outlined">${mapping.symbol}</span>`);
+//     }
+
+//     return text;
+// }
+
 
 function stMarkDown(text) {
     // Replace **bold text** with <strong>bold text</strong>
@@ -122,18 +183,26 @@ function stMarkDown(text) {
     // Replace ::highlight text:: with <mark>highlight text</mark>
     text = text.replace(/::([^:]+)::/g, '<mark>$1</mark>');
 
+    // // Convert 'image=URL' to '<img src="URL" alt="">'
+    // text = text.replace(/image=([^\s]+)/g, '<img src="$1" alt="" width="80">');
+
     // Convert 'image=URL' to '<img src="URL" alt="" style="max-width:100px; height:auto;">'
     text = text.replace(/image=([^\s]+)/g, '<img src="$1" alt="" style="max-width:100px; height:auto;">');
 
+
     // Convert '`code here`' to '<code>code here</code>'
     text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+
     // Replace emoticons with corresponding Google symbols
     for (let mapping of emoticonMappings) {
         const regex = new RegExp(mapping.emoticon, 'g');
         text = text.replace(regex, `<span class="material-symbols-outlined">${mapping.symbol}</span>`);
     }
+
     return text;
 }
+
+
 function reconcileTaskMapWithTextarea() {
     const textArea = document.getElementById("initial-list");
     let content = textArea.value.trim();
@@ -141,6 +210,7 @@ function reconcileTaskMapWithTextarea() {
 
     // Separate tasks and notes
     let tasks = notesSegment ? content.split("NOTES:")[0].trim().split("\n") : content.split("\n");
+
     const newTaskMap = new Map();
 
     tasks.forEach((task) => {
@@ -157,6 +227,9 @@ function reconcileTaskMapWithTextarea() {
 
 }
 
+
+
+
 document.getElementById("initial-list").addEventListener("input", function () {
     const textarea = document.getElementById("initial-list");
     const trimmedContent = textarea.value.trim();
@@ -172,6 +245,7 @@ document.getElementById("initial-list").addEventListener("input", function () {
     // Update the task counts
     displayTaskCounts();
 });
+
 
 function trimTrailingSpaces() {
     const textarea = document.getElementById("initial-list");
@@ -233,6 +307,8 @@ const textColorClasses = [
     "text-dark"
 ];
 
+
+
 function formatContextInTask(task) {
     let contexts = task.match(/#\w+/g) || [];
     contexts.forEach((context) => {
@@ -272,6 +348,7 @@ function copyTextToClipboard(elementId) {
     textArea.select();
     document.execCommand("copy");
 }
+
 
 function toggleTheme(event) {
     if (event.currentTarget.checked) {

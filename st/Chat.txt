@@ -1,28 +1,32 @@
-Blank lines are being deleted now. Good, but...
-Did you forget to include the code that fixed the issue about
-a task starting with a special character like
-`happy`, which isn't a `[high priority]`, it does not start with `h`,
-like `h happy`
+===
+a) Great it works !
 
-`happy` is just a `[normal] ` priority
+I noticed that:
+In Edit: 
+`H high1 @james`
+In View:
+`h high1 @james`
+and then if I click back to Edit, I get  
+`h high1 @james`
 
-This is an example of this problem:
-In Edit tab display is:
+Which is exaclty what I wanted!
+
+Now...
+b)
+Something broke along the way,
+These are no longer in their own catagory...
 `title TITLE`
-Then, click on View, 
-then, back to Edit and reformatting
-t itle TITLE
+`update UPTDATE`
+They appear in View as `[normal]` like this:
+`[normal] title TITLE`
+`[normal] update UPTDATE`
 
-I think it thinks `t` is a [today],
-but it isn't, it just starts with a `t`
+Can you fix and be sure
+we can handle cases like
+`title TITLE`
+`Title TITLE`
+`TITLE TITLE`
 
-
-Note the same haviour with:
-In Edit:
-`happy` become
-`h appy` in Edit,
-
-In View it is displayed as:
-`[high priority] appy`
-but,
-happy should be a `[normal]` task item, it just starts with `h`
+c) Question: Is is it helpfule if I use
+`
+ to empasis  ` code `

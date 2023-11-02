@@ -72,8 +72,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function convertTasksToJSON(text) {
         return text.split('\n').filter(line => line.trim() !== '').map(line => {
-            // Check if the line starts with a special character followed by a whitespace
-            const specialChar = specialChars.find(sc => line.startsWith(sc.char + ' '));
+            // Convert the first character to lowercase before checking
+            const specialChar = specialChars.find(sc => line.toLowerCase().startsWith(sc.char + ' '));
             if (specialChar) {
                 return { type: specialChar.meaning, content: line.slice(2).trim() };
             } else {
@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
 
 
     function convertJSONToHTML(json) {

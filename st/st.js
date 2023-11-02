@@ -131,12 +131,53 @@ document.addEventListener('DOMContentLoaded', function () {
         }, {});
     }
 
-    function convertJSONToHTML(tasks) {
-        const groupedTasks = groupTasksByType(tasks);
-        return Object.entries(groupedTasks).map(([type, tasks]) => {
-            const tasksHTML = tasks.map(content => `<div>${applySpecialFormats(content)}</div>`).join('');
-            return `<div><strong>[${type}]</strong>${tasksHTML}</div>`;
-        }).join('');
+    function countItems(json) {
+        return json.reduce((acc, task) => {
+            acc[task.type] = (acc[task.type] || 0) + 1;
+            return acc;
+        }, {});
+    }
+
+
+
+
+    // function convertJSONToHTML(json) {
+    //     let typeCounts = json.reduce((acc, task) => {
+    //         acc[task.type] = (acc[task.type] || 0) + 1;
+    //         return acc;
+    //     }, {});
+
+    //     let groupedHTML = json.reduce((acc, task) => {
+    //         if (!acc[task.type]) {
+    //             acc[task.type] = `<div><strong>[${task.type} <sup>${typeCounts[task.type]}</sup>]</strong></div>`;
+    //         }
+    //         const formattedContent = applySpecialFormats(task.content);
+    //         acc[task.type] += `<div>${formattedContent}</div>`;
+    //         return acc;
+    //     }, {});
+
+    //     return Object.values(groupedHTML).join('');
+    // }
+
+    function convertJSONToHTML(json) {
+        const typeCounts = countItems(json);
+        let totalItems = 0;
+
+        let groupedHTML = json.reduce((acc, task) => {
+            if (!acc[task.type]) {
+                acc[task.type] = `<div><strong>[${task.type} <sup>${typeCounts[task.type]}</sup>]</strong></div>`;
+            }
+            totalItems += 1;
+            const formattedContent = applySpecialFormats(task.content);
+            acc[task.type] += `<div>${formattedContent}</div>`;
+            return acc;
+        }, {});
+
+        document.getElementById('view-tab').innerHTML = `<span class="material-symbols-outlined fs-1">
+                  visibility
+                </span> View <sup>${totalItems}</sup>`;
+
+        return Object.values(groupedHTML).join('');
     }
 
 

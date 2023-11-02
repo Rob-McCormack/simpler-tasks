@@ -1,33 +1,35 @@
 
-OK, now we are going to deal with "mentions" and "context" and "projects"
 
-@james is a mentions
-#home is a context, in this case a location.
-+logodesign is a progect
+For our next coding adventure, I never really wanted this `View` presentation of tasks
 
-These can occur anywhere in the list items,
+[must-do] mustdo
+[title] My T
+[update] UPTDATE
+[high priority] high2 +logodesign
+[normal] normal1 #home
+[normal] normal2 @debbie
+[low priority] low1
+[low priority] low2
+[recurring] rec1 #work
+[recurring] rec2
+[note] notes1
+[note] notes2 @bob
+
+I want to have it sorted by 
+TITLE: My Title
+Must Do: 
+mustdo
+Today
+-
+-
+
+Do in two parts.
+
+For the formatting of headings of categories,
+Would we change this to 
+    const specialChars = [
+        { char: "!", meaning: "must-do", sortOrder: -2 },
 
 
-Lets set them up as an array, so we can easily add more...
-
-We want to add simple format for now
-
-@james will be bold
-#home will be italic
-+logodesign will be  underscore,
-
-Maybe when we set up the array, someting like this:
-
-`
-const specialChars = [
-    
-    { char: "@", meaning: "mentions", format: "<b>" },
-    etc.
-    
-];
-`
-
-Or something you feel is better.. Good luck!
-I'm open to you improving on this.
 
 

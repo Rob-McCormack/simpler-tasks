@@ -69,18 +69,28 @@ document.addEventListener('DOMContentLoaded', function () {
     autoExpandTextarea(tasksTextArea);
 
     function convertTasksToJSON(text) {
-        return text.split('\n').filter(line => line.trim() !== '').map(line => {
-            const trimmedLine = line.trim();
-            const firstWord = trimmedLine.split(' ')[0];
-            const specialChar = specialChars.find(sc => sc.char.toLowerCase() === firstWord.toLowerCase());
-
-            if (specialChar) {
-                return { type: specialChar.meaning, content: trimmedLine.substring(firstWord.length).trim() };
-            } else {
-                return { type: 'normal', content: trimmedLine };
-            }
-        });
+        const linesSet = new Set(); // Initialize a new Set to store unique lines
+        return text.split('\n')
+            .filter(line => {
+                const trimmedLine = line.trim();
+                if (trimmedLine === '' || linesSet.has(trimmedLine)) {
+                    // Skip empty lines or duplicates
+                    return false;
+                }
+                linesSet.add(trimmedLine); // Add the line to the Set
+                return true;
+            })
+            .map(trimmedLine => {
+                const firstWord = trimmedLine.split(' ')[0];
+                const specialChar = specialChars.find(sc => sc.char.toLowerCase() === firstWord.toLowerCase());
+                if (specialChar) {
+                    return { type: specialChar.meaning, content: trimmedLine.substring(firstWord.length).trim() };
+                } else {
+                    return { type: 'normal', content: trimmedLine };
+                }
+            });
     }
+
 
 
     function convertJSONToHTML(json) {

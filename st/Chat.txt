@@ -1,30 +1,8 @@
-https://stackoverflow.com/questions/37629860/automatically-resizing-textarea-in-bootstrap
+Good work!
 
+a) Your code was missing:
+`{ char: "", meaning: "normal", sortOrder: 6 },`
+So I added it back in and works.
 
+b) Isn't it best practice to declare constants at top of javascript code?
 
-best
-https://shaack.com/projekte/auto-resize-textarea/
-
-
-Excellent, congratulationa, and thanks
-
-This is sorted correctly
-`
-! mustdo
-title TITLE
-update UPTDATE
-l this is new low
-h high1 @james
-h high2
-normal1 #home
-normal2 @debbie
-l low1
-l low2
-r rec1 #work
-r rec2
-n notes1
-n notes2 @bob
-h this is NEW high
-`
-
-Why did it take you a while to come up with this nice clean solution?

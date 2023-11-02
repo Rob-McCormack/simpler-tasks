@@ -1,6 +1,20 @@
-// TODO: simple code
-
 document.addEventListener('DOMContentLoaded', function () {
+
+    // Define constants at the top
+    const specialChars = [
+        { char: "title", meaning: "title", sortOrder: 1 },
+        { char: "update", meaning: "update", sortOrder: 2 },
+        { char: "!", meaning: "must-do", sortOrder: 3 },
+        { char: "t", meaning: "today", sortOrder: 4 },
+        { char: "h", meaning: "high priority", sortOrder: 5 },
+        { char: "", meaning: "normal", sortOrder: 6 }, // Make sure to include this
+        { char: "l", meaning: "low priority", sortOrder: 7 },
+        { char: "r", meaning: "recurring", sortOrder: 8 },
+        { char: "n", meaning: "note", sortOrder: 100 },
+        { char: "d", meaning: "done", sortOrder: 101 }
+    ];
+
+
     const editTab = document.getElementById('edit-tab');
     const viewTab = document.getElementById('view-tab');
     const tasksTextArea = document.getElementById('tasks');
@@ -14,67 +28,65 @@ document.addEventListener('DOMContentLoaded', function () {
     viewTab.addEventListener('click', () => {
         const tasks = tasksTextArea.value;
         let tasksJSON = convertTasksToJSON(tasks);
-        tasksJSON = sortTasks(tasksJSON); // Sort the tasks
-        console.log(tasksJSON);
+        tasksJSON = sortTasks(tasksJSON);
         viewTasksDiv.innerHTML = convertJSONToHTML(tasksJSON);
         tasksTextArea.style.display = 'none';
         viewTasksDiv.style.display = 'block';
     });
 
-
-
-    // Function to resize textarea
     function autoExpandTextarea(textarea) {
-        textarea.style.height = 'inherit'; // Reset the height
-        textarea.style.height = `${textarea.scrollHeight}px`; // Set the height to scroll height
+        textarea.style.height = 'inherit';
+        textarea.style.height = `${textarea.scrollHeight}px`;
     }
 
-    // Event listener for input on textarea to auto resize
     tasksTextArea.addEventListener('input', function () {
         autoExpandTextarea(this);
     });
 
-    // Initial resize
     autoExpandTextarea(tasksTextArea);
 
     function convertTasksToJSON(tasks) {
-        return tasks.split('\n').reduce((acc, task) => {
+        return tasks.split('\n').map(task => {
             if (task.trim() !== '') {
-                const parts = task.split(' ');
-                const taskType = parts.shift();
-                acc.push({ type: taskType, content: parts.join(' ') });
+                let type = 'normal';
+                let content = task;
+                specialChars.forEach(sc => {
+                    if (task.startsWith(sc.char + ' ')) {
+                        type = sc.meaning;
+                        content = task.substring(sc.char.length).trim();
+                    }
+                });
+                return { type: type, content: content };
             }
-            return acc;
-        }, []);
+            return null;
+        }).filter(t => t !== null); // Filter out any nulls that were added for empty lines
     }
 
     function convertJSONToHTML(json) {
-        return json.map(task => `<div><strong>${task.type}</strong>: ${task.content}</div>`).join('');
+        return json.map(task => `<div><strong>[${task.type}]</strong> ${task.content}</div>`).join('');
     }
 
-    // Function to sort tasks according to the defined sortOrder
     function sortTasks(tasks) {
-        const sortOrder = {
-            '!': 1,
-            'title': 2,
-            'update': 3,
-            'h': 4,
-            'normal': 5,
-            'l': 6,
-            'r': 7,
-            'n': 8
-        };
+        const sortOrder = specialChars.reduce((acc, char) => {
+            acc[char.meaning] = char.sortOrder;
+            return acc;
+        }, {});
 
-        // Assign 'normal' type if no special character is found
-        tasks.forEach(task => {
-            if (!sortOrder[task.type]) {
-                task.type = 'normal';
-            }
-        });
-
-        // Sort tasks based on the sortOrder mapping
         return tasks.sort((a, b) => {
-            return (sortOrder[a.type] || sortOrder['normal']) - (sortOrder[b.type] || sortOrder['normal']);
+            return (sortOrder[a.type] || 1000) - (sortOrder[b.type] || 1000);
         });
     }
+
+    // const specialChars = [
+    //     { char: "title", meaning: "title", sortOrder: 1 },
+    //     { char: "update", meaning: "update", sortOrder: 2 },
+    //     { char: "!", meaning: "must-do", sortOrder: 3 },
+    //     { char: "t", meaning: "today", sortOrder: 4 },
+    //     { char: "h", meaning: "high priority", sortOrder: 5 },
+    //     { char: "", meaning: "normal", sortOrder: 6 },
+    //     { char: "l", meaning: "low priority", sortOrder: 7 },
+    //     { char: "r", meaning: "recurring", sortOrder: 8 },
+    //     { char: "n", meaning: "note", sortOrder: 100 },
+    //     { char: "d", meaning: "done", sortOrder: 101 }
+    // ];
 });

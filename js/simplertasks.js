@@ -14,6 +14,19 @@ window.onload = function () {
         document.getElementById("initial-list").value = tasks;
     }
 }
+
+window.onload = function () {
+    autoExpandTextarea();
+};
+
+
+document.getElementById("initial-list").addEventListener('input', autoExpandTextarea);
+
+
+
+
+
+
 document.getElementById('edit-tab').addEventListener('click', function () {
     setTimeout(() => {
         document.getElementById('initial-list').focus();
@@ -71,6 +84,13 @@ document.addEventListener("DOMContentLoaded", function () {
 const specialCharsxxxx = [
     // TODO: moved to HTML document
 ];
+
+
+function autoExpandTextarea() {
+    var textArea = document.getElementById("initial-list");
+    var lines = textArea.value.split('\n');
+    textArea.rows = lines.length;
+}
 
 
 // When you want to generate the URL for sharing:

@@ -1,8 +1,25 @@
-This was working but is not working now...
+a) we had this working earlier in this chat, we want the textbox
+to automatically expand to the number of rows of text:
 
-The URL:
-`https://rob-mccormack.github.io/simpler-tasks/simplertasks.html?hello`
-should populate clear the 
-`id="initial-list"`
-and populate it with
-'hello'
+`id="initial-list"` automatically scroll to the height of the content
+
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane  show active" id="edit" role="tabpanel" aria-labelledby="edit-tab">
+        <textarea id="initial-list" class="form-control mt-3" rows="10"></textarea>
+        <button id="copy-button" class="btn btn-secondary mt-2">Copy</button>
+      </div>
+
+====
+
+
+b) how do I get this 
+`id="sortedTasks"`
+to automatically expand to the height of HTML content?
+      <div class="tab-pane fade" id="view" role="tabpanel" aria-labelledby="view-tab">
+        <div id="specialTodayTask" class="alert alert-danger" role="alert">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          <input type="checkbox" class="me-2">
+          <span id="specialTodayText"></span>
+        </div>
+        <div id="sortedTasks"></div>
+      </div>

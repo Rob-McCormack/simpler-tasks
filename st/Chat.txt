@@ -1,0 +1,36 @@
+Good, now to sort the items:
+
+Using this approach
+function sortTasks(tasks) {
+    const sortOrder = {
+      '!': 1,
+      'title': 2,
+      'update': 3,
+      'h': 4,
+      'normal': 5,
+      'l': 6,
+      'r': 7,
+      'n': 8
+    };
+    
+
+Here is the sort order,
+Special character or characters prefix evey line,
+the one exception is that if a special character is not found,
+then it is considered a `normal` task.
+
+
+So, here is the sort order I want, `xxx` just shows the taks following the special character(s)
+
+
+! xxx
+title xxx
+update xxx
+h xxx
+normal xxx `normal is sorted here, if no special charcter starts the line'
+l xxx
+r xxx
+n xxx
+
+So, items can be entered in textarea in any order, then sorted in the manner shown above.
+

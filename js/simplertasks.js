@@ -23,6 +23,20 @@ window.onload = function () {
 document.getElementById("initial-list").addEventListener('input', autoExpandTextarea);
 
 
+document.getElementById('initial-list').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+        const cursorPos = this.selectionStart;
+        const textBeforeCursor = this.value.substring(0, cursorPos);
+        const textAfterCursor = this.value.substring(cursorPos);
+        this.value = textBeforeCursor + '\n' + textAfterCursor;
+
+        // Set cursor position after the new line
+        this.setSelectionRange(cursorPos + 1, cursorPos + 1);
+        e.preventDefault(); // Prevent default Enter key behavior
+    }
+});
+
+
 
 
 
@@ -436,24 +450,25 @@ function updateCheckboxStatus(task, id) {
 }
 
 function showPlainText() {
-    let textArea = document.getElementById("initial-list");
-    let plainTasks = [...taskMap.keys()]
-        .filter(
-            (task) =>
-                !task.startsWith("This is") &&
-                !task.startsWith("will help") &&
-                !task.startsWith("things")
-        )
-        .map((task) => {
-            if (taskMap.get(task)) {
-                // return `x ${task}`;
-                return `d ${task}`;
+    // TODO: this seem to do nothing.. left over...??? 
+    // let textArea = document.getElementById("initial-list");
+    // let plainTasks = [...taskMap.keys()]
+    //     .filter(
+    //         (task) =>
+    //             !task.startsWith("This is") &&
+    //             !task.startsWith("will help") &&
+    //             !task.startsWith("things")
+    //     )
+    //     .map((task) => {
+    //         if (taskMap.get(task)) {
+    //             // return `x ${task}`;
+    //             return `d ${task}`;
 
-            }
-            return task;
-        });
-    textArea.value = plainTasks.join("\n");
-    isFormatted = false;
+    //         }
+    //         return task;
+    //     });
+    // textArea.value = plainTasks.join("\n");
+    // isFormatted = false;
 }
 
 function initializeSampleTasks() {

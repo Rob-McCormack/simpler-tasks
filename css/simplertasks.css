@@ -12,7 +12,7 @@ body {
 
 #sortedTasks {
     overflow-y: auto;
-    max-height: 500px; /* or whatever maximum height you prefer */
+    max-height: 1500px; /* or whatever maximum height you prefer */
 }
 
 

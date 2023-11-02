@@ -14,8 +14,12 @@ body {
 
 textarea {
     font-family: 'Roboto Mono', monospace;
-    /* overflow: hidden; */
-
+    /* TODO: don't use hid scro overflow: hidden; */
+    /* Hide the default scrollbar */
+    /* min-height: 50px; */
+    /* Adjust the minimum height as needed */
+    /* resize: none; */
+    /* Optional: prevent manual resizing */
 }
 
 

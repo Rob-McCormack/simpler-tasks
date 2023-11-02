@@ -1,32 +1,10 @@
-===
-a) Great it works !
-
-I noticed that:
-In Edit: 
-`H high1 @james`
-In View:
-`h high1 @james`
-and then if I click back to Edit, I get  
-`h high1 @james`
-
-Which is exaclty what I wanted!
-
-Now...
-b)
-Something broke along the way,
-These are no longer in their own catagory...
-`title TITLE`
-`update UPTDATE`
-They appear in View as `[normal]` like this:
-`[normal] title TITLE`
-`[normal] update UPTDATE`
-
-Can you fix and be sure
-we can handle cases like
-`title TITLE`
-`Title TITLE`
-`TITLE TITLE`
-
-c) Question: Is is it helpfule if I use
+a) seems to work exept `View` doesn't display update or titls
 `
- to empasis  ` code `
+title TITLE
+update UPTDATE
+`
+Please fix.
+
+Dispayed in View
+b) the other bugs seem to be fixed,
+Question: Why is the code so much shorter now?

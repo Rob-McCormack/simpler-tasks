@@ -13,3 +13,9 @@ const colorClasses = [
     "muted"
 ];
 
+const specialChars = [
+    // ... existing entries ...
+    { char: "title", meaning: "title", sortOrder: 9 },
+    { char: "update", meaning: "update", sortOrder: 10 },
+    // ... any other entries ...
+];

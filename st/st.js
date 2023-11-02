@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Define constants at the top
     const specialChars = [
         { char: "!", meaning: "must-do", sortOrder: 1 },
         { char: "t", meaning: "today", sortOrder: 2 },
@@ -9,7 +8,10 @@ document.addEventListener('DOMContentLoaded', function () {
         { char: "l", meaning: "low priority", sortOrder: 5 },
         { char: "r", meaning: "recurring", sortOrder: 6 },
         { char: "n", meaning: "note", sortOrder: 7 },
-        { char: "d", meaning: "done", sortOrder: 8 }
+        { char: "d", meaning: "done", sortOrder: 8 },
+        { char: "title", meaning: "title", sortOrder: -1 },
+        { char: "update", meaning: "update", sortOrder: -2 }
+
     ];
 
     const editTab = document.getElementById('edit-tab');
@@ -17,29 +19,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const tasksTextArea = document.getElementById('tasks');
     const viewTasksDiv = document.getElementById('viewTasks');
 
-    // editTab.addEventListener('click', () => {
-    //     tasksTextArea.style.display = 'block';
-    //     viewTasksDiv.style.display = 'none';
-    // });
-
     editTab.addEventListener('click', () => {
-        // Retrieve the processed tasks as an array without empty lines
         let tasksArray = convertTasksToJSON(tasksTextArea.value).map(taskObj => {
-            // Prefix the special character to the task content if it's not normal
-            const specialCharObj = specialChars.find(sc => sc.meaning === taskObj.type);
+            const specialCharObj = specialChars.find(sc => sc.meaning.toLowerCase() === taskObj.type.toLowerCase());
             const prefix = specialCharObj && taskObj.type !== 'normal' ? specialCharObj.char + ' ' : '';
             return prefix + taskObj.content;
         });
-        // Join the array back into a string with new lines
-        const processedTasks = tasksArray.join('\n');
-        // Set the text area value to the processed tasks without empty lines
-        tasksTextArea.value = processedTasks;
-
-        // Display the correct area
+        tasksTextArea.value = tasksArray.join('\n');
         tasksTextArea.style.display = 'block';
         viewTasksDiv.style.display = 'none';
     });
-
 
     viewTab.addEventListener('click', () => {
         const tasks = tasksTextArea.value;
@@ -59,30 +48,21 @@ document.addEventListener('DOMContentLoaded', function () {
         autoExpandTextarea(this);
     });
 
-    // This should be removed since it's a duplicate of the code above
-    // viewTab.addEventListener('click', () => {
-    //     // ... (rest of your viewTab click event code)
-    //     // Update the tasks display
-    //     viewTasksDiv.innerHTML = convertJSONToHTML(tasksJSON);
-    //     tasksTextArea.style.display = 'none';
-    //     viewTasksDiv.style.display = 'block';
-    // });
-
     autoExpandTextarea(tasksTextArea);
 
     function convertTasksToJSON(text) {
         return text.split('\n').filter(line => line.trim() !== '').map(line => {
-            // Convert the first character to lowercase before checking
-            const specialChar = specialChars.find(sc => line.toLowerCase().startsWith(sc.char + ' '));
+            const trimmedLine = line.trim();
+            const firstWord = trimmedLine.split(' ')[0];
+            const specialChar = specialChars.find(sc => sc.char.toLowerCase() === firstWord.toLowerCase());
+
             if (specialChar) {
-                return { type: specialChar.meaning, content: line.slice(2).trim() };
+                return { type: specialChar.meaning, content: trimmedLine.substring(firstWord.length).trim() };
             } else {
-                return { type: 'normal', content: line };
+                return { type: 'normal', content: trimmedLine };
             }
         });
     }
-
-
 
     function convertJSONToHTML(json) {
         return json.map(task => `<div><strong>[${task.type}]</strong> ${task.content}</div>`).join('');
@@ -90,12 +70,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function sortTasks(tasks) {
         const sortOrder = specialChars.reduce((acc, char) => {
-            acc[char.meaning] = char.sortOrder;
+            acc[char.meaning.toLowerCase()] = char.sortOrder;
             return acc;
         }, {});
 
         return tasks.sort((a, b) => {
-            return (sortOrder[a.type] || 1000) - (sortOrder[b.type] || 1000);
+            return (sortOrder[a.type.toLowerCase()] || 1000) - (sortOrder[b.type.toLowerCase()] || 1000);
         });
     }
 

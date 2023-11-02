@@ -4,23 +4,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const tasksTextArea = document.getElementById('tasks');
     const viewTasksDiv = document.getElementById('viewTasks');
 
-    // Event listener for 'edit-tab' click
     editTab.addEventListener('click', () => {
         tasksTextArea.style.display = 'block';
         viewTasksDiv.style.display = 'none';
     });
 
-    // Event listener for 'view-tab' click
     viewTab.addEventListener('click', () => {
         const tasks = tasksTextArea.value;
-        const tasksJSON = convertTasksToJSON(tasks);
+        let tasksJSON = convertTasksToJSON(tasks);
+        tasksJSON = sortTasks(tasksJSON); // Sort the tasks
         console.log(tasksJSON);
         viewTasksDiv.innerHTML = convertJSONToHTML(tasksJSON);
         tasksTextArea.style.display = 'none';
         viewTasksDiv.style.display = 'block';
     });
 
-    // Function to convert tasks to JSON
     function convertTasksToJSON(tasks) {
         return tasks.split('\n').reduce((acc, task) => {
             if (task.trim() !== '') {
@@ -32,11 +30,33 @@ document.addEventListener('DOMContentLoaded', function () {
         }, []);
     }
 
-    // Function to convert JSON to HTML
     function convertJSONToHTML(json) {
         return json.map(task => `<div><strong>${task.type}</strong>: ${task.content}</div>`).join('');
     }
+
+    // Function to sort tasks according to the defined sortOrder
+    function sortTasks(tasks) {
+        const sortOrder = {
+            '!': 1,
+            'title': 2,
+            'update': 3,
+            'h': 4,
+            'normal': 5,
+            'l': 6,
+            'r': 7,
+            'n': 8
+        };
+
+        // Assign 'normal' type if no special character is found
+        tasks.forEach(task => {
+            if (!sortOrder[task.type]) {
+                task.type = 'normal';
+            }
+        });
+
+        // Sort tasks based on the sortOrder mapping
+        return tasks.sort((a, b) => {
+            return (sortOrder[a.type] || sortOrder['normal']) - (sortOrder[b.type] || sortOrder['normal']);
+        });
+    }
 });
-
-
-

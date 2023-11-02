@@ -101,25 +101,47 @@ document.addEventListener('DOMContentLoaded', function () {
     // }
 
 
-    function convertJSONToHTML(tasks) {
-        // First, create an object to hold the groups
-        const groupedTasks = tasks.reduce((acc, task) => {
-            // Initialize the array if this is the first task of this type
+    // function convertJSONToHTML(tasks) {
+    //     // First, create an object to hold the groups
+    //     const groupedTasks = tasks.reduce((acc, task) => {
+    //         // Initialize the array if this is the first task of this type
+    //         if (!acc[task.type]) {
+    //             acc[task.type] = [];
+    //         }
+    //         // Add the task to the appropriate type array
+    //         acc[task.type].push(task.content);
+    //         return acc;
+    //     }, {});
+
+    //     // Then, generate the HTML
+    //     return Object.entries(groupedTasks).map(([type, tasks]) => {
+    //         // Sort or manipulate tasks if needed
+    //         const tasksHTML = tasks.map(content => `<div>${applySpecialFormats(content)}</div>`).join('');
+    //         return `<div><strong>[${type}]</strong>${tasksHTML}</div>`;
+    //     }).join('');
+    // }
+
+    function groupTasksByType(tasks) {
+        return tasks.reduce((acc, task) => {
             if (!acc[task.type]) {
                 acc[task.type] = [];
             }
-            // Add the task to the appropriate type array
             acc[task.type].push(task.content);
             return acc;
         }, {});
+    }
 
-        // Then, generate the HTML
+    function convertJSONToHTML(tasks) {
+        const groupedTasks = groupTasksByType(tasks);
         return Object.entries(groupedTasks).map(([type, tasks]) => {
-            // Sort or manipulate tasks if needed
             const tasksHTML = tasks.map(content => `<div>${applySpecialFormats(content)}</div>`).join('');
             return `<div><strong>[${type}]</strong>${tasksHTML}</div>`;
         }).join('');
     }
+
+
+
+
 
 
     function sortTasks(tasks) {

@@ -93,10 +93,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    function convertJSONToHTML(json) {
-        return json.map(task => {
-            const formattedContent = applySpecialFormats(task.content);
-            return `<div><strong>[${task.type}]</strong> ${formattedContent}</div>`;
+    // function convertJSONToHTML(json) {
+    //     return json.map(task => {
+    //         const formattedContent = applySpecialFormats(task.content);
+    //         return `<div><strong>[${task.type}]</strong> ${formattedContent}</div>`;
+    //     }).join('');
+    // }
+
+
+    function convertJSONToHTML(tasks) {
+        // First, create an object to hold the groups
+        const groupedTasks = tasks.reduce((acc, task) => {
+            // Initialize the array if this is the first task of this type
+            if (!acc[task.type]) {
+                acc[task.type] = [];
+            }
+            // Add the task to the appropriate type array
+            acc[task.type].push(task.content);
+            return acc;
+        }, {});
+
+        // Then, generate the HTML
+        return Object.entries(groupedTasks).map(([type, tasks]) => {
+            // Sort or manipulate tasks if needed
+            const tasksHTML = tasks.map(content => `<div>${applySpecialFormats(content)}</div>`).join('');
+            return `<div><strong>[${type}]</strong>${tasksHTML}</div>`;
         }).join('');
     }
 

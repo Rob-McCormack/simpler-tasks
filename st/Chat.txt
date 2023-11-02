@@ -1,9 +1,10 @@
 
-
-For our next coding adventure, I never really wanted this `View` presentation of tasks
+For our next coding adventure, 
+I never really wanted this `View` presentation of tasks
+but it was good to build it this way to get started...
 
 [must-do] mustdo
-[title] My T
+[title] My Title
 [update] UPTDATE
 [high priority] high2 +logodesign
 [normal] normal1 #home
@@ -15,21 +16,17 @@ For our next coding adventure, I never really wanted this `View` presentation of
 [note] notes1
 [note] notes2 @bob
 
-I want to have it sorted by 
-TITLE: My Title
-Must Do: 
+Desired presentation of `View`
+I wanted to have it grouped and sorted by 
+`
+[title]:
+My Title
+[must-do]
 mustdo
-Today
--
--
+[high priority]
+high1 @james
+high2 +logodesign
+etc..
 
-Do in two parts.
-
-For the formatting of headings of categories,
-Would we change this to 
-    const specialChars = [
-        { char: "!", meaning: "must-do", sortOrder: -2 },
-
-
-
-
+Do you understand presenting task items by categories
+in `View`?

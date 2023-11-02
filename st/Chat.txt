@@ -1,10 +1,33 @@
-a) seems to work exept `View` doesn't display update or titls
-`
-title TITLE
-update UPTDATE
-`
-Please fix.
 
-Dispayed in View
-b) the other bugs seem to be fixed,
-Question: Why is the code so much shorter now?
+OK, now we are going to deal with "mentions" and "context" and "projects"
+
+@james is a mentions
+#home is a context, in this case a location.
++logodesign is a progect
+
+These can occur anywhere in the list items,
+
+
+Lets set them up as an array, so we can easily add more...
+
+We want to add simple format for now
+
+@james will be bold
+#home will be italic
++logodesign will be  underscore,
+
+Maybe when we set up the array, someting like this:
+
+`
+const specialChars = [
+    
+    { char: "@", meaning: "mentions", format: "<b>" },
+    etc.
+    
+];
+`
+
+Or something you feel is better.. Good luck!
+I'm open to you improving on this.
+
+

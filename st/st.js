@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     const specialChars = [
-        { char: "!", meaning: "must-do", sortOrder: 1 },
+        { char: "!", meaning: "must-do", sortOrder: -2 },
         { char: "t", meaning: "today", sortOrder: 2 },
         { char: "h", meaning: "high priority", sortOrder: 3 },
         { char: "", meaning: "normal", sortOrder: 4 },
@@ -9,9 +9,15 @@ document.addEventListener('DOMContentLoaded', function () {
         { char: "r", meaning: "recurring", sortOrder: 6 },
         { char: "n", meaning: "note", sortOrder: 7 },
         { char: "d", meaning: "done", sortOrder: 8 },
-        { char: "title", meaning: "title", sortOrder: -1 },
-        { char: "update", meaning: "update", sortOrder: -2 }
+        { char: "title", meaning: "title", sortOrder: -2 },
+        { char: "update", meaning: "update", sortOrder: -1 }
 
+    ];
+
+    const specialFormats = [
+        { char: "@", formatStart: "<b>", formatEnd: "</b>" },
+        { char: "#", formatStart: "<i>", formatEnd: "</i>" },
+        { char: "+", formatStart: "<u>", formatEnd: "</u>" }
     ];
 
     const editTab = document.getElementById('edit-tab');
@@ -39,6 +45,18 @@ document.addEventListener('DOMContentLoaded', function () {
         viewTasksDiv.style.display = 'block';
     });
 
+
+    function applySpecialFormats(content) {
+        let formattedContent = content;
+        specialFormats.forEach(special => {
+            const regex = new RegExp(`\\${special.char}\\w+`, 'g'); // Match the special character followed by any word characters
+            formattedContent = formattedContent.replace(regex, match => {
+                // Wrap the matched text with the specified formatting
+                return `${special.formatStart}${match}${special.formatEnd}`;
+            });
+        });
+        return formattedContent;
+    }
     function autoExpandTextarea(textarea) {
         textarea.style.height = 'inherit';
         textarea.style.height = `${textarea.scrollHeight}px`;
@@ -64,9 +82,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+
     function convertJSONToHTML(json) {
-        return json.map(task => `<div><strong>[${task.type}]</strong> ${task.content}</div>`).join('');
+        return json.map(task => {
+            const formattedContent = applySpecialFormats(task.content);
+            return `<div><strong>[${task.type}]</strong> ${formattedContent}</div>`;
+        }).join('');
     }
+
 
     function sortTasks(tasks) {
         const sortOrder = specialChars.reduce((acc, char) => {

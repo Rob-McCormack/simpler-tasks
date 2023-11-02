@@ -1,0 +1,53 @@
+/* Default font size for larger screens */
+body {
+    font-size: 16px;
+}
+
+/* Increase font size for screens smaller than 768px wide */
+@media (max-width: 767px) {
+    body {
+        font-size: 18px;
+    }
+}
+
+
+textarea {
+    font-family: 'Roboto Mono', monospace;
+}
+
+
+.material-symbols-outlined {
+    vertical-align: middle;
+}
+
+.category-heading {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+#taskCount {
+    display: none;
+}
+
+
+.lighter-text {
+    font-weight: 400;
+    /* This is a regular font weight, less bold than the default Bootstrap badge text */
+}
+
+/* required to see the list in Email tab */
+#email {
+    opacity: 1 !important;
+}
+
+
+.today-tasks {
+    color: red;
+}
+
+
+.note {
+    margin-left: 20px;
+    /* Adjust as needed */
+    display: block;
+}

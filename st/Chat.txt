@@ -1,8 +1,28 @@
-Good work!
+Blank lines are being deleted now. Good, but...
+Did you forget to include the code that fixed the issue about
+a task starting with a special character like
+`happy`, which isn't a `[high priority]`, it does not start with `h`,
+like `h happy`
 
-a) Your code was missing:
-`{ char: "", meaning: "normal", sortOrder: 6 },`
-So I added it back in and works.
+`happy` is just a `[normal] ` priority
 
-b) Isn't it best practice to declare constants at top of javascript code?
+This is an example of this problem:
+In Edit tab display is:
+`title TITLE`
+Then, click on View, 
+then, back to Edit and reformatting
+t itle TITLE
 
+I think it thinks `t` is a [today],
+but it isn't, it just starts with a `t`
+
+
+Note the same haviour with:
+In Edit:
+`happy` become
+`h appy` in Edit,
+
+In View it is displayed as:
+`[high priority] appy`
+but,
+happy should be a `[normal]` task item, it just starts with `h`

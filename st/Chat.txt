@@ -1,7 +1,30 @@
-Let's experiment with a floating action button...
+====
+FAB button
+OK let’s add the action to it. 
 
-Can you show me how to add a floating action button on the right hand side?
+If you are on the `View` tab, the icon on the button will be the 'Edit' icon
 
-The button will not be visible until you scroll down
+If you were on the 'Edit' tab, the icon on the button will be the `View` icon
 
-For now it performs no actually I just want to see it and decide if I want to use it
+We want to position the fab button near the vertical centre of the viewport. 
+
+
+We want to be round  a nice round button
+
+
+Question:
+We are converting the textarea to JSON,
+
+```
+1
+: 
+{type: 'title', content: 'TITLE'}
+2
+: 
+{type: 'update', content: 'UPTDATE'}
+...
+
+```
+Would it be better to have the JSON object also contain 
+the @mentions, #locations, +project items.
+

@@ -1,0 +1,15 @@
+! mustdo
+title TITLE
+update UPTDATE
+h high1 @james
+h high2
+normal1 #home
+normal2 @debbie
+l low1
+l low2
+r rec1 #work
+r rec2
+n notes1
+n notes2 @bob
+
+

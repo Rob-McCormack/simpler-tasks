@@ -1,0 +1,7 @@
+Let's experiment with a floating action button...
+
+Can you show me how to add a floating action button on the right hand side?
+
+The button will not be visible until you scroll down
+
+For now it performs no actually I just want to see it and decide if I want to use it

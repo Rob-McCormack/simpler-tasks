@@ -1,27 +1,27 @@
-Seems to be some confustion...
-
-Can you rewrite this latest function, to allow bolding
-of categories?
-```
+a) Show me how to put these in separate .js file
 
 
-function convertJSONToHTML(tasksJSON) {
-    let html = '';
-    let lastType = '';
+    const specialChars = [
+        { char: "!", meaning: "must-do", sortOrder: -2 },
+        { char: "t", meaning: "today", sortOrder: 2 },
+        { char: "h", meaning: "high priority", sortOrder: 3 },
+        { char: "", meaning: "normal", sortOrder: 4 },
+        { char: "l", meaning: "low priority", sortOrder: 5 },
+        { char: "r", meaning: "recurring", sortOrder: 6 },
+        { char: "n", meaning: "note", sortOrder: 7 },
+        { char: "d", meaning: "done", sortOrder: 8 },
+        { char: "title", meaning: "title", sortOrder: -2 },
+        { char: "update", meaning: "update", sortOrder: -1 }
 
-    tasksJSON.forEach(task => {
-        // Check if the type of the current task is different from the last one
-        if (task.type !== lastType) {
-            // If so, set the lastType to the current task's type and add a new category header
-            lastType = task.type;
-            html += `<div class="task-category"><strong>${task.type}</strong></div>`;
-        }
-        // Add the task details
-        html += `<div class="task"><div class="content">${task.content}</div></div>`;
-    });
-
-    return html;
-}
+    ];
+    const specialFormats = [
+        { char: "@", formatStart: "<b>", formatEnd: "</b>" },
+        { char: "#", formatStart: "<i>", formatEnd: "</i>" },
+        { char: "+", formatStart: "<u>", formatEnd: "</u>" }
+    ];
+    const editTab = document.getElementById('edit-tab');
+    const viewTab = document.getElementById('view-tab');
+    const tasksTextArea = document.getElementById('tasks');
+    const viewTasksDiv = document.getElementById('viewTasks');
 
 
-```

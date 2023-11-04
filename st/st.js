@@ -152,27 +152,67 @@ document.addEventListener('DOMContentLoaded', function () {
     //     return html;
     // }
 
+    // function convertJSONToHTML(tasksJSON) {
+    //     let html = '';
+    //     let lastType = '';
+
+    //     // Convert the tasksJSON object into an array of task objects
+    //     const tasksArray = Object.keys(tasksJSON).map(key => tasksJSON[key]);
+
+    //     tasksArray.forEach(task => {
+    //         if (task.type !== lastType) {
+    //             lastType = task.type;
+    //             html += `<div class="task-group"><div class="type">${task.type}</div>`;
+    //         }
+    //         html += `<div class="task"><div class="content">${task.content}</div></div>`;
+    //         if (tasksArray[tasksArray.indexOf(task) + 1]?.type !== task.type) {
+    //             html += `</div>`; // Close the task-group div
+    //         }
+    //     });
+
+    //     return html;
+    // }
+
+
+    // function convertJSONToHTML(tasksJSON) {
+    //     let html = '';
+    //     let lastType = '';
+
+    //     tasksJSON.forEach(task => {
+    //         // If the current task's type is different from the last one processed, we have a new category
+    //         if (task.type !== lastType) {
+    //             // Update lastType to the current task's type
+    //             lastType = task.type;
+    //             // Add a new category header in bold
+    //             html += `<div class="task-category"><strong>${task.type}</strong></div>`;
+    //         }
+    //         // Add the current task's details
+    //         html += `<div class="task"><div class="content">${task.content}</div></div>`;
+    //     });
+
+    //     return html;
+    // }
+
     function convertJSONToHTML(tasksJSON) {
         let html = '';
         let lastType = '';
 
-        // Convert the tasksJSON object into an array of task objects
-        const tasksArray = Object.keys(tasksJSON).map(key => tasksJSON[key]);
+        // Ensure tasksJSON is an array
+        const tasksArray = Array.isArray(tasksJSON) ? tasksJSON : Object.values(tasksJSON);
 
         tasksArray.forEach(task => {
+            // Check if the type of the current task is different from the last one
             if (task.type !== lastType) {
+                // If so, update lastType and add a new category header
                 lastType = task.type;
-                html += `<div class="task-group"><div class="type">${task.type}</div>`;
+                html += `<div class="task-category"><strong>${task.type}</strong></div>`;
             }
+            // Add the task details
             html += `<div class="task"><div class="content">${task.content}</div></div>`;
-            if (tasksArray[tasksArray.indexOf(task) + 1]?.type !== task.type) {
-                html += `</div>`; // Close the task-group div
-            }
         });
 
         return html;
     }
-
 
 
 

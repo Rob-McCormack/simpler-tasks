@@ -1,7 +1,27 @@
-a) Good, seems to working
+Seems to be some confustion...
 
-b) Did you forget that which switche to JSON format and have the function
-`  function convertTasksToJSON(text) ` ?
+Can you rewrite this latest function, to allow bolding
+of categories?
+```
 
-c) Now, let bold all the  categories (which are `meaning`) to make it easier to read in 
-View HTML
+
+function convertJSONToHTML(tasksJSON) {
+    let html = '';
+    let lastType = '';
+
+    tasksJSON.forEach(task => {
+        // Check if the type of the current task is different from the last one
+        if (task.type !== lastType) {
+            // If so, set the lastType to the current task's type and add a new category header
+            lastType = task.type;
+            html += `<div class="task-category"><strong>${task.type}</strong></div>`;
+        }
+        // Add the task details
+        html += `<div class="task"><div class="content">${task.content}</div></div>`;
+    });
+
+    return html;
+}
+
+
+```

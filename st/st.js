@@ -23,14 +23,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const viewTasksDiv = document.getElementById('viewTasks');
 
     editTab.addEventListener('click', () => {
-        let tasksArray = convertTasksToJSON(tasksTextArea.value).map(taskObj => {
-            const specialCharObj = specialChars.find(sc => sc.meaning.toLowerCase() === taskObj.type.toLowerCase());
-            const prefix = specialCharObj && taskObj.type !== 'normal' ? specialCharObj.char + ' ' : '';
-            return prefix + taskObj.content;
-        });
-        tasksTextArea.value = tasksArray.join('\n');
-        tasksTextArea.style.display = 'block';
-        viewTasksDiv.style.display = 'none';
+        // let tasksArray = convertTasksToJSON(tasksTextArea.value).map(taskObj => {
+        //     const specialCharObj = specialChars.find(sc => sc.meaning.toLowerCase() === taskObj.type.toLowerCase());
+        //     const prefix = specialCharObj && taskObj.type !== 'normal' ? specialCharObj.char + ' ' : '';
+        //     return prefix + taskObj.content;
+        // });
+        // tasksTextArea.value = tasksArray.join('\n');
+        // tasksTextArea.style.display = 'block';
+        // viewTasksDiv.style.display = 'none';
     });
 
 
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Call convertJSONToHTML and set the innerHTML of viewTasksDiv
         viewTasksDiv.innerHTML = convertJSONToHTML(tasksJSON);
 
-        tasksTextArea.style.display = 'none';
+        // tasksTextArea.style.display = 'none';
         viewTasksDiv.style.display = 'block';
     });
 
@@ -127,20 +127,54 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+    // function convertJSONToHTML(tasksJSON) {
+    //     let html = '';
+    //     let lastType = '';
+
+    //     // Assuming tasksJSON is an array of task objects
+    //     tasksJSON.forEach(task => {
+    //         // Check if the current task's type is different from the last one
+    //         if (task.type !== lastType) {
+    //             // If so, we update the lastType and add a new type header to the HTML
+    //             lastType = task.type;
+    //             html += `<div class="task-group"><div class="type">${task.type}</div>`;
+    //         }
+
+    //         // Then we add the task content
+    //         html += `<div class="task"><div class="content">${task.content}</div></div>`; // Changed from description to content
+
+    //         // If the next task is of a different type, we close the current group div
+    //         if (tasksJSON[tasksJSON.indexOf(task) + 1]?.type !== task.type) {
+    //             html += `</div>`; // Close the task-group div
+    //         }
+    //     });
+
+    //     return html;
+    // }
+
     function convertJSONToHTML(tasksJSON) {
         let html = '';
-        for (const id in tasksJSON) {
-            if (tasksJSON.hasOwnProperty(id)) {
-                const task = tasksJSON[id];
-                html += `<div class="task">`;
-                html += `<div class="type">${task.type}</div>`;
-                html += `<div class="content">${task.content}</div>`; // Changed from description to content
-                // Add other task properties here if needed
-                html += `</div>`;
+        let lastType = '';
+
+        // Convert the tasksJSON object into an array of task objects
+        const tasksArray = Object.keys(tasksJSON).map(key => tasksJSON[key]);
+
+        tasksArray.forEach(task => {
+            if (task.type !== lastType) {
+                lastType = task.type;
+                html += `<div class="task-group"><div class="type">${task.type}</div>`;
             }
-        }
+            html += `<div class="task"><div class="content">${task.content}</div></div>`;
+            if (tasksArray[tasksArray.indexOf(task) + 1]?.type !== task.type) {
+                html += `</div>`; // Close the task-group div
+            }
+        });
+
         return html;
     }
+
+
+
 
 
 

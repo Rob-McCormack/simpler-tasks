@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyTasks</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://rob-mccormack.github.io/simpler-tasks/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="https://rob-mccormack.github.io/simpler-tasks/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="https://rob-mccormack.github.io/simpler-tasks/favicon-16x16.png">
+    <link rel="manifest" href="https://rob-mccormack.github.io/simpler-tasks/site.webmanifest">
+    <link rel="shortcut icon" href="https://rob-mccormack.github.io/simpler-tasks/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="https://rob-mccormack.github.io/simpler-tasks/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        textarea {
+            font-family: 'Roboto Mono', monospace;
+            /* TODO: don't use hid scro overflow: hidden; */
+            /* Hide the default scrollbar */
+            /* min-height: 50px; */
+            /* Adjust the minimum height as needed */
+            /* resize: none; */
+            /* Optional: prevent manual resizing */
+        }
+
+        /* This CSS will hide the fullscreen button on screens smaller than 768px wide */
+        @media (max-width: 767px) {
+            #fullscreenBtn {
+                display: none;
+            }
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="container-md">
+        <!-- <div class="container mt-5"> -->
+
+        <h4>SimplerTasks 1 Full screen</h4>
+        <button class="btn btn-secondary mt-2" onclick="sendEmail()">Send Email</button>
+
+        <button class="btn btn-warning" onclick="deleteCurrentLine()">Delete Current Line</button>
+        <button id="fullscreenBtn" class="btn btn-info mt-2">Full Screen</button>
+        <button class="btn btn-primary mt-2" onclick="fetchText()">Fetch Text</button>
+
+        <textarea id="tasks" class="form-control mt-2 fs-3" rows="5" placeholder="Write your tasks here..."></textarea>
+        <br>
+
+    </div>
+
+
+    <script>
+        // Function to automatically save content to localStorage
+        function autoSaveToLocalStorage() {
+            const content = document.getElementById('tasks').value;
+            localStorage.setItem('textareaContent', content);
+            <!-- console.log('Content saved:', content); // Console log for debugging -->
+        }
+
+        // Setup the autosave feature after the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            const tasks = document.getElementById('tasks');
+
+            // Add event listener for auto-saving and height adjustment on input
+            tasks.addEventListener('input', function () {
+                autoSaveToLocalStorage();
+                autoAdjustHeight(this);
+            });
+
+            // Load content from localStorage when the page loads
+            const savedContent = localStorage.getItem('textareaContent');
+            if (savedContent) {
+                tasks.value = savedContent;
+                autoAdjustHeight(tasks); // Adjust the height after setting the content
+            }
+        });
+
+        // Service worker code
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => {
+                    console.log('Service Worker registered!', reg);
+                })
+                .catch(err => {
+                    console.error('Service Worker registration failed:', err);
+                });
+
+            function deleteCurrentLine() {
+                const textarea = document.getElementById('tasks');
+                const cursorPos = textarea.selectionStart;
+                const textLines = textarea.value.split('\n');
+
+                let currentLine = 0;
+                let charCount = 0;
+
+                // Find the current line
+                for (let i = 0; i < textLines.length; i++) {
+                    charCount += textLines[i].length + 1; // +1 for newline character
+                    if (charCount > cursorPos) {
+                        currentLine = i;
+                        break;
+                    }
+                }
+
+                // Remove the current line 
+                textLines.splice(currentLine, 1);
+                textarea.value = textLines.join('\n');
+                // Save to localStorage
+                autoSaveToLocalStorage();
+
+                // Set the cursor at the top of the textarea
+                textarea.selectionStart = 0;
+                textarea.selectionEnd = 0;
+                document.getElementById('tasks').focus();
+
+            }
+
+            function autoAdjustHeight(textarea) {
+                textarea.style.height = 'auto'; // Reset the height
+                textarea.style.height = textarea.scrollHeight + 'px'; // Set the height to scroll height
+            }
+
+
+            function toggleFullScreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+
+            // Add this somewhere in your JavaScript to listen for a double-click, for instance, on the textarea to make it go full screen.
+
+            document.getElementById('fullscreenBtn').addEventListener('click', toggleFullScreen);
+
+            function toggleFullScreen() {
+                const fsButton = document.getElementById('fullscreenBtn');
+
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                    fsButton.innerText = 'Exit Full Screen'; // Change button text when full screen
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                        fsButton.innerText = 'Full Screen'; // Change back the button text when exiting full screen
+                    }
+                }
+
+
+            }
+
+            // Send content as an email
+            function sendEmail() {
+                const content = document.getElementById('tasks').value;
+                const mailtoLink = `mailto:?subject=test email&body=${encodeURIComponent(content)}`;
+                window.location.href = mailtoLink;
+            }
+        }
+
+        function fetchText() {
+            fetch('https://raw.githubusercontent.com/Rob-McCormack/simpler-tasks/main/localstorage/sample.txt')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('tasks').value = data;
+                    autoSaveToLocalStorage(); // If you want to save the fetched text to localStorage as well
+                    autoAdjustHeight(document.getElementById('tasks')); // Adjust the height if needed
+                })
+                .catch(error => {
+                    console.error('Error fetching text:', error);
+                });
+        }
+
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>

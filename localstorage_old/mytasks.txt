@@ -1,0 +1,10 @@
+title PWA Fetch **format** for title xxxxxxxxxxx
+updated Nov 1, 2023
+l image=https://rob-mccormack.github.io/simpler-tasks/android-chrome-512x512.png
+h this is code <code>hello world</code>
+h this is code too with ticks \` this is code \`
+h this is an image ???? image=https://rob-mccormack.github.io/simpler-tasks/stlogo.png 
+! item Must do single @robmcc
+h item high1 http://cnn.com #work *is it bold*
+l item low1 #home
+item normal1 @robmcc

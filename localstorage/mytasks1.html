@@ -110,9 +110,14 @@
                 // Remove the current line 
                 textLines.splice(currentLine, 1);
                 textarea.value = textLines.join('\n');
-
                 // Save to localStorage
-                //saveToLocalStorage();
+                autoSaveToLocalStorage();
+
+                // Set the cursor at the top of the textarea
+                textarea.selectionStart = 0;
+                textarea.selectionEnd = 0;
+                document.getElementById('myTextarea').focus();
+
             }
 
             function autoAdjustHeight(textarea) {

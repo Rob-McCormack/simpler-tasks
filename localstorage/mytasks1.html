@@ -44,13 +44,12 @@
 
         <h4>SimplerTasks 1 Full screen</h4>
 
-        <textarea id="myTextarea" class="form-control mt-2 fs-3" rows="5"
-            placeholder="Write your tasks here..."></textarea>
-        <br>
-
         <button class="btn btn-danger mt-2" onclick="sendEmail()">Send Email</button>
         <button class="btn btn-warning" onclick="deleteCurrentLine()">Delete Current Line</button>
         <button id="fullscreenBtn" class="btn btn-info mt-2">Full Screen</button>
+
+        <textarea id="tasks" class="form-control mt-2 fs-3" rows="5" placeholder="Write your tasks here..."></textarea>
+        <br>
 
     </div>
 
@@ -58,17 +57,17 @@
     <script>
         // Function to automatically save content to localStorage
         function autoSaveToLocalStorage() {
-            const content = document.getElementById('myTextarea').value;
+            const content = document.getElementById('tasks').value;
             localStorage.setItem('textareaContent', content);
             <!-- console.log('Content saved:', content); // Console log for debugging -->
         }
 
         // Setup the autosave feature after the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', function () {
-            const myTextarea = document.getElementById('myTextarea');
+            const tasks = document.getElementById('tasks');
 
             // Add event listener for auto-saving and height adjustment on input
-            myTextarea.addEventListener('input', function () {
+            tasks.addEventListener('input', function () {
                 autoSaveToLocalStorage();
                 autoAdjustHeight(this);
             });
@@ -76,8 +75,8 @@
             // Load content from localStorage when the page loads
             const savedContent = localStorage.getItem('textareaContent');
             if (savedContent) {
-                myTextarea.value = savedContent;
-                autoAdjustHeight(myTextarea); // Adjust the height after setting the content
+                tasks.value = savedContent;
+                autoAdjustHeight(tasks); // Adjust the height after setting the content
             }
         });
 
@@ -92,7 +91,7 @@
                 });
 
             function deleteCurrentLine() {
-                const textarea = document.getElementById('myTextarea');
+                const textarea = document.getElementById('tasks');
                 const cursorPos = textarea.selectionStart;
                 const textLines = textarea.value.split('\n');
 
@@ -117,7 +116,7 @@
                 // Set the cursor at the top of the textarea
                 textarea.selectionStart = 0;
                 textarea.selectionEnd = 0;
-                document.getElementById('myTextarea').focus();
+                document.getElementById('tasks').focus();
 
             }
 
@@ -156,8 +155,6 @@
 
             document.getElementById('fullscreenBtn').addEventListener('click', toggleFullScreen);
 
-
-            document.getElementById('fullscreenBtn').addEventListener('click', toggleFullScreen);
 
 
 

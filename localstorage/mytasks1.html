@@ -22,34 +22,53 @@
     <meta name="msapplication-config" content="https://rob-mccormack.github.io/simpler-tasks/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
     <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
 
+    <style>
+        textarea {
+            font-family: 'Roboto Mono', monospace;
+            /* TODO: don't use hid scro overflow: hidden; */
+            /* Hide the default scrollbar */
+            /* min-height: 50px; */
+            /* Adjust the minimum height as needed */
+            /* resize: none; */
+            /* Optional: prevent manual resizing */
+        }
+    </style>
 </head>
 
 <body>
+    <div class="container-md">
+        <!-- <div class="container mt-5"> -->
 
-    <div class="container mt-5">
+        <h4>SimplerTasks 1</h4>
+        <textarea id="myTextarea" class="form-control mt-2" rows="5" placeholder="Write your tasks here..."></textarea>
+        <br>
 
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <h1>Working at 1:30pm Nov 1</h1>
-                <textarea id="myTextarea" class="form-control" rows="5"
-                    placeholder="Write your tasks here..."></textarea>
-                <br>
-                <button class="btn btn-primary" onclick="saveToLocalStorage()">Save to localStorage</button>
-                <button class="btn btn-secondary mt-2" onclick="sendEmail()">Send Email</button>
-            </div>
-        </div>
+        <button class="btn btn-danger mt-2" onclick="sendEmail()">Send Email</button>
     </div>
 
+
     <script>
-        // Load content from localStorage when the page loads
-        window.onload = function () {
+        // Function to automatically save content to localStorage
+        function autoSaveToLocalStorage() {
+            const content = document.getElementById('myTextarea').value;
+            localStorage.setItem('textareaContent', content);
+            <!-- console.log('Content saved:', content); // Console log for debugging -->
+        }
+
+        // Setup the autosave feature after the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('myTextarea').addEventListener('input', autoSaveToLocalStorage);
+
+            // Load content from localStorage when the page loads
             const savedContent = localStorage.getItem('textareaContent');
             if (savedContent) {
                 document.getElementById('myTextarea').value = savedContent;
             }
-        }
+        });
 
+        // Service worker code
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./sw.js')
                 .then(reg => {
@@ -58,21 +77,6 @@
                 .catch(err => {
                     console.error('Service Worker registration failed:', err);
                 });
-        }
-
-
-        // Save content to localStorage
-        function saveToLocalStorage() {
-            const content = document.getElementById('myTextarea').value;
-            localStorage.setItem('textareaContent', content);
-            alert('Saved!');
-        }
-
-        // Send content as an email
-        function sendEmail() {
-            const content = document.getElementById('myTextarea').value;
-            const mailtoLink = `mailto:?subject=test email&body=${encodeURIComponent(content)}`;
-            window.location.href = mailtoLink;
         }
     </script>
 

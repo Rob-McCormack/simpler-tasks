@@ -1,27 +1,15 @@
-a) Show me how to put these in separate .js file
+# ROB, use .md for htis,
+but...
+xxx see if it does a pull
 
+Use Github tickets as much as possible..
 
-    const specialChars = [
-        { char: "!", meaning: "must-do", sortOrder: -2 },
-        { char: "t", meaning: "today", sortOrder: 2 },
-        { char: "h", meaning: "high priority", sortOrder: 3 },
-        { char: "", meaning: "normal", sortOrder: 4 },
-        { char: "l", meaning: "low priority", sortOrder: 5 },
-        { char: "r", meaning: "recurring", sortOrder: 6 },
-        { char: "n", meaning: "note", sortOrder: 7 },
-        { char: "d", meaning: "done", sortOrder: 8 },
-        { char: "title", meaning: "title", sortOrder: -2 },
-        { char: "update", meaning: "update", sortOrder: -1 }
+@mentions is working,
 
-    ];
-    const specialFormats = [
-        { char: "@", formatStart: "<b>", formatEnd: "</b>" },
-        { char: "#", formatStart: "<i>", formatEnd: "</i>" },
-        { char: "+", formatStart: "<u>", formatEnd: "</u>" }
-    ];
-    const editTab = document.getElementById('edit-tab');
-    const viewTab = document.getElementById('view-tab');
-    const tasksTextArea = document.getElementById('tasks');
-    const viewTasksDiv = document.getElementById('viewTasks');
+"title hello world "
+is not,
 
+are you sure ther regex means
 
+any line starting with `title `
+will be colored

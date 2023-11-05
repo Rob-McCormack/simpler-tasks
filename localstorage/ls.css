@@ -1,0 +1,16 @@
+textarea {
+    font-family: 'Roboto Mono', monospace;
+    /* TODO: don't use hid scro overflow: hidden; */
+    /* Hide the default scrollbar */
+    /* min-height: 50px; */
+    /* Adjust the minimum height as needed */
+    /* resize: none; */
+    /* Optional: prevent manual resizing */
+}
+
+/* This CSS will hide the fullscreen button on screens smaller than 768px wide */
+@media (max-width: 767px) {
+    #fullscreenBtn {
+        display: none;
+    }
+}

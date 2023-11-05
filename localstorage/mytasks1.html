@@ -55,6 +55,7 @@
 
         <button class="btn btn-warning" onclick="deleteCurrentLine()">Delete Current Line</button>
         <button id="fullscreenBtn" class="btn btn-info mt-2">Full Screen</button>
+        <button class="btn btn-primary mt-2" onclick="fetchText()">Fetch Text</button>
 
         <textarea id="tasks" class="form-control mt-2 fs-3" rows="5" placeholder="Write your tasks here..."></textarea>
         <br>
@@ -171,6 +172,20 @@
                 window.location.href = mailtoLink;
             }
         }
+
+        function fetchText() {
+            fetch('https://raw.githubusercontent.com/Rob-McCormack/simpler-tasks/main/localstorage/sample.txt')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('tasks').value = data;
+                    autoSaveToLocalStorage(); // If you want to save the fetched text to localStorage as well
+                    autoAdjustHeight(document.getElementById('tasks')); // Adjust the height if needed
+                })
+                .catch(error => {
+                    console.error('Error fetching text:', error);
+                });
+        }
+
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"

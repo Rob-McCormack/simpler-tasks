@@ -137,7 +137,8 @@
             }
 
             // Add this somewhere in your JavaScript to listen for a double-click, for instance, on the textarea to make it go full screen.
-            document.getElementById('myTextarea').addEventListener('dblclick', toggleFullScreen);
+
+            document.getElementById('fullscreenBtn').addEventListener('click', toggleFullScreen);
 
             function toggleFullScreen() {
                 const fsButton = document.getElementById('fullscreenBtn');
@@ -153,7 +154,6 @@
                 }
             }
 
-            document.getElementById('fullscreenBtn').addEventListener('click', toggleFullScreen);
 
 
 

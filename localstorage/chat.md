@@ -1,3 +1,34 @@
+I want to add this feature:
+a)A button that will toggle wordwrap on and off in the `textarea`
+b) button name will also toggle, Word wrap ON, Word wrap OFF
+
+Here is updated code
+
+```html```
+<body>
+    <div class="container-md">
+        <h4>SimplerTasks 1 Full screen</h4>
+        <button class="btn btn-secondary mt-2" onclick="sendEmail()">Send Email</button>
+
+        <button class="btn btn-warning" onclick="deleteCurrentLine()">Delete Current Line</button>
+        <button id="fullscreenBtn" class="btn btn-info mt-2">Full Screen</button>
+        <button class="btn btn-primary mt-2" onclick="fetchText()">Fetch Text</button>
+        <button id="wordWrapBtn" class="btn btn-primary mt-2" onclick="toggleWordWrap()">Word Wrap ON</button>
+
+
+        <textarea id="tasks" class="form-control mt-2 fs-3" rows="5" placeholder="Write your tasks here..."></textarea>
+        <br>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <script src="ls.js"></script>
+</body>
+
+---
+
+```js
 // Function to automatically save content to localStorage
 function autoSaveToLocalStorage() {
     const content = document.getElementById('tasks').value;
@@ -114,14 +145,7 @@ function fetchText() {
         });
 }
 
-function toggleWordWrap() {
-    const textarea = document.getElementById('tasks');
-    const wordWrapBtn = document.getElementById('wordWrapBtn');
-    if (textarea.style.whiteSpace === 'pre-wrap') {
-        textarea.style.whiteSpace = 'pre';
-        wordWrapBtn.innerText = 'Word Wrap OFF';
-    } else {
-        textarea.style.whiteSpace = 'pre-wrap';
-        wordWrapBtn.innerText = 'Word Wrap ON';
-    }
-}
+
+
+
+```

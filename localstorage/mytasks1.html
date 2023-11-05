@@ -42,7 +42,7 @@
     <div class="container-md">
         <!-- <div class="container mt-5"> -->
 
-        <h4>SimplerTasks 1</h4>
+        <h4>SimplerTasks 1 Full screen</h4>
 
         <textarea id="myTextarea" class="form-control mt-2 fs-3" rows="5"
             placeholder="Write your tasks here..."></textarea>
@@ -124,6 +124,20 @@
                 textarea.style.height = 'auto'; // Reset the height
                 textarea.style.height = textarea.scrollHeight + 'px'; // Set the height to scroll height
             }
+
+
+            function toggleFullScreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+
+            // Add this somewhere in your JavaScript to listen for a double-click, for instance, on the textarea to make it go full screen.
+            document.getElementById('myTextarea').addEventListener('dblclick', toggleFullScreen);
 
 
 

@@ -50,6 +50,7 @@
 
         <button class="btn btn-danger mt-2" onclick="sendEmail()">Send Email</button>
         <button class="btn btn-warning" onclick="deleteCurrentLine()">Delete Current Line</button>
+        <button id="fullscreenBtn" class="btn btn-info mt-2">Full Screen</button>
 
     </div>
 
@@ -138,6 +139,25 @@
 
             // Add this somewhere in your JavaScript to listen for a double-click, for instance, on the textarea to make it go full screen.
             document.getElementById('myTextarea').addEventListener('dblclick', toggleFullScreen);
+
+            function toggleFullScreen() {
+                const fsButton = document.getElementById('fullscreenBtn');
+
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                    fsButton.innerText = 'Exit Full Screen'; // Change button text when full screen
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                        fsButton.innerText = 'Full Screen'; // Change back the button text when exiting full screen
+                    }
+                }
+            }
+
+            document.getElementById('fullscreenBtn').addEventListener('click', toggleFullScreen);
+
+
+            document.getElementById('fullscreenBtn').addEventListener('click', toggleFullScreen);
 
 
 

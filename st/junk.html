@@ -2,49 +2,80 @@
 <html lang="en">
 
 <head>
-    <title>
-        How to create auto-resize textarea
-        using JavaScript/jQuery ?
-    </title>
-    <style>
-        #autoresizing {
-            display: block;
-            overflow: hidden;
-            resize: none;
-        }
-    </style>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js">
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyTasks</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://rob-mccormack.github.io/simpler-tasks/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="https://rob-mccormack.github.io/simpler-tasks/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="https://rob-mccormack.github.io/simpler-tasks/favicon-16x16.png">
+    <link rel="manifest" href="https://rob-mccormack.github.io/simpler-tasks/site.webmanifest">
+    <link rel="shortcut icon" href="https://rob-mccormack.github.io/simpler-tasks/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="https://rob-mccormack.github.io/simpler-tasks/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="manifest.json">
+
 </head>
 
 <body>
-    <h1 style="color: green">
-        GeeksforGeeks
-    </h1>
 
-    <b>
-        Creating a textarea with
-        auto-resize in JavaScript
-    </b>
+    <div class="container mt-5">
 
-    <p>
-        The textarea below will resize
-        automatically accounting for cut,
-        paste and typing text.
-    </p>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h1>Working at 1:30pm Nov 1</h1>
+                <textarea id="myTextarea" class="form-control" rows="5"
+                    placeholder="Write your tasks here..."></textarea>
+                <br>
+                <button class="btn btn-primary" onclick="saveToLocalStorage()">Save to localStorage</button>
+                <button class="btn btn-secondary mt-2" onclick="sendEmail()">Send Email</button>
+            </div>
+        </div>
+    </div>
 
-    <textarea id="autoresizing">
-			Try cutting, pasting or typing here
-	</textarea>
+    <script>
+        // Load content from localStorage when the page loads
+        window.onload = function () {
+            const savedContent = localStorage.getItem('textareaContent');
+            if (savedContent) {
+                document.getElementById('myTextarea').value = savedContent;
+            }
+        }
 
-    <script type="text/javascript">
-        $('#autoresizing').on('input', function () {
-            this.style.height = 'auto';
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => {
+                    console.log('Service Worker registered!', reg);
+                })
+                .catch(err => {
+                    console.error('Service Worker registration failed:', err);
+                });
+        }
 
-            this.style.height =
-                (this.scrollHeight) + 'px';
-        });
+
+        // Save content to localStorage
+        function saveToLocalStorage() {
+            const content = document.getElementById('myTextarea').value;
+            localStorage.setItem('textareaContent', content);
+            alert('Saved!');
+        }
+
+        // Send content as an email
+        function sendEmail() {
+            const content = document.getElementById('myTextarea').value;
+            const mailtoLink = `mailto:?subject=test email&body=${encodeURIComponent(content)}`;
+            window.location.href = mailtoLink;
+        }
     </script>
+
 </body>
 
 </html>

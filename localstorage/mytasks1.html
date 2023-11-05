@@ -49,6 +49,8 @@
         <br>
 
         <button class="btn btn-danger mt-2" onclick="sendEmail()">Send Email</button>
+        <button class="btn btn-warning" onclick="deleteCurrentLine()">Delete Current Line</button>
+
     </div>
 
 
@@ -62,12 +64,19 @@
 
         // Setup the autosave feature after the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('myTextarea').addEventListener('input', autoSaveToLocalStorage);
+            const myTextarea = document.getElementById('myTextarea');
+
+            // Add event listener for auto-saving and height adjustment on input
+            myTextarea.addEventListener('input', function () {
+                autoSaveToLocalStorage();
+                autoAdjustHeight(this);
+            });
 
             // Load content from localStorage when the page loads
             const savedContent = localStorage.getItem('textareaContent');
             if (savedContent) {
-                document.getElementById('myTextarea').value = savedContent;
+                myTextarea.value = savedContent;
+                autoAdjustHeight(myTextarea); // Adjust the height after setting the content
             }
         });
 
@@ -80,6 +89,39 @@
                 .catch(err => {
                     console.error('Service Worker registration failed:', err);
                 });
+
+            function deleteCurrentLine() {
+                const textarea = document.getElementById('myTextarea');
+                const cursorPos = textarea.selectionStart;
+                const textLines = textarea.value.split('\n');
+
+                let currentLine = 0;
+                let charCount = 0;
+
+                // Find the current line
+                for (let i = 0; i < textLines.length; i++) {
+                    charCount += textLines[i].length + 1; // +1 for newline character
+                    if (charCount > cursorPos) {
+                        currentLine = i;
+                        break;
+                    }
+                }
+
+                // Remove the current line 
+                textLines.splice(currentLine, 1);
+                textarea.value = textLines.join('\n');
+
+                // Save to localStorage
+                //saveToLocalStorage();
+            }
+
+            function autoAdjustHeight(textarea) {
+                textarea.style.height = 'auto'; // Reset the height
+                textarea.style.height = textarea.scrollHeight + 'px'; // Set the height to scroll height
+            }
+
+
+
         }
     </script>
 

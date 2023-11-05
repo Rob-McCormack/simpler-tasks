@@ -1,30 +1,28 @@
+
 <script>
-    // Function to automatically save content to localStorage
-  function autoSaveToLocalStorage() {
-        const content = document.getElementById('myTextarea').value;
-  localStorage.setItem('textareaContent', content);
-  console.log('Content saved:', content); // Console log for debugging
+  function deleteCurrentLine() {
+    const textarea = document.getElementById('myTextarea');
+  const cursorPos = textarea.selectionStart;
+  const textLines = textarea.value.split('\n');
+
+  let currentLine = 0;
+  let charCount = 0;
+
+  // Find the current line
+  for (let i = 0; i < textLines.length; i++) {
+    charCount += textLines[i].length + 1; // +1 for newline character
+      if (charCount > cursorPos) {
+    currentLine = i;
+  break;
+      }
     }
 
-  // Setup the autosave feature after the DOM is fully loaded
-  document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('myTextarea').addEventListener('input', autoSaveToLocalStorage);
+  // Remove the current line
+  textLines.splice(currentLine, 1);
+  textarea.value = textLines.join('\n');
 
-  // Load content from localStorage when the page loads
-  const savedContent = localStorage.getItem('textareaContent');
-  if (savedContent) {
-    document.getElementById('myTextarea').value = savedContent;
-        }
-    });
-
-  // Service worker code
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js')
-      .then(reg => {
-        console.log('Service Worker registered!', reg);
-      })
-      .catch(err => {
-        console.error('Service Worker registration failed:', err);
-      });
-    }
+  // Save to localStorage
+  saveToLocalStorage();
+  }
 </script>
+

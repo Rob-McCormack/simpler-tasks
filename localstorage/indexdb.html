@@ -62,15 +62,23 @@
     request.onsuccess = function (event) {
       db = event.target.result;
     };
-
     function saveToDB(taskContent) {
       const transaction = db.transaction([storeName], 'readwrite');
       const store = transaction.objectStore(storeName);
       const timestamp = new Date().toLocaleString();
       const data = { content: taskContent, timestamp: timestamp };
-      store.put(data); // No need to specify a key; it will use the 'id' from keyPath
-      document.getElementById('timestamp').textContent = 'Last Saved: ' + timestamp;
+      const request = store.put(data);
+
+      request.onsuccess = function () {
+        console.log('Data saved to the database', data);
+        document.getElementById('timestamp').textContent = 'Last Saved: ' + timestamp;
+      };
+
+      request.onerror = function (event) {
+        console.error('Error saving data to the database', event.target.error);
+      };
     }
+
 
     function retrieveFromDB() {
       const transaction = db.transaction([storeName], 'readonly');

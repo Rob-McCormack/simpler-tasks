@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To-Do List with IndexedDB</title>
+<!-- Include Bootstrap CSS from CDN -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<!-- Inline CSS -->
+<style>
+  body { padding: 20px; }
+  textarea { width: 100%; }
+  .large-font { font-size: 1.5em; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>To-Do List</h2>
+  <textarea id="tasks" rows="10" placeholder="Enter your tasks here..."></textarea><br>
+  <input type="checkbox" id="fontToggle" />
+  <label for="fontToggle">Use large font</label><br>
+  <button id="saveBtn" class="btn btn-primary">Save</button>
+  <button id="retrieveBtn" class="btn btn-secondary">Retrieve</button>
+</div>
+
+<!-- Inline JavaScript -->
+<script>
+// This is the DB configuration and initialization
+let db;
+const dbName = 'todoListDB';
+const storeName = 'tasks';
+const settingsStoreName = 'settings';
+
+const request = indexedDB.open(dbName, 1);
+
+request.onerror = function(event) {
+  console.error('Database error: ' + event.target.errorCode);
+};
+
+request.onupgradeneeded = function(event) {
+  db = event.target.result;
+  if (!db.objectStoreNames.contains(storeName)) {
+    db.createObjectStore(storeName, { autoIncrement: true });
+  }
+  if (!db.objectStoreNames.contains(settingsStoreName)) {
+    db.createObjectStore(settingsStoreName);
+  }
+};
+
+request.onsuccess = function(event) {
+  db = event.target.result;
+  loadSettings();
+};
+
+function saveToDB(taskContent) {
+  const transaction = db.transaction([storeName], 'readwrite');
+  const store = transaction.objectStore(storeName);
+  store.put(taskContent, 'taskContent'); // Use a key for the task content
+}
+
+function retrieveFromDB() {
+  const transaction = db.transaction([storeName]);
+  const store = transaction.objectStore(storeName);
+  const request = store.get('taskContent'); // Retrieve the task content using the key
+
+  request.onsuccess = function() {
+    document.getElementById('tasks').value = request.result || '';
+  };
+}
+
+function saveSettings() {
+  const transaction = db.transaction([settingsStoreName], 'readwrite');
+  const store = transaction.objectStore(settingsStoreName);
+  const fontToggle = document.getElementById('fontToggle').checked;
+  store.put(fontToggle, 'fontLarge'); // Use a key for the font size setting
+}
+
+function loadSettings() {
+  const transaction = db.transaction([settingsStoreName]);
+  const store = transaction.objectStore(settingsStoreName);
+  const request = store.get('fontLarge');
+
+  request.onsuccess = function() {
+    const isFontLarge = request.result;
+    const tasks = document.getElementById('tasks');
+    document.getElementById('fontToggle').checked = isFontLarge;
+    tasks.classList.toggle('large-font', isFontLarge);
+  };
+}
+
+document.getElementById('saveBtn').addEventListener('click', function() {
+  const tasks = document.getElementById('tasks').value;
+  saveToDB(tasks);
+  saveSettings();
+});
+
+document.getElementById('retrieveBtn').addEventListener('click', function() {
+  retrieveFromDB();
+});
+
+document.getElementById('fontToggle').addEventListener('change', function() {
+  const tasks = document.getElementById('tasks');
+  tasks.classList.toggle('large-font', this.checked);
+  saveSettings();
+});
+</script>
+
+<!-- Include Bootstrap JS and Popper.js from CDN -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

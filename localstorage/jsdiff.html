@@ -27,16 +27,27 @@
 function compareText() {
   var text1 = document.getElementById('text1').value;
   var text2 = document.getElementById('text2').value;
-  var diff = Diff.diffWords(text1, text2);
+  var diff = Diff.diffLines(text1, text2); // diffLines instead of diffWords to compare by lines
   var display = document.getElementById('difference');
   display.innerHTML = '';
+
   diff.forEach(function(part){
-    // Assign color based on addition or deletion
-    var color = part.added ? 'green' :
-      part.removed ? 'red' : 'grey';
+    // Create a span and insert text
     var span = document.createElement('span');
-    span.style.color = color;
+    if(part.added) {
+      span.style.color = 'green';
+    } else if(part.removed) {
+      span.style.color = 'red';
+    } else {
+      span.style.color = 'grey';
+    }
     span.appendChild(document.createTextNode(part.value));
+    
+    // Add a line break if it's not the last part
+    if(!part.added && !part.removed) {
+      span.appendChild(document.createElement('br'));
+    }
+
     display.appendChild(span);
   });
 }

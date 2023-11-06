@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Compare with JSDiff</title>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/diff/dist/diff.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-3">
+  <h2>Text Compare</h2>
+  <div class="row mb-3">
+    <div class="col">
+      <textarea id="text1" class="form-control" placeholder="Enter original text"></textarea>
+    </div>
+    <div class="col">
+      <textarea id="text2" class="form-control" placeholder="Enter modified text"></textarea>
+    </div>
+  </div>
+  <button onclick="compareText()" class="btn btn-primary">Compare</button>
+  <div id="difference" class="mt-3"></div>
+</div>
+
+<script>
+function compareText() {
+  var text1 = document.getElementById('text1').value;
+  var text2 = document.getElementById('text2').value;
+  var diff = Diff.diffWords(text1, text2);
+  var display = document.getElementById('difference');
+  display.innerHTML = '';
+  diff.forEach(function(part){
+    // Assign color based on addition or deletion
+    var color = part.added ? 'green' :
+      part.removed ? 'red' : 'grey';
+    var span = document.createElement('span');
+    span.style.color = color;
+    span.appendChild(document.createTextNode(part.value));
+    display.appendChild(span);
+  });
+}
+</script>
+
+</body>
+</html>

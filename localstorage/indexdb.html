@@ -6,7 +6,6 @@
 <title>To-Do List with IndexedDB</title>
 <!-- Include Bootstrap CSS from CDN -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
 <!-- Inline CSS -->
 <style>
   body { padding: 20px; }
@@ -23,88 +22,67 @@
   <label for="fontToggle">Use large font</label><br>
   <button id="saveBtn" class="btn btn-primary">Save</button>
   <button id="retrieveBtn" class="btn btn-secondary">Retrieve</button>
+  <label id="timestamp"></label>
 </div>
 
 <!-- Inline JavaScript -->
 <script>
-// This is the DB configuration and initialization
 let db;
 const dbName = 'todoListDB';
 const storeName = 'tasks';
-const settingsStoreName = 'settings';
-
 const request = indexedDB.open(dbName, 1);
 
 request.onerror = function(event) {
-  console.error('Database error: ' + event.target.errorCode);
+  console.error('Database error: ', event.target.errorCode);
 };
 
 request.onupgradeneeded = function(event) {
   db = event.target.result;
   if (!db.objectStoreNames.contains(storeName)) {
-    db.createObjectStore(storeName, { autoIncrement: true });
-  }
-  if (!db.objectStoreNames.contains(settingsStoreName)) {
-    db.createObjectStore(settingsStoreName);
+    db.createObjectStore(storeName);
   }
 };
 
 request.onsuccess = function(event) {
   db = event.target.result;
-  loadSettings();
 };
 
 function saveToDB(taskContent) {
   const transaction = db.transaction([storeName], 'readwrite');
   const store = transaction.objectStore(storeName);
-  store.put(taskContent, 'taskContent'); // Use a key for the task content
+  const timestamp = new Date().toLocaleString();
+  store.put({ content: taskContent, timestamp: timestamp });
+  document.getElementById('timestamp').textContent = 'Last Saved: ' + timestamp;
 }
 
 function retrieveFromDB() {
-  const transaction = db.transaction([storeName]);
+  const transaction = db.transaction([storeName], 'readonly');
   const store = transaction.objectStore(storeName);
-  const request = store.get('taskContent'); // Retrieve the task content using the key
+  const request = store.getAll();
 
-  request.onsuccess = function() {
-    document.getElementById('tasks').value = request.result || '';
-  };
-}
-
-function saveSettings() {
-  const transaction = db.transaction([settingsStoreName], 'readwrite');
-  const store = transaction.objectStore(settingsStoreName);
-  const fontToggle = document.getElementById('fontToggle').checked;
-  store.put(fontToggle, 'fontLarge'); // Use a key for the font size setting
-}
-
-function loadSettings() {
-  const transaction = db.transaction([settingsStoreName]);
-  const store = transaction.objectStore(settingsStoreName);
-  const request = store.get('fontLarge');
-
-  request.onsuccess = function() {
-    const isFontLarge = request.result;
-    const tasks = document.getElementById('tasks');
-    document.getElementById('fontToggle').checked = isFontLarge;
-    tasks.classList.toggle('large-font', isFontLarge);
+  request.onsuccess = function(event) {
+    if (request.result.length > 0) {
+      const lastEntry = request.result[request.result.length - 1];
+      document.getElementById('tasks').value = lastEntry.content;
+      document.getElementById('timestamp').textContent = 'Last Retrieved: ' + lastEntry.timestamp;
+    }
   };
 }
 
 document.getElementById('saveBtn').addEventListener('click', function() {
   const tasks = document.getElementById('tasks').value;
   saveToDB(tasks);
-  saveSettings();
 });
 
 document.getElementById('retrieveBtn').addEventListener('click', function() {
   retrieveFromDB();
 });
 
-document.getElementById('fontToggle').addEventListener('change', function() {
+document.getElementById('fontToggle').addEventListener('change', function(event) {
   const tasks = document.getElementById('tasks');
-  tasks.classList.toggle('large-font', this.checked);
-  saveSettings();
+  tasks.className = event.target.checked ? 'large-font' : '';
 });
+
 </script>
 
 <!-- Include Bootstrap JS and Popper.js from CDN -->

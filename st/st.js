@@ -65,6 +65,44 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     autoExpandTextarea(tasksTextArea);
+
+
+    // function convertTasksToJSON(text) {
+    //     const lines = text.split('\n').filter(line => line.trim() !== ''); // Filter out empty lines
+    //     let tasksJSON = {};
+    //     let taskId = 1;
+
+    //     lines.forEach(line => {
+    //         const words = line.trim().split(' ');
+    //         const firstWord = words[0];
+    //         const specialChar = specialChars.find(sc => sc.char === firstWord);
+
+    //         let type, content;
+    //         if (specialChar) {
+    //             type = specialChar.meaning;
+    //             content = words.slice(1).join(' ');
+    //         } else {
+    //             type = 'normal';
+    //             content = line.trim();
+    //         }
+
+    //         tasksJSON[taskId] = { type: type, content: content };
+
+    //         // If it's an update, we can extract mentions, locations, projects
+    //         if (type === 'update') {
+    //             tasksJSON[taskId].mentions = words.filter(word => word.startsWith('@')).map(mention => mention.substring(1));
+    //             tasksJSON[taskId].locations = words.filter(word => word.startsWith('#')).map(location => location.substring(1));
+    //             tasksJSON[taskId].projects = words.filter(word => word.startsWith('+')).map(project => project.substring(1));
+    //         }
+
+    //         taskId++;
+    //     });
+
+    //     return tasksJSON;
+    // }
+
+
+
     function convertTasksToJSON(text) {
         const lines = text.split('\n').filter(line => line.trim() !== ''); // Filter out empty lines
         let tasksJSON = {};
@@ -84,20 +122,33 @@ document.addEventListener('DOMContentLoaded', function () {
                 content = line.trim();
             }
 
-            tasksJSON[taskId] = { type: type, content: content };
+            // Initialize task object with type and content
+            tasksJSON[taskId.toString()] = { type: type, content: content };
 
-            // If it's an update, we can extract mentions, locations, projects
-            if (type === 'update') {
-                tasksJSON[taskId].mentions = words.filter(word => word.startsWith('@')).map(mention => mention.substring(1));
-                tasksJSON[taskId].locations = words.filter(word => word.startsWith('#')).map(location => location.substring(1));
-                tasksJSON[taskId].projects = words.filter(word => word.startsWith('+')).map(project => project.substring(1));
-            }
+            // Initialize mentions, locations, and projects as empty arrays
+            tasksJSON[taskId.toString()].mentions = [];
+            tasksJSON[taskId.toString()].locations = [];
+            tasksJSON[taskId.toString()].projects = [];
+
+            // Populate mentions, locations, and projects if they are present
+            words.forEach(word => {
+                if (word.startsWith('@')) {
+                    tasksJSON[taskId.toString()].mentions.push(word.substring(1));
+                } else if (word.startsWith('#')) {
+                    tasksJSON[taskId.toString()].locations.push(word.substring(1));
+                } else if (word.startsWith('+')) {
+                    tasksJSON[taskId.toString()].projects.push(word.substring(1));
+                }
+            });
 
             taskId++;
         });
 
         return tasksJSON;
     }
+
+
+
 
 
     function groupTasksByType(tasks) {

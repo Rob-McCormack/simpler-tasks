@@ -1,46 +1,33 @@
- I change this on GitHub on my iPhone
-    #=.(
+function convertTasksToJSON(text) {
+    const lines = text.split('\n').filter(line => line.trim() !== ''); // Filter out empty lines
+    let tasksJSON = {};
+    let taskId = 1;
 
+    lines.forEach(line => {
+        const words = line.trim().split(' ');
+        const firstWord = words[0];
+        const specialChar = specialChars.find(sc => sc.char === firstWord);
 
-OK, now some formatting things
+        let type, content;
+        if (specialChar) {
+            type = specialChar.meaning;
+            content = words.slice(1).join(' ');
+        } else {
+            type = 'normal';
+            content = line.trim();
+        }
 
-We want to set up constant:
-const colorClasses = [
-    "primary",
-    "secondary",
-    "success",
-    "danger",
-    "warning",
-    "info",
-    "light",
-    "dark",
-    "muted"
-];
+        tasksJSON[taskId.toString()] = { type: type, content: content };
 
+        // If it's an update, we can extract mentions, locations, projects
+        if (type === 'update') {
+            tasksJSON[taskId.toString()].mentions = words.filter(word => word.startsWith('@')).map(mention => mention.substring(1));
+            tasksJSON[taskId.toString()].locations = words.filter(word => word.startsWith('#')).map(location => location.substring(1));
+            tasksJSON[taskId.toString()].projects = words.filter(word => word.startsWith('+')).map(project => project.substring(1));
+        }
 
-const specialFormats = [
-    { char: "@", formatStart: "<b>", formatEnd: "</b>" },
-    { char: "#", formatStart: "<i>", formatEnd: "</i>" },
-    { char: "+", formatStart: "<u>", formatEnd: "</u>" }
-];
-
-// Later, in your convertJSONToHTML function, you'd use these formats:
-
-function applySpecialFormats(content) {
-    let formattedContent = content;
-    specialFormats.forEach(special => {
-        const regex = new RegExp(`\\${special.char}\\w+`, 'g'); // Match the special character followed by any word characters
-        formattedContent = formattedContent.replace(regex, match => {
-            // Wrap the matched text with the specified formatting
-            return `${special.formatStart}${match}${special.formatEnd}`;
-        });
+        taskId++;
     });
-    return formattedContent;
-}
 
-function convertJSONToHTML(json) {
-    return json.map(task => {
-        const formattedContent = applySpecialFormats(task.content);
-        return `<div><strong>[${task.type}]</strong> ${formattedContent}</div>`;
-    }).join('');
+    return tasksJSON;
 }

@@ -1,16 +1,16 @@
 Title Sample text from GitHub
 Updated 2023-11-05
 ! A must do I do today
-! A must do item this week
+! A must do item this week This is a very long line, it will wrap
 G. Goal #1
 T. Today 1
 T. Today 2
 normal number 1
 Normal number 2
-1. High priority one
+1. High priority one this is also a very long line and should wrap
 1. High priority two
 2. medium priority one
 3. Low priority one
-N. note line 1
+N. note line 1 notes can be quite long too.
 N. note line 2
 S. streak one

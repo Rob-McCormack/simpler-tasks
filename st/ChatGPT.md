@@ -1,14 +1,17 @@
 
+Instead of that code you provided, 
+we already have code for this feature in 
+our javascript for formatting of
+`@mentions, #locations, +projects...`
 
-We don't have to write much code for formatting
-of @mentions, #locations, +projects...
+Our existing code already has a good and flexible way of doing this.
 
-as our existing code already has a good way to do this.
+Can you should be how to call `applySpecialFormats(content)`
+so it will work
 
-Can you get this working to format  @mentions, #locations, +projects...
-in accordancwe with
 
-` const specialFormats`
+
+Here is our working code:
 
 
 ```js

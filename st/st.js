@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
+
     function applySpecialFormats(content) {
         let formattedContent = content;
         specialFormats.forEach(special => {
@@ -84,9 +85,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 type = 'normal';
                 content = line.trim();
             }
-
-            // Call applySpecialFormats here to format content
-            // content = applySpecialFormats(content);
 
             // Initialize task object with type and content
             tasksJSON[taskId.toString()] = { type: type, content: content };
@@ -132,6 +130,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }, {});
     }
 
+    function prependSpecialCharToContent(task) {
+        // Get the first character of the type and ensure lowercase for consistency
+        const specialChar = task.type.charAt(0).toLowerCase() + ' ';
+        return specialChar + task.content;
+    }
+
     function convertJSONToHTML(tasksJSON) {
         let html = '';
         let lastType = '';
@@ -143,6 +147,9 @@ document.addEventListener('DOMContentLoaded', function () {
             // Apply special formats here
             let formattedContent = applySpecialFormats(task.content);
 
+            // Prepend specialChar to the content
+            formattedContent = prependSpecialCharToContent(task);
+
             // Check if the type of the current task is different from the last one
             if (task.type !== lastType) {
                 // If so, update lastType and add a new category header
@@ -152,7 +159,6 @@ document.addEventListener('DOMContentLoaded', function () {
             // Add the task details with formatted content
             html += `<div class="task"><div class="content">${formattedContent}</div></div>`;
         });
-
 
         return html;
     }

@@ -1,56 +1,77 @@
-I made the 2 changes, but `specialFormats`  is still in "content":
-
-```json
-  "4": {
-    "type": "high priority",
-    "content": "high1 <b>@james</b> <i>#work</i> <u>+medical</u>",
-    "mentions": [
-      "james"
-    ],
-    "locations": [
-      "work"
-    ],
-    "projects": [
-      "medical"
-    ]
-  },
-```
-
-
-
-Let's forget about trying to display `specialChars` in the View.
-
-Here is the Javascript that was working well,
-before we attempted to get the `specialChars`
-displayed in View.
-
-In Edit, example is:
-'h high1 @james #work +medical'
-and item in json is:
-```json 
-"4": {
-    "type": "high priority",
-    "content": "high1 <b>@james</b> <i>#work</i> <u>+medical</u>",
-    "mentions": [
-      "james"
-    ],
-    "locations": [
-      "work"
-    ],
-    "projects": [
-      "medical"
-    ]
-  },
-
-```
-
-Question:
-Why is the `specialFormats` applied inside of the json,
-are we not using the json to store just the data from the `textarea` in Edit?
-
-Entire JavaScript:
+OK, 
+Now in  not all `spedialChars` are single letters.
+for example "title", "update"
 
 ```js
+    const specialChars = [`
+        { char: "title", meaning: "title", sortOrder: -2 },
+        { char: "update", meaning: "update", sortOrder: -1 }
+]:
+```
+But in View we are only diplaying the first character of `char` in every case.
+
+Please fix the display in View
+so that the entire `char` is prepended to task
+
+Here are functions that need modifications:
+```js
+
+    function prependSpecialCharToContent(task) {
+        // Get the first character of the type and ensure lowercase for consistency
+        const specialChar = task.type.charAt(0).toLowerCase() + ' ';
+        return specialChar + task.content;
+    }
+
+    function convertJSONToHTML(tasksJSON) {
+        let html = '';
+        let lastType = '';
+
+        // Ensure tasksJSON is an array
+        const tasksArray = Array.isArray(tasksJSON) ? tasksJSON : Object.values(tasksJSON);
+
+        tasksArray.forEach(task => {
+            // Apply special formats here
+            let formattedContent = applySpecialFormats(task.content);
+
+            // Prepend specialChar to the content
+            formattedContent = prependSpecialCharToContent(task);
+
+            // Check if the type of the current task is different from the last one
+            if (task.type !== lastType) {
+                // If so, update lastType and add a new category header
+                lastType = task.type;
+                html += `<div class="task-category"><strong>${task.type}</strong></div>`;
+            }
+            // Add the task details with formatted content
+            html += `<div class="task"><div class="content">${formattedContent}</div></div>`;
+        });
+
+        return html;
+    }
+
+```
+
+Now we have
+"
+title
+t TITLE
+update
+u UPTDATE
+"
+and we want
+"
+title
+title TITLE
+update
+uupdate UPTDATE
+"
+
+
+Ok, looking good!
+Now, would you suggest any refractoring of code at this point
+of our development?
+
+```
 document.addEventListener('DOMContentLoaded', function () {
     const specialChars = [
         { char: "!", meaning: "must-do", sortOrder: -2 },
@@ -185,28 +206,66 @@ document.addEventListener('DOMContentLoaded', function () {
         }, {});
     }
 
+    // function convertJSONToHTML(tasksJSON) {
+    //     let html = '';
+    //     let lastType = '';
+
+    //     // Ensure tasksJSON is an array
+    //     const tasksArray = Array.isArray(tasksJSON) ? tasksJSON : Object.values(tasksJSON);
+
+    //     tasksArray.forEach(task => {
+    //         // Apply special formats here
+    //         let formattedContent = applySpecialFormats(task.content);
+
+    //         // Check if the type of the current task is different from the last one
+    //         if (task.type !== lastType) {
+    //             // If so, update lastType and add a new category header
+    //             lastType = task.type;
+    //             html += `<div class="task-category"><strong>${task.type}</strong></div>`;
+    //         }
+    //         // Add the task details with formatted content
+    //         html += `<div class="task"><div class="content">${formattedContent}</div></div>`;
+    //     });
+
+
+    //     return html;
+    // }
+
     function convertJSONToHTML(tasksJSON) {
         let html = '';
         let lastType = '';
-
+        
         // Ensure tasksJSON is an array
         const tasksArray = Array.isArray(tasksJSON) ? tasksJSON : Object.values(tasksJSON);
-
+    
         tasksArray.forEach(task => {
+            // Apply special formats here
+            let formattedContent = applySpecialFormats(task.content);
+    
+            // Get the first character of the type
+            const specialChar = task.type.charAt(0).toLowerCase() + ' '; // Ensure lowercase for consistency
+    
+            // Prepend specialChar to the content
+            formattedContent = specialChar + formattedContent;
+    
             // Check if the type of the current task is different from the last one
             if (task.type !== lastType) {
                 // If so, update lastType and add a new category header
                 lastType = task.type;
                 html += `<div class="task-category"><strong>${task.type}</strong></div>`;
             }
-
-            let taskContent = applySpecialFormats(task.content);
-            // Add the task details
-            html += `<div class="task"><div class="content">${task.content}</div></div>`;
+            // Add the task details with formatted content
+            html += `<div class="task"><div class="content">${formattedContent}</div></div>`;
         });
-
+    
         return html;
     }
+    
+
+
+
+
+
 
     function sortTasks(tasks) {
         const sortOrder = specialChars.reduce((acc, char) => {
@@ -221,6 +280,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-
 ```
-

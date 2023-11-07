@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimplerTasks History</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container-md">
+        <h4>SimplerTasks 1 Full screen</h4>
+        <!-- Other buttons here... -->
+
+        <textarea id="tasks" class="form-control mt-2 fs-3" rows="5" placeholder="Write your tasks here..."></textarea>
+        <button id="saveHistoryBtn" class="btn btn-success mt-2">Save History</button>
+        <div id="localStorageContent" class="mt-4"></div>
+    </div>
+
+    <script>
+        // Your existing functions here...
+
+        document.getElementById('saveHistoryBtn').addEventListener('click', function() {
+            const textArea = document.getElementById('tasks');
+            const content = textArea.value;
+            const timestamp = new Date().toISOString();
+            const fileName = prompt('Enter a file name for your history record:', 'my to do list');
+
+            // Save the history record
+            const historyRecord = {
+                creationDate: timestamp,
+                fileName: fileName,
+                content: content
+            };
+            localStorage.setItem(timestamp, JSON.stringify(historyRecord));
+
+            // Call function to update display
+            displayLocalStorageContent();
+        });
+
+        function displayLocalStorageContent() {
+            const localStorageContentDiv = document.getElementById('localStorageContent');
+            localStorageContentDiv.innerHTML = ''; // Clear current content
+
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                const record = JSON.parse(localStorage.getItem(key));
+
+                // Create the HTML for each record
+                const recordDiv = document.createElement('div');
+                recordDiv.classList.add('row', 'gy-2');
+
+                const dateDiv = document.createElement('div');
+                dateDiv.classList.add('col');
+                dateDiv.textContent = record.creationDate;
+
+                const nameDiv = document.createElement('div');
+                nameDiv.classList.add('col');
+                nameDiv.textContent = record.fileName;
+
+                const contentDiv = document.createElement('div');
+                contentDiv.classList.add('col');
+                contentDiv.textContent = record.content;
+
+                recordDiv.appendChild(dateDiv);
+                recordDiv.appendChild(nameDiv);
+                recordDiv.appendChild(contentDiv);
+
+                localStorageContentDiv.appendChild(recordDiv);
+            }
+        }
+
+        // Call on page load to display content
+        displayLocalStorageContent();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+</body>
+</html>

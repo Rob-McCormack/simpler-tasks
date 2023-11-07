@@ -1,18 +1,54 @@
+I made the 2 changes, but `specialFormats`  is still in "content":
 
-Instead of that code you provided, 
-we already have code for this feature in 
-our javascript for formatting of
-`@mentions, #locations, +projects...`
+```json
+  "4": {
+    "type": "high priority",
+    "content": "high1 <b>@james</b> <i>#work</i> <u>+medical</u>",
+    "mentions": [
+      "james"
+    ],
+    "locations": [
+      "work"
+    ],
+    "projects": [
+      "medical"
+    ]
+  },
+```
 
-Our existing code already has a good and flexible way of doing this.
-
-Can you should be how to call `applySpecialFormats(content)`
-so it will work
 
 
+Let's forget about trying to display `specialChars` in the View.
 
-Here is our working code:
+Here is the Javascript that was working well,
+before we attempted to get the `specialChars`
+displayed in View.
 
+In Edit, example is:
+'h high1 @james #work +medical'
+and item in json is:
+```json 
+"4": {
+    "type": "high priority",
+    "content": "high1 <b>@james</b> <i>#work</i> <u>+medical</u>",
+    "mentions": [
+      "james"
+    ],
+    "locations": [
+      "work"
+    ],
+    "projects": [
+      "medical"
+    ]
+  },
+
+```
+
+Question:
+Why is the `specialFormats` applied inside of the json,
+are we not using the json to store just the data from the `textarea` in Edit?
+
+Entire JavaScript:
 
 ```js
 document.addEventListener('DOMContentLoaded', function () {
@@ -102,6 +138,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 content = line.trim();
             }
 
+            // Call applySpecialFormats here to format content
+            // content = applySpecialFormats(content);
+
             // Initialize task object with type and content
             tasksJSON[taskId.toString()] = { type: type, content: content };
 
@@ -126,6 +165,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         return tasksJSON;
     }
+
+
 
     function groupTasksByType(tasks) {
         return tasks.reduce((acc, task) => {
@@ -158,6 +199,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 lastType = task.type;
                 html += `<div class="task-category"><strong>${task.type}</strong></div>`;
             }
+
+            let taskContent = applySpecialFormats(task.content);
             // Add the task details
             html += `<div class="task"><div class="content">${task.content}</div></div>`;
         });
@@ -179,6 +222,5 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
-
 ```
+

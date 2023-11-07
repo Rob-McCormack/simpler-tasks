@@ -66,51 +66,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     autoExpandTextarea(tasksTextArea);
 
-    // function convertTasksToJSON(text) {
-    //     const lines = text.split('\n').filter(line => line.trim() !== ''); // Filter out empty lines
-    //     let tasksJSON = {};
-    //     let taskId = 1;
-
-    //     lines.forEach(line => {
-    //         const words = line.trim().split(' ');
-    //         const firstWord = words[0];
-    //         const specialChar = specialChars.find(sc => sc.char === firstWord);
-
-    //         let type, content;
-    //         if (specialChar) {
-    //             type = specialChar.meaning;
-    //             content = words.slice(1).join(' ');
-    //         } else {
-    //             type = 'normal';
-    //             content = line.trim();
-    //         }
-
-    //         // Initialize task object with type and content
-    //         tasksJSON[taskId.toString()] = { type: type, content: content };
-
-    //         // Initialize mentions, locations, and projects as empty arrays
-    //         tasksJSON[taskId.toString()].mentions = [];
-    //         tasksJSON[taskId.toString()].locations = [];
-    //         tasksJSON[taskId.toString()].projects = [];
-
-    //         // Populate mentions, locations, and projects if they are present
-    //         words.forEach(word => {
-    //             if (word.startsWith('@')) {
-    //                 tasksJSON[taskId.toString()].mentions.push(word.substring(1));
-    //             } else if (word.startsWith('#')) {
-    //                 tasksJSON[taskId.toString()].locations.push(word.substring(1));
-    //             } else if (word.startsWith('+')) {
-    //                 tasksJSON[taskId.toString()].projects.push(word.substring(1));
-    //             }
-    //         });
-
-    //         taskId++;
-    //     });
-
-    //     return tasksJSON;
-    // }
-
-
     function convertTasksToJSON(text) {
         const lines = text.split('\n').filter(line => line.trim() !== ''); // Filter out empty lines
         let tasksJSON = {};
@@ -131,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             // Call applySpecialFormats here to format content
-            content = applySpecialFormats(content);
+            // content = applySpecialFormats(content);
 
             // Initialize task object with type and content
             tasksJSON[taskId.toString()] = { type: type, content: content };
@@ -160,9 +115,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-
-
-
     function groupTasksByType(tasks) {
         return tasks.reduce((acc, task) => {
             if (!acc[task.type]) {
@@ -188,15 +140,19 @@ document.addEventListener('DOMContentLoaded', function () {
         const tasksArray = Array.isArray(tasksJSON) ? tasksJSON : Object.values(tasksJSON);
 
         tasksArray.forEach(task => {
+            // Apply special formats here
+            let formattedContent = applySpecialFormats(task.content);
+
             // Check if the type of the current task is different from the last one
             if (task.type !== lastType) {
                 // If so, update lastType and add a new category header
                 lastType = task.type;
                 html += `<div class="task-category"><strong>${task.type}</strong></div>`;
             }
-            // Add the task details
-            html += `<div class="task"><div class="content">${task.content}</div></div>`;
+            // Add the task details with formatted content
+            html += `<div class="task"><div class="content">${formattedContent}</div></div>`;
         });
+
 
         return html;
     }

@@ -1,5 +1,33 @@
+Works 100%, 
+
+Now... We will be wrapping  moree text in task items
+with HTML tags, and I want an easy way to chage the HTML tags
+
+WOuld it be a good idea to set up a function
+that takes 3 parameters, something like
+``
+        { char: "@", formatStart: "<b>", formatEnd: "</b>" },
+
+
+```js
+    function prependSpecialCharToContent(task) {
+        const specialCharObject = specialChars.find(sc => sc.meaning.toLowerCase() === task.type.toLowerCase());
+        // Wrap the special character with <sub> tags to display it as subscript
+        const specialChar = specialCharObject ? '<sub>' + specialCharObject.char + '</sub> ' : '';
+        return specialChar + task.content;
+    }
+
+```
+
+In view, I want to display the `spedialChars` as subscript
+
+I want to use <sub>`spedialChars`</sub>
+
+
+
+
 OK, 
-Now in  not all `spedialChars` are single letters.
+Not all `spedialChars` are single letters.
 for example "title", "update"
 
 ```js
@@ -13,43 +41,6 @@ But in View we are only diplaying the first character of `char` in every case.
 Please fix the display in View
 so that the entire `char` is prepended to task
 
-Here are functions that need modifications:
-```js
-
-    function prependSpecialCharToContent(task) {
-        // Get the first character of the type and ensure lowercase for consistency
-        const specialChar = task.type.charAt(0).toLowerCase() + ' ';
-        return specialChar + task.content;
-    }
-
-    function convertJSONToHTML(tasksJSON) {
-        let html = '';
-        let lastType = '';
-
-        // Ensure tasksJSON is an array
-        const tasksArray = Array.isArray(tasksJSON) ? tasksJSON : Object.values(tasksJSON);
-
-        tasksArray.forEach(task => {
-            // Apply special formats here
-            let formattedContent = applySpecialFormats(task.content);
-
-            // Prepend specialChar to the content
-            formattedContent = prependSpecialCharToContent(task);
-
-            // Check if the type of the current task is different from the last one
-            if (task.type !== lastType) {
-                // If so, update lastType and add a new category header
-                lastType = task.type;
-                html += `<div class="task-category"><strong>${task.type}</strong></div>`;
-            }
-            // Add the task details with formatted content
-            html += `<div class="task"><div class="content">${formattedContent}</div></div>`;
-        });
-
-        return html;
-    }
-
-```
 
 Now we have
 "

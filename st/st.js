@@ -44,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-
     function applySpecialFormats(content) {
         let formattedContent = content;
         specialFormats.forEach(special => {
@@ -67,6 +66,55 @@ document.addEventListener('DOMContentLoaded', function () {
 
     autoExpandTextarea(tasksTextArea);
 
+
+
+    // function convertTasksToJSON(text) {
+    //     const lines = text.split('\n').filter(line => line.trim() !== ''); // Filter out empty lines
+    //     let tasksJSON = {};
+    //     let taskId = 1;
+
+    //     lines.forEach(line => {
+    //         const words = line.trim().split(' ');
+    //         const firstWord = words[0];
+    //         const specialChar = specialChars.find(sc => sc.char === firstWord);
+
+    //         let type, content;
+    //         if (specialChar) {
+    //             type = specialChar.meaning;
+    //             content = words.slice(1).join(' ');
+    //         } else {
+    //             type = 'normal';
+    //             content = line.trim();
+    //         }
+
+    //         // Call applySpecialFormats here to format content
+    //         // content = applySpecialFormats(content);
+
+    //         // Initialize task object with type and content
+    //         tasksJSON[taskId.toString()] = { type: type, content: content };
+
+    //         // Initialize mentions, locations, and projects as empty arrays
+    //         tasksJSON[taskId.toString()].mentions = [];
+    //         tasksJSON[taskId.toString()].locations = [];
+    //         tasksJSON[taskId.toString()].projects = [];
+
+    //         // Populate mentions, locations, and projects if they are present
+    //         words.forEach(word => {
+    //             if (word.startsWith('@')) {
+    //                 tasksJSON[taskId.toString()].mentions.push(word.substring(1));
+    //             } else if (word.startsWith('#')) {
+    //                 tasksJSON[taskId.toString()].locations.push(word.substring(1));
+    //             } else if (word.startsWith('+')) {
+    //                 tasksJSON[taskId.toString()].projects.push(word.substring(1));
+    //             }
+    //         });
+
+    //         taskId++;
+    //     });
+
+    //     return tasksJSON;
+    // }
+
     function convertTasksToJSON(text) {
         const lines = text.split('\n').filter(line => line.trim() !== ''); // Filter out empty lines
         let tasksJSON = {};
@@ -80,11 +128,15 @@ document.addEventListener('DOMContentLoaded', function () {
             let type, content;
             if (specialChar) {
                 type = specialChar.meaning;
-                content = words.slice(1).join(' ');
+                // Prepend the special character to the content
+                content = specialChar.char + ' ' + words.slice(1).join(' ');
             } else {
                 type = 'normal';
                 content = line.trim();
             }
+
+            // Call applySpecialFormats here to format content
+            content = applySpecialFormats(content);
 
             // Initialize task object with type and content
             tasksJSON[taskId.toString()] = { type: type, content: content };
@@ -112,7 +164,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-
     function groupTasksByType(tasks) {
         return tasks.reduce((acc, task) => {
             if (!acc[task.type]) {
@@ -130,12 +181,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }, {});
     }
 
-    function prependSpecialCharToContent(task) {
-        // Get the first character of the type and ensure lowercase for consistency
-        const specialChar = task.type.charAt(0).toLowerCase() + ' ';
-        return specialChar + task.content;
-    }
-
     function convertJSONToHTML(tasksJSON) {
         let html = '';
         let lastType = '';
@@ -147,9 +192,6 @@ document.addEventListener('DOMContentLoaded', function () {
             // Apply special formats here
             let formattedContent = applySpecialFormats(task.content);
 
-            // Prepend specialChar to the content
-            formattedContent = prependSpecialCharToContent(task);
-
             // Check if the type of the current task is different from the last one
             if (task.type !== lastType) {
                 // If so, update lastType and add a new category header
@@ -159,6 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Add the task details with formatted content
             html += `<div class="task"><div class="content">${formattedContent}</div></div>`;
         });
+
 
         return html;
     }

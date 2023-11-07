@@ -10,32 +10,6 @@ body {
     }
 }
 
-/* Make sure it's above other items */
-.fab {
-    position: fixed;
-    bottom: 50%;
-    /* Vertically centered */
-    right: 20px;
-    /* Or wherever horizontally */
-    transform: translateY(50%);
-    /* Adjust for exact centering */
-    border-radius: 50%;
-    /* Make it round */
-    height: 60px;
-    /* Your desired size */
-    width: 60px;
-    /* Your desired size */
-    display: none;
-    /* Hidden by default */
-    z-index: 100;
-    /* Above other items */
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-
-
 textarea {
     font-family: 'Roboto Mono', monospace;
     /* TODO: don't use hid scro overflow: hidden; */
@@ -46,32 +20,6 @@ textarea {
     /* Optional: prevent manual resizing */
 }
 
-
-/* This class will be toggled by JavaScript */
-.fab-visible {
-    display: block;
-}
-
-
-
-.material-symbols-outlined {
-    vertical-align: middle;
-}
-
-.category-heading {
-    font-weight: bold;
-    font-size: 1.2em;
-}
-
-#taskCount {
-    display: none;
-}
-
-
-.lighter-text {
-    font-weight: 400;
-    /* This is a regular font weight, less bold than the default Bootstrap badge text */
-}
 
 /* required to see the list in Email tab */
 #email {

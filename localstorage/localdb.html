@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Localbase Example</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Localbase Example</h1>
+        <textarea id="myTextarea" class="form-control" rows="5"></textarea>
+        <button id="saveButton" class="btn btn-primary mt-2">Save Text</button>
+    </div>
+
+    <!-- Include Localbase library -->
+    <script src="https://cdn.jsdelivr.net/npm/localbase/dist/localbase.min.js"></script>
+    <script>
+        // Initialize Localbase
+        const db = new Localbase('myDatabase');
+
+        // Get the textarea element and save button
+        const textarea = document.getElementById('myTextarea');
+        const saveButton = document.getElementById('saveButton');
+
+        // Add a click event listener to the save button
+        saveButton.addEventListener('click', () => {
+            const text = textarea.value;
+
+            // Store the text in IndexedDB using Localbase
+            db.collection('texts').add({ content: text });
+
+            // Clear the textarea
+            textarea.value = '';
+        });
+    </script>
+</body>
+</html>

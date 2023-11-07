@@ -22,21 +22,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const tasksTextArea = document.getElementById('tasks');
     const viewTasksDiv = document.getElementById('viewTasks');
 
+
+    function removeDuplicateAndBlankLines(text) {
+        return [...new Set(text.split('\n').filter(line => line.trim() !== ''))].join('\n');
+    }
+
     editTab.addEventListener('click', () => {
         const textArea = document.getElementById('tasks');
-        // Split the text area content into lines and remove blank lines
-        const lines = textArea.value.split('\n').filter(line => line.trim() !== '');
-        // Use a Set to remove duplicates and convert back to an array
-        const uniqueLines = [...new Set(lines)];
-        // Join the array back into a string with newline characters
-        textArea.value = uniqueLines.join('\n');
+        textArea.value = removeDuplicateAndBlankLines(textArea.value);
     });
 
 
-
     viewTab.addEventListener('click', () => {
-        // This is assuming you have a textarea with an id of 'tasksTextArea'
-        const tasks = tasksTextArea.value;
+        const textArea = document.getElementById('tasks');
+        const tasks = removeDuplicateAndBlankLines(textArea.value);
         let tasksJSON = convertTasksToJSON(tasks);
         console.log('Tasks in JSON format:', JSON.stringify(tasksJSON, null, 2));
 

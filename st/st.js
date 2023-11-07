@@ -23,20 +23,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const viewTasksDiv = document.getElementById('viewTasks');
 
 
-    function removeDuplicateAndBlankLines(text) {
-        return [...new Set(text.split('\n').filter(line => line.trim() !== ''))].join('\n');
+    function cleanUpTextareaContent() {
+        const textArea = document.getElementById('tasks');
+        // Trim each line and then remove duplicates and blank lines
+        textArea.value = [...new Set(textArea.value.split('\n').map(line => line.trimEnd()))]
+            .filter(line => line !== '')
+            .join('\n');
     }
 
-    editTab.addEventListener('click', () => {
-        const textArea = document.getElementById('tasks');
-        textArea.value = removeDuplicateAndBlankLines(textArea.value);
-    });
-
+    editTab.addEventListener('click', cleanUpTextareaContent);
 
     viewTab.addEventListener('click', () => {
+        cleanUpTextareaContent()
         const textArea = document.getElementById('tasks');
-        const tasks = removeDuplicateAndBlankLines(textArea.value);
-        let tasksJSON = convertTasksToJSON(tasks);
+        let tasksJSON = convertTasksToJSON(textArea.value);
         console.log('Tasks in JSON format:', JSON.stringify(tasksJSON, null, 2));
 
         // Sort tasks if the sortTasks function is available and working correctly

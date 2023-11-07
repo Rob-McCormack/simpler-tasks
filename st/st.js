@@ -23,8 +23,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const viewTasksDiv = document.getElementById('viewTasks');
 
     editTab.addEventListener('click', () => {
-        // TODO: place holder
+        const textArea = document.getElementById('tasks');
+        // Split the text area content into lines and remove blank lines
+        const lines = textArea.value.split('\n').filter(line => line.trim() !== '');
+        // Use a Set to remove duplicates and convert back to an array
+        const uniqueLines = [...new Set(lines)];
+        // Join the array back into a string with newline characters
+        textArea.value = uniqueLines.join('\n');
     });
+
 
 
     viewTab.addEventListener('click', () => {

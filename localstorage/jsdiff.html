@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Compare with JSDiff</title>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/diff/dist/diff.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-3">
+  <h2>Text Compare</h2>
+  <div class="row mb-3">
+    <div class="col">
+      <textarea id="text1" class="form-control" placeholder="Enter original text"></textarea>
+    </div>
+    <div class="col">
+      <textarea id="text2" class="form-control" placeholder="Enter modified text"></textarea>
+    </div>
+  </div>
+  <button onclick="compareText()" class="btn btn-primary">Compare</button>
+  <div id="difference" class="mt-3"></div>
+</div>
+
+<script>
+function compareText() {
+  var text1 = document.getElementById('text1').value;
+  var text2 = document.getElementById('text2').value;
+  var diff = Diff.diffLines(text1, text2); // diffLines instead of diffWords to compare by lines
+  var display = document.getElementById('difference');
+  display.innerHTML = '';
+
+  diff.forEach(function(part){
+    // Create a span and insert text
+    var span = document.createElement('span');
+    if(part.added) {
+      span.style.color = 'green';
+    } else if(part.removed) {
+      span.style.color = 'red';
+    } else {
+      span.style.color = 'grey';
+    }
+    span.appendChild(document.createTextNode(part.value));
+    
+    // Add a line break if it's not the last part
+    if(!part.added && !part.removed) {
+      span.appendChild(document.createElement('br'));
+    }
+
+    display.appendChild(span);
+  });
+}
+</script>
+
+</body>
+</html>

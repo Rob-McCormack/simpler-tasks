@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Localbase Example</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Localbase Example</h1>
+        <textarea id="myTextarea" class="form-control" rows="5"></textarea>
+        <button id="saveButton" class="btn btn-primary mt-2">Save Text</button>
+        <button id="retrieveButton" class="btn btn-success mt-2">Retrieve Text</button>
+        <div id="displayText" class="mt-2"></div>
+    </div>
+
+    <!-- Include Localbase library -->
+    <script src="https://cdn.jsdelivr.net/npm/localbase/dist/localbase.min.js"></script>
+    <script>
+        // Initialize Localbase
+        const db = new Localbase('myDatabase');
+
+        // Get the textarea element and buttons
+        const textarea = document.getElementById('myTextarea');
+        const saveButton = document.getElementById('saveButton');
+        const retrieveButton = document.getElementById('retrieveButton');
+        const displayText = document.getElementById('displayText');
+
+        // Add a click event listener to the save button
+        saveButton.addEventListener('click', () => {
+            const text = textarea.value;
+
+            // Store the text in IndexedDB using Localbase
+            db.collection('texts').add({ content: text });
+
+            // Clear the textarea
+            textarea.value = '';
+        });
+
+        // Add a click event listener to the retrieve button
+        retrieveButton.addEventListener('click', () => {
+            // Retrieve and display the saved text from IndexedDB
+            db.collection('texts').get().then(texts => {
+                if (texts.length > 0) {
+                    displayText.textContent = 'Saved Text: ' + texts[0].content;
+                } else {
+                    displayText.textContent = 'No saved text found.';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

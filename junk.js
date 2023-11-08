@@ -1,5 +1,8 @@
+1. = 'hello'
+2. = 'hello @james'
+@james
 
-<script>
+
   function deleteCurrentLine() {
     const textarea = document.getElementById('myTextarea');
   const cursorPos = textarea.selectionStart;
@@ -24,5 +27,4 @@
   // Save to localStorage
   saveToLocalStorage();
   }
-</script>
 
